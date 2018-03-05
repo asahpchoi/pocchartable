@@ -55,28 +55,32 @@ export class ChartComponent implements OnInit {
     if (activeElems && activeElems.length) return;
 
     let mousePoint = Chart.helpers.getRelativePosition(clickEvt, this.chart.chart);
-
-    var el = document.getElementById("slider");
-
-
-
     let xAxis = this.chart.scales['x-axis-0'];
     let clickX = xAxis.getValueForPixel(mousePoint.x);
     this.selectedIndex = clickX;
     let x = (clickX + 0.5) * (xAxis.right - xAxis.left) / xAxis.ticks.length + xAxis.left - 2.5;
     let y = xAxis.top;
 
-    el.style.top = xAxis.bottom + 'px';
-    el.style.left = xAxis.left + 5 + 'px';
-    el.style.width = xAxis.width + 'px';
+
     this.addMarker(x, y);
     this.av = this.proposalData.accountValue[clickX];
     this.a = this.proposalData.age[clickX];
     this.p = this.proposalData.premium[clickX];
     this.sv = this.proposalData.surrenderValue[clickX];
     this.y =  this.proposalData.year[clickX];
+    this.showSlider();
 
+  }
 
+  showSlider() {
+    if(!this.chart) return;
+
+    let xAxis = this.chart.scales['x-axis-0'];
+    var el = document.getElementById("slider");
+    el.style.display = 'block';
+    el.style.top = xAxis.bottom + 'px';
+    el.style.left = xAxis.left + 5 + 'px';
+    el.style.width = xAxis.width + 'px';
   }
 
   loadData() {
@@ -180,8 +184,10 @@ export class ChartComponent implements OnInit {
             }
           }]
         },
-        onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems),
-      }
+        onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems)
+      },
+      onAnimationComplete: this.showSlider()
+
     });
   }
   ngOnInit() {
