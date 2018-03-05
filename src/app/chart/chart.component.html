@@ -3,7 +3,16 @@ Return:
 <span (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </span>
 <span (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </span>
 
-<br>
+<div style="display:none">
+<div *ngFor="let n of ds">
+  {{n.Name}}
+</div>
+<div *ngFor="let n of raw.projections">
+  {{n.projectionOptions | json}}
+</div>
+</div>
+
+
 faceAmount:
 <input [(ngModel)]="fm"> <button (click)="update()">update</button>
 <div *ngIf="loading">Loading</div>

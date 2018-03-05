@@ -144,6 +144,7 @@ export class PremiumService {
   getData(faceAmt) {
     console.log(this.jsonData.coverageInfo.faceAmount);
     this.jsonData.coverageInfo.faceAmount = faceAmt + '';
+    this.jsonData.coverageInfo.initialDumpIn = faceAmt + '';
     console.log(this.jsonData)
     return this.http.post(
       this.url, this.jsonData

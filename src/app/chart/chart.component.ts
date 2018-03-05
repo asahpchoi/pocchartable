@@ -10,6 +10,8 @@ import { PremiumService } from '../premium.service';
 })
 export class ChartComponent implements OnInit {
   chart;
+  raw;
+  originds;
   ctx;
   a;
   p;
@@ -28,8 +30,10 @@ export class ChartComponent implements OnInit {
     age: [],
     year: [],
     premium: [],
+    origin_premium: [],
     surrenderValue: [],
-    accountValue: []
+    accountValue: [],
+    origin_accountValue: [],
   };
 
   update() {
@@ -71,8 +75,17 @@ export class ChartComponent implements OnInit {
     this.loading = true;
     this.ps.getData(this.fm).subscribe(data => {
       this.loading = false;
+      this.raw = data;
       this.ds = data.projections[0].columns;
+      if(!this.originds) {
+        this.originds =   data.projections[0].columns;
+      }
+      console.log('new data');
+      console.log(this.ds);
+      console.log('old data');
+      console.log(this.originds);
       this.createChart();
+
     });
   }
 
@@ -82,12 +95,15 @@ export class ChartComponent implements OnInit {
   }
 
   createChart() {
-    console.log(this.ds)
     this.proposalData.age = this.ds.filter(x => x.Name == "Age")[0].Values.map(x => x.value);
     this.proposalData.year = this.ds.filter(x => x.Name == "Year")[0].Values.map(x => x.value);
+
+
     this.proposalData.premium = this.ds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
+    this.proposalData.origin_premium = this.originds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
     //this.proposalData.surrenderValue = ds.filter(x => x.Name == "Surrender Value (MEDIUM)")[0].Values.map(x => x.value);
     this.proposalData.accountValue = this.ds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0? x.value: 0);
+    this.proposalData.origin_accountValue = this.originds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0? x.value: 0);
     this.maxIndex = this.proposalData.age.length - 1;
     this.selectedIndex = 1;
     var chartData = {
@@ -100,17 +116,33 @@ export class ChartComponent implements OnInit {
         fill: false,
         data: this.proposalData.premium
       }, {
+        type: 'line',
+        label: 'Origin Premium Paid',
+        borderColor: '#FF9999',
+        borderWidth: 2,
+        fill: false,
+        data: this.proposalData.origin_premium
+      },{
+        type: 'bar',
+        label: 'Account Value',
+        backgroundColor: 'rgba(255, 0, 0, 0.5)',
+        data: this.proposalData.accountValue
+      },
+      {
+        type: 'bar',
+        label: 'Origin Account Value',
+        backgroundColor: 'rgba(0, 255, 0, 0.5)',
+        data: this.proposalData.origin_accountValue
+      }
+      ,
+      {
         type: 'bar',
         label: 'Surrender Value',
         data: this.proposalData.surrenderValue,
-        borderColor: '#00FF00',
+        borderColor: 'rgba(255, 0, 0, 0.5)',
         borderWidth: 2
-      }, {
-        type: 'bar',
-        label: 'Account Value',
-        backgroundColor: '#0000FF',
-        data: this.proposalData.accountValue
-      }]
+      }
+    ]
 
     };
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
@@ -129,11 +161,16 @@ export class ChartComponent implements OnInit {
           intersect: true
         },
         scales: {
-          xAxes: [{
-            stacked: true,
-          }],
+          xAxes: [
+            {
+              stacked: true
+            }
+          ],
           yAxes: [{
-            stacked: true
+            stacked: false,
+            ticks : {
+              beginAtZero: true
+            }
           }]
         },
         onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems),
@@ -142,8 +179,6 @@ export class ChartComponent implements OnInit {
   }
   ngOnInit() {
     this.loadData();
-
-
   }
 
 }
