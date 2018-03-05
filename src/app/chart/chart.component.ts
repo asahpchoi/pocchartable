@@ -56,11 +56,19 @@ export class ChartComponent implements OnInit {
 
     let mousePoint = Chart.helpers.getRelativePosition(clickEvt, this.chart.chart);
 
+    var el = document.getElementById("slider");
+
+
+
     let xAxis = this.chart.scales['x-axis-0'];
     let clickX = xAxis.getValueForPixel(mousePoint.x);
     this.selectedIndex = clickX;
     let x = (clickX + 0.5) * (xAxis.right - xAxis.left) / xAxis.ticks.length + xAxis.left - 2.5;
     let y = xAxis.top;
+
+    el.style.top = xAxis.bottom + 'px';
+    el.style.left = xAxis.left + 5 + 'px';
+    el.style.width = xAxis.width + 'px';
     this.addMarker(x, y);
     this.av = this.proposalData.accountValue[clickX];
     this.a = this.proposalData.age[clickX];
@@ -157,8 +165,7 @@ export class ChartComponent implements OnInit {
           text: 'Quick POC of interactive table with chartJS'
         },
         tooltips: {
-          mode: 'index',
-          intersect: true
+          enabled: false
         },
         scales: {
           xAxes: [

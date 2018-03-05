@@ -13,11 +13,16 @@ Return:
 </div>
 
 
+
+
 faceAmount:
 <input [(ngModel)]="fm"> <button (click)="update()">update</button>
 <div *ngIf="loading">Loading</div>
 <div style="width:100%;" >
-  <canvas id="canvas"></canvas>
+  <input type="range" id="slider" style="" [(ngModel)]="selectedIndex"
+  min="0" max="69" tick="1">
+  <canvas id="canvas">
+  </canvas>
   <table>
     <tr>
       <th>

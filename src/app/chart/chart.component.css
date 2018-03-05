@@ -6,6 +6,11 @@ span {
   border: 1px;
 }
 
+#slider {
+  position: absolute;
+  width: 100%;
+}
+
 .hl {
   color: red;
 }
