@@ -95,8 +95,8 @@ export class ChartComponent implements OnInit {
     let xAxis = this.chart.scales['x-axis-0'];
     var el = document.getElementById("slider");
     el.style.display = 'block';
-    el.style.top = xAxis.bottom + 'px';
-    el.style.left = xAxis.left + 5 + 'px';
+    el.style.top = xAxis.top + 'px';
+    el.style.left = xAxis.left + 20 + 'px';
     el.style.width = xAxis.width + 'px';
   }
 
@@ -197,7 +197,7 @@ export class ChartComponent implements OnInit {
             }
           }]
         },
-        onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems)
+        //onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems)
       },
       onAnimationComplete: this.showSlider()
 
