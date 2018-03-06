@@ -117,6 +117,7 @@ export class ChartComponent implements OnInit {
   setReturn(rtn) {
     this.rtn = rtn;
     this.createChart();
+    this.chart.update();
   }
 
   createChart() {
@@ -172,6 +173,9 @@ export class ChartComponent implements OnInit {
     };
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     this.ctx = canvas.getContext("2d");
+    if(this.chart) {
+      this.chart.destroy();
+    }
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: chartData,
