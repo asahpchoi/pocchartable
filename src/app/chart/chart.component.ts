@@ -67,13 +67,28 @@ export class ChartComponent implements OnInit {
     this.a = this.proposalData.age[clickX];
     this.p = this.proposalData.premium[clickX];
     this.sv = this.proposalData.surrenderValue[clickX];
-    this.y =  this.proposalData.year[clickX];
+    this.y = this.proposalData.year[clickX];
     this.showSlider();
 
   }
 
+  toggleOrigin() {
+    this.chart.config.data.datasets
+      .forEach(
+      (e, i) => {
+        if (e.label.indexOf('Origin') > -1) {
+          this.chart.getDatasetMeta(i).hidden = !this.chart.getDatasetMeta(i).hidden;
+          console.log(i)
+        }
+      }
+      );
+
+    this.chart.update();
+    console.log(ds)
+  }
+
   showSlider() {
-    if(!this.chart) return;
+    if (!this.chart) return;
 
     let xAxis = this.chart.scales['x-axis-0'];
     var el = document.getElementById("slider");
@@ -89,8 +104,8 @@ export class ChartComponent implements OnInit {
       this.loading = false;
       this.raw = data;
       this.ds = data.projections[0].columns;
-      if(!this.originds) {
-        this.originds =   data.projections[0].columns;
+      if (!this.originds) {
+        this.originds = data.projections[0].columns;
       }
       console.log('new data');
       console.log(this.ds);
@@ -114,8 +129,8 @@ export class ChartComponent implements OnInit {
     this.proposalData.premium = this.ds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
     this.proposalData.origin_premium = this.originds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
     //this.proposalData.surrenderValue = ds.filter(x => x.Name == "Surrender Value (MEDIUM)")[0].Values.map(x => x.value);
-    this.proposalData.accountValue = this.ds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0? x.value: 0);
-    this.proposalData.origin_accountValue = this.originds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0? x.value: 0);
+    this.proposalData.accountValue = this.ds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0 ? x.value : 0);
+    this.proposalData.origin_accountValue = this.originds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0 ? x.value : 0);
     this.maxIndex = this.proposalData.age.length - 1;
     this.selectedIndex = 1;
     var chartData = {
@@ -134,7 +149,7 @@ export class ChartComponent implements OnInit {
         borderWidth: 2,
         fill: false,
         data: this.proposalData.origin_premium
-      },{
+      }, {
         type: 'bar',
         label: 'Account Value',
         backgroundColor: 'rgba(255, 0, 0, 0.5)',
@@ -146,7 +161,7 @@ export class ChartComponent implements OnInit {
         backgroundColor: 'rgba(0, 255, 0, 0.5)',
         data: this.proposalData.origin_accountValue
       }
-      ,
+        ,
       {
         type: 'bar',
         label: 'Surrender Value',
@@ -154,7 +169,7 @@ export class ChartComponent implements OnInit {
         borderColor: 'rgba(255, 0, 0, 0.5)',
         borderWidth: 2
       }
-    ]
+      ]
 
     };
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
@@ -179,7 +194,7 @@ export class ChartComponent implements OnInit {
           ],
           yAxes: [{
             stacked: false,
-            ticks : {
+            ticks: {
               beginAtZero: true
             }
           }]
