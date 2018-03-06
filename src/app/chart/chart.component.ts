@@ -39,6 +39,7 @@ export class ChartComponent implements OnInit {
   update() {
     this.loadData();
   }
+
   constructor(ps: PremiumService) {
     this.ps = ps;
   }
@@ -50,6 +51,7 @@ export class ChartComponent implements OnInit {
     img.style.display = 'block';
   }
 
+/*
   onChartClick(clickEvt: MouseEvent, activeElems: Array<any>) {
     //if click was on a bar, we don't care (we want clicks on labels)
     if (activeElems && activeElems.length) return;
@@ -71,7 +73,7 @@ export class ChartComponent implements OnInit {
     this.showSlider();
 
   }
-
+*/
   toggleOrigin() {
     this.chart.config.data.datasets
       .forEach(
@@ -107,10 +109,6 @@ export class ChartComponent implements OnInit {
       if (!this.originds) {
         this.originds = data.projections[0].columns;
       }
-      console.log('new data');
-      console.log(this.ds);
-      console.log('old data');
-      console.log(this.originds);
       this.createChart();
 
     });
@@ -204,7 +202,9 @@ export class ChartComponent implements OnInit {
       onAnimationComplete: this.showSlider()
 
     });
+    this.chart.update();
   }
+
   ngOnInit() {
     this.loadData();
   }

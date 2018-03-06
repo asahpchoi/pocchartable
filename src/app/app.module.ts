@@ -6,7 +6,13 @@ import { AppComponent } from './app.component';
 import { ChartComponent } from './chart/chart.component';
 import { PremiumService } from './premium.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule, MatCheckboxModule} from '@angular/material';
+import {MatSliderModule} from '@angular/material/slider';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+	import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +21,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule, MatCheckboxModule,MatInputModule,MatSliderModule,MatRadioModule,MatButtonToggleModule,MatCardModule,
+    BrowserAnimationsModule
   ],
   providers: [PremiumService],
   bootstrap: [AppComponent]
