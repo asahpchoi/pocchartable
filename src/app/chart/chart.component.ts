@@ -20,7 +20,7 @@ export class ChartComponent implements OnInit {
   selectedIndex;
   maxIndex;
   rtn = 'MEDIUM';
-  fm = 125000;
+  fm = 200000;
   ps;
   y;
   loading;
@@ -84,7 +84,7 @@ export class ChartComponent implements OnInit {
       );
 
     this.chart.update();
-    console.log(ds)
+
   }
 
   showSlider() {
