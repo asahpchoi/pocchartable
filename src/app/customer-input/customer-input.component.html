@@ -1,0 +1,18 @@
+<mat-grid-list cols="4">
+  <mat-grid-tile>
+    <mat-card class="form">
+      <mat-card-title>Owner</mat-card-title>
+      <mat-checkbox [(ngModel)]="sameAsOwner">Same as Owner</mat-checkbox>
+      <app-customer-form [(customerObject)]="ocdm.owner"></app-customer-form>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile *ngIf="!sameAsOwner">
+    <mat-card class="form" >
+      <mat-card-title>Insured</mat-card-title>
+      <app-customer-form></app-customer-form>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+
+OCDM
+<pre>{{ocdm | json}}</pre>

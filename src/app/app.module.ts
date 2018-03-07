@@ -16,18 +16,35 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { CustomerInputComponent } from './customer-input/customer-input.component';
+import { RouterModule, Routes } from '@angular/router';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { CustomerFormComponent } from './customer-form/customer-form.component';
+
+
+const appRoutes: Routes = [
+  { path: '', component: ChartComponent },
+  { path: 'customerForm',      component: CustomerInputComponent }
+];
+
 @NgModule({
   declarations: [
     AppComponent,
-    ChartComponent
+    ChartComponent,
+    CustomerInputComponent,
+    CustomerFormComponent
   ],
   imports: [
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true } // <-- debugging purposes only
+    ),
     BrowserModule,
     HttpClientModule,
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSliderModule, MatRadioModule, MatButtonToggleModule, MatCardModule,
     BrowserAnimationsModule,MatStepperModule,
-    MatExpansionModule,MatProgressBarModule
+    MatExpansionModule,MatProgressBarModule,MatGridListModule
   ],
   providers: [PremiumService],
   bootstrap: [AppComponent]
