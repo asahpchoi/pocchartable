@@ -1,68 +1,80 @@
-<mat-card>
-  <mat-card-title>Chart Options</mat-card-title>
-  <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
-  <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
-  <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
-</mat-card>
-<mat-card>
-  <mat-card-title>Input Fields</mat-card-title>
-  <mat-form-field>
-    <input matInput placeholder="Face Amount" [(ngModel)]="fm">
-  </mat-form-field>
-  <button mat-raised-button (click)="update()">update</button>
-</mat-card>
-<mat-card>
-  <div *ngIf="loading">Loading</div>
-  <div style="width:100%;">
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Input
+      </mat-panel-title>
 
-    <mat-slider id="slider" style="" [(ngModel)]="selectedIndex" min="0" max="69"></mat-slider>
-    <canvas id="canvas">
-  </canvas>
-    <table>
-      <tr>
-        <th>
-          Year
-        </th>
-        <th>
-          Age
-        </th>
-        <th>
-          Premium Paid
-        </th>
-        <th>
-          Account Value
-        </th>
-        <th>
-          Surrender Value
-        </th>
-      </tr>
-      <tr>
-        <td>{{proposalData.year[0]}}</td>
-        <td>{{proposalData.age[0]}}</td>
-        <td>{{proposalData.premium[0]| currency}}</td>
-        <td>{{proposalData.accountValue[0] | currency}}</td>
-        <td>{{proposalData.surrenderValue[0] | currency}}</td>
-      </tr>
-      <tr style="background-color :red">
-        <td>{{proposalData.year[this.selectedIndex]}}</td>
-        <td>{{proposalData.age[this.selectedIndex]}}</td>
-        <td>{{proposalData.premium[this.selectedIndex]| currency}}</td>
-        <td>{{proposalData.accountValue[this.selectedIndex] | currency}}</td>
-        <td>{{proposalData.surrenderValue[this.selectedIndex] | currency}}</td>
-      </tr>
-      <tr>
-        <td>{{proposalData.year[this.maxIndex]}}</td>
-        <td>{{proposalData.age[this.maxIndex]}}</td>
-        <td>{{proposalData.premium[this.maxIndex]| currency}}</td>
-        <td>{{proposalData.accountValue[this.maxIndex] | currency}}</td>
-        <td>{{proposalData.surrenderValue[this.maxIndex] | currency}}</td>
-      </tr>
-    </table>
-  </div>
+    </mat-expansion-panel-header>
+    <mat-card>
+      <mat-card-title>Chart Options</mat-card-title>
+      <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
+      <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
+      <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+    </mat-card>
+    <mat-card>
+      <mat-card-title>Input Fields</mat-card-title>
+      <mat-form-field>
+        <input matInput placeholder="Face Amount" [(ngModel)]="fm">
+      </mat-form-field>
+      <button mat-raised-button (click)="update()">update</button>
+    </mat-card>
 
-  <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
-  <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
+  </mat-expansion-panel>
+</mat-accordion>
 
-</mat-card>
 
-<img id="marker" src="data:image/png;base64,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">
+
+  <mat-card>
+    <div *ngIf="loading">Loading</div>
+    <div style="width:100%;">
+
+      <mat-slider id="slider" style="" [(ngModel)]="selectedIndex" min="0" max="69"></mat-slider>
+      <canvas id="canvas">
+      </canvas>
+      <table>
+        <tr>
+          <th>
+            Year
+          </th>
+          <th>
+            Age
+          </th>
+          <th>
+            Premium Paid
+          </th>
+          <th>
+            Account Value
+          </th>
+          <th>
+            Surrender Value
+          </th>
+        </tr>
+        <tr>
+          <td>{{proposalData.year[0]}}</td>
+          <td>{{proposalData.age[0]}}</td>
+          <td>{{proposalData.premium[0]| currency}}</td>
+          <td>{{proposalData.accountValue[0] | currency}}</td>
+          <td>{{proposalData.surrenderValue[0] | currency}}</td>
+        </tr>
+        <tr style="background-color :red">
+          <td>{{proposalData.year[this.selectedIndex]}}</td>
+          <td>{{proposalData.age[this.selectedIndex]}}</td>
+          <td>{{proposalData.premium[this.selectedIndex]| currency}}</td>
+          <td>{{proposalData.accountValue[this.selectedIndex] | currency}}</td>
+          <td>{{proposalData.surrenderValue[this.selectedIndex] | currency}}</td>
+        </tr>
+        <tr>
+          <td>{{proposalData.year[this.maxIndex]}}</td>
+          <td>{{proposalData.age[this.maxIndex]}}</td>
+          <td>{{proposalData.premium[this.maxIndex]| currency}}</td>
+          <td>{{proposalData.accountValue[this.maxIndex] | currency}}</td>
+          <td>{{proposalData.surrenderValue[this.maxIndex] | currency}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
+    <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
+
+  </mat-card>
