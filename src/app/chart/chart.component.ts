@@ -23,6 +23,7 @@ export class ChartComponent implements OnInit {
   maxIndex;
   rtn = 'MEDIUM';
   fm = 200000;
+  age = 30;
   ps;
   y;
   loading;
@@ -83,7 +84,7 @@ export class ChartComponent implements OnInit {
 
   loadData() {
     this.loading = true;
-    this.ps.getData(this.fm).subscribe(data => {
+    this.ps.getData({faceAmt: this.fm, age: this.age}).subscribe(data => {
       this.loading = false;
       this.raw = data;
       this.ds = data.projections[0].columns;
@@ -123,7 +124,7 @@ export class ChartComponent implements OnInit {
     console.log(fields)
     fields.forEach(
       f => {
-        this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value);
+        this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
       }
     )
     this.proposalData.origin_premium = this.originds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
@@ -137,7 +138,7 @@ export class ChartComponent implements OnInit {
         {
          type: 'line',
          label: 'Origin Premium Paid',
-         borderColor: '#FF9999',
+         borderColor: '#99FF99',
          borderWidth: 2,
          fill: false,
          data: this.proposalData.origin_premium
@@ -145,7 +146,7 @@ export class ChartComponent implements OnInit {
        {
         type: 'line',
         label: 'Premium Paid',
-        borderColor: '#FF0000',
+        borderColor: '#00FF00',
         borderWidth: 2,
         fill: false,
         data: this.proposalData["Total Premium"]

@@ -121,10 +121,11 @@ export class PremiumService {
 
   constructor(public http: HttpClient) { }
 
-  getData(faceAmt) {
+  getData(input) {
     console.log(this.jsonData.coverageInfo.faceAmount);
-    this.jsonData.coverageInfo.faceAmount = faceAmt + '';
-    this.jsonData.coverageInfo.initialDumpIn = faceAmt + '';
+    this.jsonData.coverageInfo.faceAmount = input.faceAmt + '';
+    this.jsonData.coverageInfo.initialDumpIn = input.faceAmt + '';
+    this.jsonData.coverageInfo.parties.party.insuredAge = input.age + '';
     console.log(this.jsonData)
     return this.http.post(
       this.url, this.jsonData
