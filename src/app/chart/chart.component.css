@@ -1,4 +1,4 @@
-#slider {
+#slider, #slider2 {
   position: absolute;
   width: 100%;
   display: none;
@@ -16,6 +16,16 @@ table, th, td {
   border: 1px solid black;
 }
 
+.hl {
+  background-color: red;
+}
+
 td {
   text-align: right;
+}
+
+canvas {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }

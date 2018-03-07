@@ -2,9 +2,8 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
-        Input
+        Change
       </mat-panel-title>
-
     </mat-expansion-panel-header>
     <mat-card>
       <mat-card-title>Illustrated Scenario</mat-card-title>
@@ -13,13 +12,18 @@
       <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
     </mat-card>
     <mat-card>
+      <mat-card-title>Opitonal Fields</mat-card-title>
+      <button mat-raised-button (click)="updateOptionalFields('COI')" [ngClass]="OptionalFields.includes('COI')?'hl':''"> COI </button>
+      <button mat-raised-button (click)="updateOptionalFields('Death Benefit')" [ngClass]="OptionalFields.includes('Death Benefit')?'hl':''"> Death Benefit </button>
+
+    </mat-card>
+    <mat-card>
       <mat-card-title>Input Fields</mat-card-title>
       <mat-form-field>
         <input matInput placeholder="Face Amount" [(ngModel)]="fm">
       </mat-form-field>
       <button mat-raised-button (click)="update()">update</button>
     </mat-card>
-
   </mat-expansion-panel>
 </mat-accordion>
 
@@ -32,14 +36,13 @@
   <div style="width:100%;" [ngStyle]="{'display':showTable?'none':'block'}">
 
     <mat-slider id="slider" style="" [(ngModel)]="selectedIndex" min="0" max="69"></mat-slider>
-    <canvas id="canvas">
+    <mat-slider id="slider2" style="" [(ngModel)]="maxShowIndex" min="0" max="69"></mat-slider>
+    <canvas id="canvas" touchstart="alert('Touch')">
       </canvas>
     <table>
       <tr>
         <th>
-          Year
-/
-          Age
+          Year/Age
         </th>
         <th>
           Premium Paid
@@ -47,37 +50,25 @@
         <th>
           Account Value
         </th>
-        <th>
-          Surrender Value
+        <th *ngFor="let f of OptionalFields">
+          {{f}}
         </th>
       </tr>
-      <tr>
-        <td>{{proposalData.year[0]}}/{{proposalData.age[0]}}</td>
-        <td>{{proposalData.premium[0]| currency}}</td>
-        <td>{{proposalData.accountValue[0] | currency}}</td>
-        <td>{{proposalData.surrenderValue[0] | currency}}</td>
-      </tr>
-      <tr style="background-color :red">
-        <td>{{proposalData.year[this.selectedIndex]}}/{{proposalData.age[this.selectedIndex]}}</td>
-        <td>{{proposalData.premium[this.selectedIndex]| currency}}</td>
-        <td>{{proposalData.accountValue[this.selectedIndex] | currency}}</td>
-        <td>{{proposalData.surrenderValue[this.selectedIndex] | currency}}</td>
-      </tr>
-      <tr>
-        <td>{{proposalData.year[this.maxIndex]}}/{{proposalData.age[this.maxIndex]}}</td>
-        <td>{{proposalData.premium[this.maxIndex]| currency}}</td>
-        <td>{{proposalData.accountValue[this.maxIndex] | currency}}</td>
-        <td>{{proposalData.surrenderValue[this.maxIndex] | currency}}</td>
+      <tr *ngFor="let i of [0, this.selectedIndex, this.maxIndex]">
+        <td>{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
+        <td>{{proposalData["Total Premium"][i]| currency}}</td>
+        <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
+        <td *ngFor="let f of OptionalFields">
+          {{proposalData[f + " (" + rtn + ")"][i] | currency}}
+        </td>
       </tr>
     </table>
   </div>
-  <div style="width:100%;"  [ngStyle]="{'display':!showTable?'none':'block'}">
+  <div style="width:100%;" [ngStyle]="{'display':!showTable?'none':'block'}">
     <table>
       <tr>
         <th>
-          Year
-/
-          Age
+          Year/Age
         </th>
         <th>
           Premium Paid
@@ -85,15 +76,17 @@
         <th>
           Account Value
         </th>
-        <th>
-          Surrender Value
+        <th *ngFor="let f of OptionalFields">
+          {{f}}
         </th>
       </tr>
-      <tr *ngFor="let i of proposalData.year">
-        <td>{{proposalData.year[i - 1]}} / {{proposalData.age[i-1]}}</td>
-        <td>{{proposalData.premium[i -1 ]| currency}}</td>
-        <td>{{proposalData.accountValue[i -1 ] | currency}}</td>
-        <td>{{proposalData.surrenderValue[i-1 ] | currency}}</td>
+      <tr *ngFor="let i of proposalData['Year']">
+        <td>{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
+        <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
+        <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
+        <td *ngFor="let f of OptionalFields">
+          {{proposalData[f + " (" + rtn + ")"][i - 1] | currency}}
+        </td>
       </tr>
     </table>
 

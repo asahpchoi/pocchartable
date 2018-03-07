@@ -26,6 +26,7 @@ export class ChartComponent implements OnInit {
   loading;
   ds;
   showTable = false;
+  OptionalFields = [];
 
   proposalData = {
     age: [],
@@ -52,29 +53,29 @@ export class ChartComponent implements OnInit {
     img.style.display = 'block';
   }
 
-/*
-  onChartClick(clickEvt: MouseEvent, activeElems: Array<any>) {
-    //if click was on a bar, we don't care (we want clicks on labels)
-    if (activeElems && activeElems.length) return;
+  /*
+    onChartClick(clickEvt: MouseEvent, activeElems: Array<any>) {
+      //if click was on a bar, we don't care (we want clicks on labels)
+      if (activeElems && activeElems.length) return;
 
-    let mousePoint = Chart.helpers.getRelativePosition(clickEvt, this.chart.chart);
-    let xAxis = this.chart.scales['x-axis-0'];
-    let clickX = xAxis.getValueForPixel(mousePoint.x);
-    this.selectedIndex = clickX;
-    let x = (clickX + 0.5) * (xAxis.right - xAxis.left) / xAxis.ticks.length + xAxis.left - 2.5;
-    let y = xAxis.top;
+      let mousePoint = Chart.helpers.getRelativePosition(clickEvt, this.chart.chart);
+      let xAxis = this.chart.scales['x-axis-0'];
+      let clickX = xAxis.getValueForPixel(mousePoint.x);
+      this.selectedIndex = clickX;
+      let x = (clickX + 0.5) * (xAxis.right - xAxis.left) / xAxis.ticks.length + xAxis.left - 2.5;
+      let y = xAxis.top;
 
 
-    this.addMarker(x, y);
-    this.av = this.proposalData.accountValue[clickX];
-    this.a = this.proposalData.age[clickX];
-    this.p = this.proposalData.premium[clickX];
-    this.sv = this.proposalData.surrenderValue[clickX];
-    this.y = this.proposalData.year[clickX];
-    this.showSlider();
+      this.addMarker(x, y);
+      this.av = this.proposalData.accountValue[clickX];
+      this.a = this.proposalData.age[clickX];
+      this.p = this.proposalData.premium[clickX];
+      this.sv = this.proposalData.surrenderValue[clickX];
+      this.y = this.proposalData.year[clickX];
+      this.showSlider();
 
-  }
-*/
+    }
+  */
   toggleOrigin() {
     this.chart.config.data.datasets
       .forEach(
@@ -94,11 +95,16 @@ export class ChartComponent implements OnInit {
     if (!this.chart) return;
 
     let xAxis = this.chart.scales['x-axis-0'];
+
+
+
     var el = document.getElementById("slider");
     el.style.display = 'block';
     el.style.top = xAxis.top + 'px';
     el.style.left = xAxis.left + 20 + 'px';
     el.style.width = xAxis.width + 'px';
+
+
   }
 
   loadData() {
@@ -121,27 +127,49 @@ export class ChartComponent implements OnInit {
     this.chart.update();
   }
 
+  updateOptionalFields(fieldName) {
+    if(this.hasOptionalFields(fieldName)) {
+      this.OptionalFields = this.OptionalFields.filter(x => x != fieldName);
+    }
+    else {
+      this.OptionalFields.push(fieldName);
+    }
+    console.log(this.OptionalFields)
+  }
+
+  hasOptionalFields(fieldName) {
+    return this.OptionalFields.includes(fieldName);
+  }
+
+
+
   createChart() {
-    this.proposalData.age = this.ds.filter(x => x.Name == "Age")[0].Values.map(x => x.value);
-    this.proposalData.year = this.ds.filter(x => x.Name == "Year")[0].Values.map(x => x.value);
+    //this.proposalData.age = this.ds.filter(x => x.Name == "Age")[0].Values.map(x => x.value);
+    //this.proposalData.year = this.ds.filter(x => x.Name == "Year")[0].Values.map(x => x.value);
+    let fields = this.ds.map(x => x.Name)
+    fields.forEach(
+      f => {
+        this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value);
+      }
+    )
 
 
-    this.proposalData.premium = this.ds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
+    console.log(this.proposalData)
+
     this.proposalData.origin_premium = this.originds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
     //this.proposalData.surrenderValue = ds.filter(x => x.Name == "Surrender Value (MEDIUM)")[0].Values.map(x => x.value);
-    this.proposalData.accountValue = this.ds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0 ? x.value : 0);
     this.proposalData.origin_accountValue = this.originds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0 ? x.value : 0);
-    this.maxIndex = this.proposalData.age.length - 1;
+    this.maxIndex = this.proposalData["Age"].length - 1;
     this.selectedIndex = 1;
     var chartData = {
-      labels: this.proposalData.age,
+      labels: this.proposalData["Age"],
       datasets: [{
         type: 'line',
         label: 'Premium Paid',
         borderColor: '#FF0000',
         borderWidth: 2,
         fill: false,
-        data: this.proposalData.premium
+        data: this.proposalData["Total Premium"]
       }, {
         type: 'line',
         label: 'Origin Premium Paid',
@@ -153,7 +181,7 @@ export class ChartComponent implements OnInit {
         type: 'bar',
         label: 'Account Value',
         backgroundColor: 'rgba(255, 0, 0, 0.5)',
-        data: this.proposalData.accountValue
+        data: this.proposalData["Account Value (" + this.rtn + ")"]
       },
       {
         type: 'bar',
@@ -174,7 +202,7 @@ export class ChartComponent implements OnInit {
     };
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     this.ctx = canvas.getContext("2d");
-    if(this.chart) {
+    if (this.chart) {
       this.chart.destroy();
     }
     this.chart = new Chart(this.ctx, {
@@ -203,15 +231,15 @@ export class ChartComponent implements OnInit {
           }]
         },
         //onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems)
-      },
-      onAnimationComplete: this.showSlider()
-
+      }
     });
     this.chart.update();
+    this.toggleOrigin();
   }
 
   ngOnInit() {
     this.loadData();
+
   }
 
 }
