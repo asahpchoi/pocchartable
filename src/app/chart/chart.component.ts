@@ -13,6 +13,7 @@ export class ChartComponent implements OnInit {
   chart;
   raw;
   originds;
+  maxShowIndex;
   ctx;
   a;
   p;
