@@ -15,7 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatExpansionModule} from '@angular/material/expansion';
-
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +27,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     FormsModule,
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSliderModule, MatRadioModule, MatButtonToggleModule, MatCardModule,
     BrowserAnimationsModule,MatStepperModule,
-    MatExpansionModule
+    MatExpansionModule,MatProgressBarModule
   ],
   providers: [PremiumService],
   bootstrap: [AppComponent]

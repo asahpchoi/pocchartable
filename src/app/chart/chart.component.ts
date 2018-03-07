@@ -25,6 +25,7 @@ export class ChartComponent implements OnInit {
   y;
   loading;
   ds;
+  showTable = false;
 
   proposalData = {
     age: [],

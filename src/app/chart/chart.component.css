@@ -1,32 +1,21 @@
-td {
-  text-align: right;
-}
-
-span {
-  border: 1px;
-}
-
 #slider {
   position: absolute;
   width: 100%;
   display: none;
 }
 
-.hl {
-  color: red;
-}
-
 table {
   margin: 0 0 40px 0;
   width: 100%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   display: table;
+  border-collapse: collapse;
 }
 
-th {
-  text-align: center;
+table, th, td {
+  border: 1px solid black;
 }
 
-#marker {
-  position:absolute;z-index:1;width:20px;display:none
+td {
+  text-align: right;
 }

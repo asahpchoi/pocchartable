@@ -7,7 +7,7 @@
 
     </mat-expansion-panel-header>
     <mat-card>
-      <mat-card-title>Chart Options</mat-card-title>
+      <mat-card-title>Illustrated Scenario</mat-card-title>
       <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
       <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
       <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
@@ -25,56 +25,82 @@
 
 
 
-  <mat-card>
-    <div *ngIf="loading">Loading</div>
-    <div style="width:100%;">
+<mat-card>
+  <div *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div style="width:100%;" [ngStyle]="{'display':showTable?'none':'block'}">
 
-      <mat-slider id="slider" style="" [(ngModel)]="selectedIndex" min="0" max="69"></mat-slider>
-      <canvas id="canvas">
+    <mat-slider id="slider" style="" [(ngModel)]="selectedIndex" min="0" max="69"></mat-slider>
+    <canvas id="canvas">
       </canvas>
-      <table>
-        <tr>
-          <th>
-            Year
-          </th>
-          <th>
-            Age
-          </th>
-          <th>
-            Premium Paid
-          </th>
-          <th>
-            Account Value
-          </th>
-          <th>
-            Surrender Value
-          </th>
-        </tr>
-        <tr>
-          <td>{{proposalData.year[0]}}</td>
-          <td>{{proposalData.age[0]}}</td>
-          <td>{{proposalData.premium[0]| currency}}</td>
-          <td>{{proposalData.accountValue[0] | currency}}</td>
-          <td>{{proposalData.surrenderValue[0] | currency}}</td>
-        </tr>
-        <tr style="background-color :red">
-          <td>{{proposalData.year[this.selectedIndex]}}</td>
-          <td>{{proposalData.age[this.selectedIndex]}}</td>
-          <td>{{proposalData.premium[this.selectedIndex]| currency}}</td>
-          <td>{{proposalData.accountValue[this.selectedIndex] | currency}}</td>
-          <td>{{proposalData.surrenderValue[this.selectedIndex] | currency}}</td>
-        </tr>
-        <tr>
-          <td>{{proposalData.year[this.maxIndex]}}</td>
-          <td>{{proposalData.age[this.maxIndex]}}</td>
-          <td>{{proposalData.premium[this.maxIndex]| currency}}</td>
-          <td>{{proposalData.accountValue[this.maxIndex] | currency}}</td>
-          <td>{{proposalData.surrenderValue[this.maxIndex] | currency}}</td>
-        </tr>
-      </table>
-    </div>
+    <table>
+      <tr>
+        <th>
+          Year
+/
+          Age
+        </th>
+        <th>
+          Premium Paid
+        </th>
+        <th>
+          Account Value
+        </th>
+        <th>
+          Surrender Value
+        </th>
+      </tr>
+      <tr>
+        <td>{{proposalData.year[0]}}/{{proposalData.age[0]}}</td>
+        <td>{{proposalData.premium[0]| currency}}</td>
+        <td>{{proposalData.accountValue[0] | currency}}</td>
+        <td>{{proposalData.surrenderValue[0] | currency}}</td>
+      </tr>
+      <tr style="background-color :red">
+        <td>{{proposalData.year[this.selectedIndex]}}/{{proposalData.age[this.selectedIndex]}}</td>
+        <td>{{proposalData.premium[this.selectedIndex]| currency}}</td>
+        <td>{{proposalData.accountValue[this.selectedIndex] | currency}}</td>
+        <td>{{proposalData.surrenderValue[this.selectedIndex] | currency}}</td>
+      </tr>
+      <tr>
+        <td>{{proposalData.year[this.maxIndex]}}/{{proposalData.age[this.maxIndex]}}</td>
+        <td>{{proposalData.premium[this.maxIndex]| currency}}</td>
+        <td>{{proposalData.accountValue[this.maxIndex] | currency}}</td>
+        <td>{{proposalData.surrenderValue[this.maxIndex] | currency}}</td>
+      </tr>
+    </table>
+  </div>
+  <div style="width:100%;"  [ngStyle]="{'display':!showTable?'none':'block'}">
+    <table>
+      <tr>
+        <th>
+          Year
+/
+          Age
+        </th>
+        <th>
+          Premium Paid
+        </th>
+        <th>
+          Account Value
+        </th>
+        <th>
+          Surrender Value
+        </th>
+      </tr>
+      <tr *ngFor="let i of proposalData.year">
+        <td>{{proposalData.year[i - 1]}} / {{proposalData.age[i-1]}}</td>
+        <td>{{proposalData.premium[i -1 ]| currency}}</td>
+        <td>{{proposalData.accountValue[i -1 ] | currency}}</td>
+        <td>{{proposalData.surrenderValue[i-1 ] | currency}}</td>
+      </tr>
+    </table>
 
-    <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
-    <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
+  </div>
 
-  </mat-card>
+  <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
+  <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
+  <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
+
+</mat-card>
