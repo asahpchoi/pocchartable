@@ -104,37 +104,17 @@ export class PremiumService {
         }
       ]
     },
-    "fundActivities": {
-      "fundActivity": [
-        {
-          "attainAge": "40",
-          "topupPremium": "20000.0",
-          "withdrawal": "10000.0"
-        },
-        {
-          "attainAge": "41",
-          "topupPremium": "20000.0",
-          "withdrawal": "10000.0"
-        },
-        {
-          "attainAge": "42",
-          "topupPremium": "20000.0",
-          "withdrawal": "10000.0"
-        },
-        {
-          "attainAge": "43",
-          "topupPremium": "20000.0",
-          "withdrawal": "10000.0"
-        },
-        {
-          "attainAge": "44",
-          "withdrawal": "10000.0"
-        },
-        {
-          "attainAge": "45",
-          "withdrawal": "10000.0"
-        }
-      ]
+    "fundActivities":{
+       "fundActivity":[
+          {
+             "topupPremium":100000.00,
+             "attainAge":35
+          },
+          {
+             "withdrawal":100000.00,
+             "attainAge":36
+          }
+       ]
     }
   }
   url = 'https://product-engine-nodejs.herokuapp.com/api/v1/product/project';

@@ -10,11 +10,12 @@
       <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
       <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
       <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+
     </mat-card>
     <mat-card>
       <mat-card-title>Opitonal Fields</mat-card-title>
-      <button mat-raised-button (click)="updateOptionalFields('COI')" [ngClass]="OptionalFields.includes('COI')?'hl':''"> COI </button>
-      <button mat-raised-button (click)="updateOptionalFields('Death Benefit')" [ngClass]="OptionalFields.includes('Death Benefit')?'hl':''"> Death Benefit </button>
+      <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f}} </button>
+
 
     </mat-card>
     <mat-card>
@@ -35,11 +36,13 @@
   </div>
   <div style="width:100%;" [ngStyle]="{'display':showTable?'none':'block'}">
 
-    <mat-slider id="slider" style="" [(ngModel)]="selectedIndex" min="0" max="69"></mat-slider>
-    <mat-slider id="slider2" style="" [(ngModel)]="maxShowIndex" min="0" max="69"></mat-slider>
-    <canvas id="canvas" touchstart="alert('Touch')">
-      </canvas>
-    <table>
+    <mat-slider id="slider" thumbLabel tickInterval="1" *ngIf="proposalData['Year']" style="" [(ngModel)]="selectedIndex" min="0" max="{{maxIndex}}"></mat-slider>
+    <mat-slider id="slider2" thumbLabel tickInterval="1" *ngIf="proposalData['Year']" style="" [(ngModel)]="maxShowIndex" min="0" max="{{maxIndex}}"></mat-slider>
+    <canvas id="canvas" (mousedown)="toggleOrigin()">
+    </canvas>
+
+    <br>
+    <table *ngIf="proposalData['Year']">
       <tr>
         <th>
           Year/Age
@@ -54,7 +57,7 @@
           {{f}}
         </th>
       </tr>
-      <tr *ngFor="let i of [0, this.selectedIndex, this.maxIndex]">
+      <tr *ngFor="let i of [0, this.selectedIndex, this.maxShowIndex]">
         <td>{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
         <td>{{proposalData["Total Premium"][i]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
@@ -80,13 +83,16 @@
           {{f}}
         </th>
       </tr>
-      <tr *ngFor="let i of proposalData['Year']">
+
+      <tr *ngFor="let i of getShowTable()">
+
         <td>{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
         <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
         <td *ngFor="let f of OptionalFields">
           {{proposalData[f + " (" + rtn + ")"][i - 1] | currency}}
         </td>
+
       </tr>
     </table>
 
