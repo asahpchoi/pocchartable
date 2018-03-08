@@ -153,7 +153,7 @@ export class ChartComponent implements OnInit {
           borderColor: '#00FF00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"].map((x,i) =>   x*i   )
+          data: this.proposalData["Total Premium"].map((x, i) => x * i) //fake formula, it should come from product engine later
         },
         {
           type: 'line',
@@ -161,7 +161,7 @@ export class ChartComponent implements OnInit {
           borderColor: '#00DD00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"].map((x,i) => x * i *.75)
+          data: this.proposalData["Total Premium"].map((x, i) => x * i * .75) //fake formula, it should come from product engine later
         },
         {
           type: 'bar',
@@ -179,7 +179,7 @@ export class ChartComponent implements OnInit {
           type: 'bar',
           label: 'Account Value (Non guaranteed)',
           backgroundColor: 'rgba(200, 0, 0, 1)',
-          data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.25)
+          data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.25) //fake formula, it should come from product engine later
         },
         {
           type: 'bar',
