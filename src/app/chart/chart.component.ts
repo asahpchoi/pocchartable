@@ -149,24 +149,38 @@ export class ChartComponent implements OnInit {
         },
         {
           type: 'line',
-          label: 'Premium Paid',
+          label: 'Cumulative Premium Paid',
           borderColor: '#00FF00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"]
+          data: this.proposalData["Total Premium"].map((x,i)=>i>20?x*i:x*20)
+        },
+        {
+          type: 'line',
+          label: 'Allocated Premium',
+          borderColor: '#00DD00',
+          borderWidth: 2,
+          fill: false,
+          data: this.proposalData["Total Premium"].map((x,i)=>i>20?x*i*.75:x*20*.75)
         },
         {
           type: 'bar',
           label: 'Origin Account Value',
           backgroundColor: 'rgba(0, 255, 0, 0.5)',
           data: this.proposalData.origin_accountValue
-        }, {
+        },
+        {
           type: 'bar',
-          label: 'Account Value',
+          label: 'Account Value (Guaranteed)',
           backgroundColor: 'rgba(255, 0, 0, 1)',
           data: this.proposalData["Account Value (" + this.rtn + ")"]
-        }
-        ,
+        },
+        {
+          type: 'bar',
+          label: 'Account Value (Non guaranteed)',
+          backgroundColor: 'rgba(200, 0, 0, 1)',
+          data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.25)
+        },
         {
           type: 'bar',
           label: 'Surrender Value',
@@ -224,7 +238,7 @@ export class ChartComponent implements OnInit {
           }
         }
       ).filter(t => t.topup)
-    ,
+      ,
       withdrawals:
       this.input.withdrawal.map(
         (t, i) => {
