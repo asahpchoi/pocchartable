@@ -3,4 +3,11 @@
   flex-direction: column;
 }
 
- 
+mat-card {
+  height: 400px;
+  width: 200px;
+}
+
+button {
+  width: 100%;
+}

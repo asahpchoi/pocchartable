@@ -20,7 +20,7 @@ import { CustomerInputComponent } from './customer-input/customer-input.componen
 import { RouterModule, Routes } from '@angular/router';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
-
+import {MatIconModule} from '@angular/material/icon';
 
 const appRoutes: Routes = [
   { path: '', component: ChartComponent },
@@ -44,7 +44,8 @@ const appRoutes: Routes = [
     FormsModule, ReactiveFormsModule,
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSliderModule, MatRadioModule, MatButtonToggleModule, MatCardModule,
     BrowserAnimationsModule,MatStepperModule,
-    MatExpansionModule,MatProgressBarModule,MatGridListModule
+    MatExpansionModule,MatProgressBarModule,MatGridListModule,
+    MatIconModule
   ],
   providers: [PremiumService],
   bootstrap: [AppComponent]
