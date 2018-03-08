@@ -10,18 +10,22 @@ export class CustomerFormComponent implements OnInit {
   @Input() customerObject;
   @Output() customerObjectChange: EventEmitter<any>;
 
+  @Input() customerMaster;
+  @Output() customerMasterChange: EventEmitter<any>;
+
   constructor() {
     this.customerObject = {};
     this.customerObjectChange = new EventEmitter<any>();
+
+    this.customerMaster = {};
+    this.customerMasterChange = new EventEmitter<any>();
   }
 
-  sameAsOwner = true;
   email = new FormControl('', [Validators.required, Validators.email]);
   occupation = new FormControl('', [Validators.required]);
 
-  constructor() { }
-
   ngOnInit() {
+    console.log(this.customerObject)
   }
   getErrorMessage() {
     return this.email.hasError('required') ? 'You must enter a value' :

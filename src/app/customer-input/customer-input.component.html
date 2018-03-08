@@ -1,18 +1,27 @@
-<mat-grid-list cols="4">
-  <mat-grid-tile>
-    <mat-card class="form">
+<mat-grid-list cols="4" rowHeight="500px" >
+  <mat-grid-tile  >
+    <mat-card class="form" >
       <mat-card-title>Owner</mat-card-title>
-      <mat-checkbox [(ngModel)]="sameAsOwner">Same as Owner</mat-checkbox>
-      <app-customer-form [(customerObject)]="ocdm.owner"></app-customer-form>
+      <mat-checkbox [(ngModel)]="customers.owner.isInsured">Same as Owner</mat-checkbox>
+      <app-customer-form
+        [(customerObject)]="customerMaster.customerData"
+        [(customerMaster)]="customerMaster"
+      ></app-customer-form>
     </mat-card>
   </mat-grid-tile>
-  <mat-grid-tile *ngIf="!sameAsOwner">
+  <mat-grid-tile *ngIf="!customers.owner.isInsured">
     <mat-card class="form" >
       <mat-card-title>Insured</mat-card-title>
-      <app-customer-form></app-customer-form>
+      <app-customer-form  
+        [(customerObject)]="customers.insured"
+        [(customerMaster)]="customerMaster"
+      ></app-customer-form>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
 
-OCDM
-<pre>{{ocdm | json}}</pre>
+
+  propse customers
+    <pre>{{customers | json}}</pre>
+    customer master
+    <pre>{{customerMaster | json}}</pre>

@@ -10,6 +10,10 @@ import { PremiumService } from '../premium.service';
 })
 export class ChartComponent implements OnInit {
   avaliableFields = ['NAR', 'Surrender Value', 'COI', 'Death Benefit'];
+  input = {
+    topup: [],
+    withdrawal: []
+  }
   chart;
   raw;
   originds;
@@ -84,7 +88,7 @@ export class ChartComponent implements OnInit {
 
   loadData() {
     this.loading = true;
-    this.ps.getData({faceAmt: this.fm, age: this.age}).subscribe(data => {
+    this.ps.getData({ faceAmt: this.fm, age: this.age }).subscribe(data => {
       this.loading = false;
       this.raw = data;
       this.ds = data.projections[0].columns;
@@ -115,8 +119,8 @@ export class ChartComponent implements OnInit {
   }
 
   getShowTable() {
-    if(this.proposalData['Year'])
-    return this.proposalData['Year'].filter(i => i <= this.maxShowIndex + 1);
+    if (this.proposalData['Year'])
+      return this.proposalData['Year'].filter(i => i <= this.maxShowIndex + 1);
   }
 
   createChart() {
@@ -136,40 +140,40 @@ export class ChartComponent implements OnInit {
       labels: this.proposalData["Age"],
       datasets: [
         {
-         type: 'line',
-         label: 'Origin Premium Paid',
-         borderColor: '#99FF99',
-         borderWidth: 2,
-         fill: false,
-         data: this.proposalData.origin_premium
-       },
-       {
-        type: 'line',
-        label: 'Premium Paid',
-        borderColor: '#00FF00',
-        borderWidth: 2,
-        fill: false,
-        data: this.proposalData["Total Premium"]
-      },
-      {
-        type: 'bar',
-        label: 'Origin Account Value',
-        backgroundColor: 'rgba(0, 255, 0, 0.5)',
-        data: this.proposalData.origin_accountValue
-      }, {
-        type: 'bar',
-        label: 'Account Value',
-        backgroundColor: 'rgba(255, 0, 0, 1)',
-        data: this.proposalData["Account Value (" + this.rtn + ")"]
-      }
+          type: 'line',
+          label: 'Origin Premium Paid',
+          borderColor: '#99FF99',
+          borderWidth: 2,
+          fill: false,
+          data: this.proposalData.origin_premium
+        },
+        {
+          type: 'line',
+          label: 'Premium Paid',
+          borderColor: '#00FF00',
+          borderWidth: 2,
+          fill: false,
+          data: this.proposalData["Total Premium"]
+        },
+        {
+          type: 'bar',
+          label: 'Origin Account Value',
+          backgroundColor: 'rgba(0, 255, 0, 0.5)',
+          data: this.proposalData.origin_accountValue
+        }, {
+          type: 'bar',
+          label: 'Account Value',
+          backgroundColor: 'rgba(255, 0, 0, 1)',
+          data: this.proposalData["Account Value (" + this.rtn + ")"]
+        }
         ,
-      {
-        type: 'bar',
-        label: 'Surrender Value',
-        data: this.proposalData.surrenderValue,
-        borderColor: 'rgba(255, 0, 0, 0.5)',
-        borderWidth: 2
-      }
+        {
+          type: 'bar',
+          label: 'Surrender Value',
+          data: this.proposalData.surrenderValue,
+          borderColor: 'rgba(255, 0, 0, 0.5)',
+          borderWidth: 2
+        }
       ]
 
     };
@@ -209,7 +213,29 @@ export class ChartComponent implements OnInit {
     this.chart.update();
     this.toggleOrigin();
   }
-
+  getInput() {
+    return {
+      topups:
+      this.input.topup.map(
+        (t, i) => {
+          return {
+            topup: t,
+            year: i + 1
+          }
+        }
+      ).filter(t => t.topup);
+    ,
+      withdrawals:
+      this.input.withdrawal.map(
+        (t, i) => {
+          return {
+            withdrawal: t,
+            year: i + 1
+          }
+        }
+      ).filter(t => t.withdrawal)
+    }
+  }
   ngOnInit() {
     this.loadData();
 

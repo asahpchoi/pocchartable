@@ -1,11 +1,16 @@
-<mat-form-field>
-  <input matInput placeholder="Enter your Name"  required
-  [(ngModel)]="customerObject.name">
-</mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="customerObject.email">
-  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-</mat-form-field>
-<mat-form-field>
-  <input matInput placeholder="Occupation" [formControl]="occupation" required>
-</mat-form-field>
+<div *ngIf="customerObject">
+  <mat-form-field>
+    <input matInput placeholder="Enter your Name" required [(ngModel)]="customerObject.lastName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Enter your Name" required [(ngModel)]="customerObject.firstName">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="customerObject.email">
+    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Occupation" [formControl]="occupation" required>
+  </mat-form-field>
+</div>
+refID: {{customerObject.customerId}} refID: {{customerObject.id}}

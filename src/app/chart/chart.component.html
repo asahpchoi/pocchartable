@@ -56,6 +56,8 @@
         <th>
           Account Value
         </th>
+        <th> Topup </th>
+        <th> Withdrawal </th>
         <th *ngFor="let f of OptionalFields">
           {{f}}
         </th>
@@ -64,6 +66,8 @@
         <td>{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
         <td>{{proposalData["Total Premium"][i]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
+        <td><input [(ngModel)]="input.topup[i]"></td>
+        <td><input [(ngModel)]="input.withdrawal[i]"></td>
         <td *ngFor="let f of OptionalFields">
           {{proposalData[f + " (" + rtn + ")"][i] | currency}}
         </td>
@@ -82,6 +86,8 @@
         <th>
           Account Value
         </th>
+        <th> Topup </th>
+        <th> Withdrawal </th>
         <th *ngFor="let f of OptionalFields">
           {{f}}
         </th>
@@ -92,6 +98,8 @@
         <td>{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
         <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
+        <td><input [(ngModel)]="input.topup[i - 1]"></td>
+        <td><input [(ngModel)]="input.withdrawal[i - 1]"></td>
         <td *ngFor="let f of OptionalFields">
           {{proposalData[f + " (" + rtn + ")"][i - 1] | currency}}
         </td>
@@ -106,3 +114,6 @@
   <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
 
 </mat-card>
+<pre>
+{{getInput() | json}}
+</pre>
