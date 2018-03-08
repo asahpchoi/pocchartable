@@ -153,7 +153,7 @@ export class ChartComponent implements OnInit {
           borderColor: '#00FF00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"].map((x,i)=>i>20?x*i:x*20)
+          data: this.proposalData["Total Premium"].map((x,i) =>   x*i   )
         },
         {
           type: 'line',
@@ -161,7 +161,7 @@ export class ChartComponent implements OnInit {
           borderColor: '#00DD00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"].map((x,i)=>i>20?x*i*.75:x*20*.75)
+          data: this.proposalData["Total Premium"].map((x,i) => x * i *.75)
         },
         {
           type: 'bar',
