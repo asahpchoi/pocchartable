@@ -21,11 +21,11 @@
 </mat-grid-list>
 
 <button mat-raised-button (click)="addDependent()">ADD</button>
-<div>
-  Proposal customers
-  <pre>{{customers | json}}</pre>
-</div>
-<div>
-  Customer master (M&R)
-  <pre>{{customerMaster | json}}</pre>
+
+<h3> Data </h3>
+<div style="width: 100%; overflow: hidden;">
+    <div style="width: 50%; float: left;">   Proposal customers
+      <pre>{{customers | json}}</pre> </div>
+    <div style="margin-left: 50%;">   Customer master (M&R)
+      <pre>{{customerMaster | json}}</pre> </div>
 </div>
