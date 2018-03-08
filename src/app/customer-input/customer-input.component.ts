@@ -12,9 +12,9 @@ export class CustomerInputComponent implements OnInit {
 
   ngOnInit() {
   }
-  sameAsOwner = true;
-  customerMaster =
-  {
+
+
+  customerMaster =  {
     "customerId": "2",
     "agentId": "1",
     "isDirty": true,
@@ -194,16 +194,33 @@ export class CustomerInputComponent implements OnInit {
     }
   };
 
-
   customers = {
     owner: {
+      role: 'owner',
       isInsured: true,
       smokingStatus : 'yes'
     },
     insured: {
-      
+      role: 'insured',
+      id: null
     },
     dependents:[]
   }
 
+  addDependent() {
+    this.customers.dependents.push(
+      {}
+    );
+
+  }
+
+  getBindedId() {
+    let depends = this.customers.dependents.map(
+      d => d.id
+    );
+    if(this.customers.insured.id) {
+      depends.push(this.customers.insured.id);
+    }
+    return depends;
+  }
 }

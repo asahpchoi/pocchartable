@@ -1,4 +1,4 @@
-<div *ngIf="customerObject">
+<div *ngIf="customerObject && !selectCustomerMode">
   <mat-form-field>
     <input matInput placeholder="Enter your Name" required [(ngModel)]="customerObject.lastName">
   </mat-form-field>
@@ -13,4 +13,11 @@
     <input matInput placeholder="Occupation" [formControl]="occupation" required>
   </mat-form-field>
 </div>
-refID: {{customerObject.customerId}} refID: {{customerObject.id}}
+<div *ngIf="selectCustomerMode">
+  Select dependent
+  <div *ngFor="let c of loadCustomerList()">
+    <button mat-raised-button (click)="assignCustomer(c.id)">{{c.firstName}} {{c.lastName}}</button>
+  </div>
+</div>
+refID: {{customerObject.customerId}} {{customerObject.id}}
+binded: {{customerListRef | json}}
