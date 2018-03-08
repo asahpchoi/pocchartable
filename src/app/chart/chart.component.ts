@@ -223,7 +223,7 @@ export class ChartComponent implements OnInit {
             year: i + 1
           }
         }
-      ).filter(t => t.topup);
+      ).filter(t => t.topup)
     ,
       withdrawals:
       this.input.withdrawal.map(
