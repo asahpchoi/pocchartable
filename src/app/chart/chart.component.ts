@@ -14,17 +14,17 @@ export class ChartComponent implements OnInit {
     topup: [],
     withdrawal: []
   }
+  sliderValues = [0,70];
   chart;
   raw;
   originds;
-  maxShowIndex;
   ctx;
   a;
   p;
   sv;
   av;
-  selectedIndex;
-  maxIndex;
+
+  maxIndex = 100;
   rtn = 'MEDIUM';
   fm = 200000;
   age = 30;
@@ -78,11 +78,6 @@ export class ChartComponent implements OnInit {
     el.style.left = xAxis.left + 20 + 'px';
     el.style.width = xAxis.width + 'px';
 
-    var el = document.getElementById("slider2");
-    el.style.display = 'block';
-    el.style.top = xAxis.bottom + 'px';
-    el.style.left = xAxis.left + 20 + 'px';
-    el.style.width = xAxis.width + 'px';
 
   }
 
@@ -120,7 +115,7 @@ export class ChartComponent implements OnInit {
 
   getShowTable() {
     if (this.proposalData['Year'])
-      return this.proposalData['Year'].filter(i => i <= this.maxShowIndex + 1);
+      return this.proposalData['Year'].filter(i => i <= this.sliderValues[1] + 1);
   }
 
   createChart() {
@@ -133,9 +128,11 @@ export class ChartComponent implements OnInit {
     )
     this.proposalData.origin_premium = this.originds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
     this.proposalData.origin_accountValue = this.originds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0 ? x.value : 0);
-    this.maxIndex = this.proposalData["Age"].length - 1;
-    this.maxShowIndex = this.maxIndex;
-    this.selectedIndex = 1;
+
+    this.maxIndex = this.proposalData["Age"].length -1;
+// /console.log(this.maxIndex)
+    this.sliderValues = [0, this.maxIndex];
+
     var chartData = {
       labels: this.proposalData["Age"],
       datasets: [
@@ -153,7 +150,7 @@ export class ChartComponent implements OnInit {
           borderColor: '#00FF00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"].map((x, i) => x * i) //fake formula, it should come from product engine later
+          data: this.proposalData["Total Premium"]
         },
         {
           type: 'line',
@@ -161,7 +158,9 @@ export class ChartComponent implements OnInit {
           borderColor: '#00DD00',
           borderWidth: 2,
           fill: false,
-          data: this.proposalData["Total Premium"].map((x, i) => x * i * .75) //fake formula, it should come from product engine later
+          data: this.proposalData["Total Premium"].map(
+            (x, i) => x - this.proposalData["COI (" + this.rtn + ")"][i]
+          ) //fake formula, it should come from product engine later
         },
         {
           type: 'bar',

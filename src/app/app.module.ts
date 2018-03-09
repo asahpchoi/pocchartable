@@ -21,6 +21,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import {MatIconModule} from '@angular/material/icon';
+import { NouisliderModule } from 'ng2-nouislider';
 
 const appRoutes: Routes = [
   { path: '', component: ChartComponent },
@@ -45,7 +46,8 @@ const appRoutes: Routes = [
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSliderModule, MatRadioModule, MatButtonToggleModule, MatCardModule,
     BrowserAnimationsModule,MatStepperModule,
     MatExpansionModule,MatProgressBarModule,MatGridListModule,
-    MatIconModule
+    MatIconModule,
+    NouisliderModule
   ],
   providers: [PremiumService],
   bootstrap: [AppComponent]
