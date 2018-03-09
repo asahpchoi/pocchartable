@@ -14,18 +14,21 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CustomerInputComponent } from './customer-input/customer-input.component';
 import { RouterModule, Routes } from '@angular/router';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 import { NouisliderModule } from 'ng2-nouislider';
+
+import { MatTableModule } from '@angular/material/table';
+
 
 const appRoutes: Routes = [
   { path: '', component: ChartComponent },
-  { path: 'customerForm',      component: CustomerInputComponent }
+  { path: 'customerForm', component: CustomerInputComponent }
 ];
 
 @NgModule({
@@ -44,10 +47,11 @@ const appRoutes: Routes = [
     HttpClientModule,
     FormsModule, ReactiveFormsModule,
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSliderModule, MatRadioModule, MatButtonToggleModule, MatCardModule,
-    BrowserAnimationsModule,MatStepperModule,
-    MatExpansionModule,MatProgressBarModule,MatGridListModule,
+    BrowserAnimationsModule, MatStepperModule,
+    MatExpansionModule, MatProgressBarModule, MatGridListModule,
     MatIconModule,
-    NouisliderModule
+    NouisliderModule,
+    MatTableModule
   ],
   providers: [PremiumService],
   bootstrap: [AppComponent]
