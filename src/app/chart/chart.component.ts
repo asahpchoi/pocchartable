@@ -159,7 +159,7 @@ export class ChartComponent implements OnInit {
     let dialogRef = this.dialog.open(TopupInputComponent, {
       width: '300px',
       data: {
-        value : object[index];
+        value : object[index]
       }
     });
 
