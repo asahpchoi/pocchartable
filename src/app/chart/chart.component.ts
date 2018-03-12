@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { PremiumService } from '../premium.service';
-
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {TopupInputComponent } from '../topup-input/topup-input.component';
 
 @Component({
   selector: 'app-chart',
@@ -58,7 +59,9 @@ export class ChartComponent implements OnInit {
     this.loadData();
   }
 
-  constructor(ps: PremiumService) {
+  constructor(ps: PremiumService,
+    public dialog: MatDialog
+  ) {
     this.ps = ps;
   }
 
@@ -128,6 +131,49 @@ export class ChartComponent implements OnInit {
       return this.proposalData['Year'].filter(i => i <= this.sliderValues[1] + 1);
   }
 
+  getPremiums() {
+    let premiums = this.proposalData["Total Premium"]
+    let topup = this.getInput()
+
+    premiums = premiums.map((p, i) => {
+      var t = topup.topups.filter(x => x.year == i + 1)[0];
+      var w = topup.withdrawals.filter(x => x.year == i + 1)[0];
+
+      console.log(t)
+      if (t) {
+        p += +t.amount;
+      }
+      if (w) {
+        p -= +w.amount;
+      }
+      console.log(t, w);
+      return p;
+    })
+    console.log(premiums)
+
+
+    return premiums;
+  }
+
+  openDialog(object, index ): void {
+    let dialogRef = this.dialog.open(TopupInputComponent, {
+      width: '300px',
+      data: {
+        value : object[index];
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+      console.log(object);
+      console.log(index);
+      for(var i = 0; i < result.year; i++) {
+        object[index + i] = result.value;
+      }
+    });
+  }
+
   createChart() {
     let fields = this.ds.map(x => x.Name)
     console.log(fields)
@@ -169,14 +215,26 @@ export class ChartComponent implements OnInit {
         {
           type: 'line',
           label: 'Origin Premium Paid',
-          borderColor: '#99FF99',
+          backgroundColor: '#FF0000',
+          borderColor: '#FF0000',
+          borderDash: [5, 5],
           borderWidth: 2,
           fill: false,
-          data: this.proposalData.origin_premium
+          data: this.proposalData["Total Premium"]
         },
         {
           type: 'line',
-          label: 'Cumulative Premium Paid',
+          label: 'Cumulative Premium Paid (with Topup and withdrawal)',
+          backgroundColor: '#FF0000',
+          borderColor: '#FF0000',
+
+          borderWidth: 2,
+          fill: false,
+          data: this.getPremiums()
+        },
+        /*{
+          type: 'line',
+          label: 'Cumulative Premium Paid (original)',
           borderColor: '#00FF00',
           borderWidth: 2,
           fill: false,
@@ -192,6 +250,7 @@ export class ChartComponent implements OnInit {
             (x, i) => x - this.proposalData["COI (" + this.rtn + ")"][i]
           ) //fake formula, it should come from product engine later
         },
+        */
         {
           type: 'bar',
           label: 'Origin Account Value',
@@ -201,13 +260,13 @@ export class ChartComponent implements OnInit {
         {
           type: 'bar',
           label: 'Account Value (Guaranteed)',
-          backgroundColor: 'rgba(255, 0, 0, 1)',
+          backgroundColor: 'rgba(100, 100, 255, 1)',
           data: this.proposalData["Account Value (" + this.rtn + ")"]
         },
         {
           type: 'bar',
           label: 'Account Value (Non guaranteed)',
-          backgroundColor: 'rgba(200, 0, 0, 1)',
+          backgroundColor: 'rgba(200, 200, 255, 1)',
           data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.25) //fake formula, it should come from product engine later
         },
         {
@@ -262,21 +321,21 @@ export class ChartComponent implements OnInit {
       this.input.topup.map(
         (t, i) => {
           return {
-            topup: t,
+            amount: t,
             year: i + 1
           }
         }
-      ).filter(t => t.topup)
+      ).filter(t => t.amount)
       ,
       withdrawals:
       this.input.withdrawal.map(
         (t, i) => {
           return {
-            withdrawal: t,
+            amount: t,
             year: i + 1
           }
         }
-      ).filter(t => t.withdrawal)
+      ).filter(t => t.amount)
     }
   }
   ngOnInit() {

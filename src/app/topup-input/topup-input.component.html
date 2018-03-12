@@ -1,0 +1,8 @@
+<mat-form-field>
+  <input matInput [(ngModel)]="data.value" type=number>
+</mat-form-field>
+<mat-form-field>
+  <input matInput [(ngModel)]="data.year" type=number value="1">
+</mat-form-field>
+years
+<button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
+import {MatDialogModule} from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { ChartComponent } from './chart/chart.component';
 import { PremiumService } from './premium.service';
@@ -24,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NouisliderModule } from 'ng2-nouislider';
 
 import { MatTableModule } from '@angular/material/table';
+import { TopupInputComponent } from './topup-input/topup-input.component';
 
 
 const appRoutes: Routes = [
@@ -36,7 +37,8 @@ const appRoutes: Routes = [
     AppComponent,
     ChartComponent,
     CustomerInputComponent,
-    CustomerFormComponent
+    CustomerFormComponent,
+    TopupInputComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -51,9 +53,13 @@ const appRoutes: Routes = [
     MatExpansionModule, MatProgressBarModule, MatGridListModule,
     MatIconModule,
     NouisliderModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule
   ],
   providers: [PremiumService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    TopupInputComponent
+  ]
 })
 export class AppModule { }

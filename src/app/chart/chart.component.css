@@ -12,6 +12,10 @@ table {
   border-collapse: collapse;
 }
 
+input {
+  width: 200px;
+}
+
 table, th, td {
   border: 1px solid black;
 }
