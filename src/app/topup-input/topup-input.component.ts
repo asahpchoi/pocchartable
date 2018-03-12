@@ -6,7 +6,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   templateUrl: './topup-input.component.html',
   styleUrls: ['./topup-input.component.css']
 })
-export class TopupInputComponent implements OnInit {
+export class TopupInputComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TopupInputComponent>,
