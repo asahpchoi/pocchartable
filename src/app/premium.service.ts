@@ -4,129 +4,162 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class PremiumService {
 
-
   jsonData = {
-    "reference": "",
-    "policyYearDate": "20170228024534",
-    "policyExcludeSOS": "Y",
-    "sortRider": "Y",
-    "channel": "BANK",
-    "coverageInfo": {
-      "product": {
-        "productKey": {
-          "primaryProduct": {
-            "productPK": {
-              "productId": "US789"
+    "watchPoints" : [ ],
+    "riders" : {
+      "coverageInfo" : [ {
+        "rcc" : "N",
+        "occupation" : "1",
+        "product" : {
+          "productKey" : {
+            "valueDate" : "20180305070000",
+            "location" : "VN",
+            "basicProduct" : {
+              "productPK" : {
+                "productId" : "--"
+              }
+            },
+            "associateProduct" : {
+              "productPK" : {
+                "productId" : "--"
+              }
+            },
+            "primaryProduct" : {
+              "productPK" : {
+                "productId" : "ADD03"
+              }
             }
-          },
-          "associateProduct": {
-            "productPK": {
-              "productId": "--"
-            }
-          },
-          "basicProduct": {
-            "productPK": {
-              "productId": "--"
-            }
-          },
-          "valueDate": "20170228024534",
-          "location": "PH"
-        }
-      },
-      "currency": {
-        "currencyPK": {
-          "currencyId": "PHP"
-        }
-      },
-      "faceAmount": "125000",
-      "options": {
-        "billingMethod": "SINGLE",
-        "dbLevel": "Increase",
-        "paymentMode": "A",
-        "fundWithdrawalsByPercentage": "Y",
-        "calculateSinglePremiumBand": "Y"
-      },
-      "otherOptions": null,
-      "startAnnuityAge": "0",
-      "parties": {
-        "party": {
-          "insuredId": "aaa aaa",
-          "insuredAge": "30",
-          "insuredSex": "M",
-          "smokingStatus": "ST",
-          "type": "BASIC"
-        }
-      },
-      "extraRating": {
-        "flatExtra": "0.0",
-        "percentageExtra": "1.0",
-        "tempFlat": "0.0",
-        "tempFlatDuration": "0",
-        "tempPercentage": "0.0",
-        "tempPercentageDuration": "0"
-      },
-      "band": "0",
-      "ipoLayer": "0",
-      "noOfInstallmentYear": "0",
-      "prepayYear": "0",
-      "withdrawPercent": "0.0",
-      "plannedPremium": "0.0",
-      "compropPremium": "0.0",
-      "refundPremium": "0.0",
-      "topUpPremium": "0.0",
-      "initialDumpIn": "100000.0",
-      "basicIncreasingPremiumPercentage": "0.0",
-      "topUpIncreasingPremiumPercentage": "0.0",
-      "fundInt": "5.0",
-      "fixedAmount": "0",
-      "dividendWithdrawals": ""
-    },
-    "riders": null,
-    "funds": {
-      "fundRecord": [
-        {
-          "allocation": "60.00",
-          "returnRate": "4.0000",
-          "returnRateMedium": "8.0000",
-          "returnRateHigh": "10.0000",
-          "guaranteedPercentage": "0.0000",
-          "targetPayoutRate": "0.0000",
-          "_code": "SECURE"
-        },
-        {
-          "allocation": "40.00",
-          "returnRate": "4.0000",
-          "returnRateMedium": "8.0000",
-          "returnRateHigh": "10.0000",
-          "guaranteedPercentage": "0.0000",
-          "targetPayoutRate": "0.0000",
-          "_code": "DIVERSIFIED"
-        }
-      ]
-    },
-    "fundActivities":{
-       "fundActivity":[
-          {
-             "topupPremium":100000.00,
-             "attainAge":35
-          },
-          {
-             "withdrawal":100000.00,
-             "attainAge":36
           }
-       ]
-    }
+        },
+        "parties" : {
+          "party" : {
+            "insuredAge" : 29,
+            "type" : "BASIC",
+            "smokingStatus" : "NS",
+            "insuredSex" : "M",
+            "insuredId" : "PROJ, RIDER(ADD 800K)",
+            "birthDate" : "19890305070000"
+          }
+        },
+        "faceAmount" : 800000.00, //rider face amount
+        "extraRating" : {
+          "tempPercentage" : 1.00,
+          "percentageExtra" : 1.00
+        },
+        "currency" : {
+          "currencyPK" : {
+            "currencyId" : "VND"
+          }
+        }
+      } ]
+    },
+    "dependents" : [ {
+      "relationToInsured" : "03",
+      "birthdate" : "20110308070000",
+      "dependentSex" : "Male",
+      "dependentName" : "PROJ, RIDER(ADD 800K) DEPEN",
+      "dependentAge" : 7
+    } ],
+    "funds" : {
+      "fundRecord" : [ {
+        "returnRate" : 4.0000,
+        "returnRateMedium" : 5.0000,
+        "returnRateHigh" : 7.5000,
+        "code" : "UL007",
+        "allocation" : 100
+      } ]
+    },
+    "fundActivities" : {
+      "fundActivity" : [ ]
+    },
+    "owner" : {
+      "ownerSex" : "M",
+      "ownerId" : "Test Projection Case 1",
+      "ownerDOB" : "19890305070000",
+      "ownerAge" : 29,
+      "insuredIsOwner" : false
+    },
+    "stopDebugYear" : 10,
+    "startDebugYear" : 0,
+    "sortRider" : "N",
+    "reference" : "PROP-000000002",
+    "policyYearDate" : "20180305070000",
+    "policyExcludeSOS" : "N",
+    "language" : "en_vn",
+    "enableDebug" : true,
+    "displayEOYOnly" : false,
+    "coverageInfo" : {
+      "startAnnuityAge" : "0",
+      "prepayYear" : 0,
+      "plannedPremium" : 10000, //*
+      "product" : {
+        "productKey" : {
+          "valueDate" : "20180305070000",
+          "location" : "VN",
+          "basicProduct" : {
+            "productPK" : {
+              "productId" : "--"
+            }
+          },
+          "associateProduct" : {
+            "productPK" : {
+              "productId" : "--"
+            }
+          },
+          "primaryProduct" : {
+            "productPK" : {
+              "productId" : "UL007"
+            }
+          }
+        }
+      },
+      "parties" : {
+        "party" : {
+          "type" : "BASIC",
+          "smokingStatus" : "NS",
+          "insuredSex" : "M",
+          "insuredId" : "PROJ, RIDER(ADD 800K)",
+          "insuredAge" : 29, //*
+          "birthDate" : "19890305070000"
+        }
+      },
+      "options" : {
+        "paymentMode" : "A",
+        "fundWithdrawalsByPercentage" : "N",
+        "dbLevel" : "Increase",
+        "calculateSinglePremiumBand" : "N",
+        "billingMethod" : "DirectBilling"
+      },
+      "noOfInstallmentYear" : 0,
+      "initialDumpIn" : 0.00,
+      "faceAmount" : 800000.00, //*
+      "extraRating" : {
+        "tempPercentage" : 1.00,
+        "tempPercentageDuration" : 0,
+        "tempFlat" : 0.00,
+        "tempFlatDuration" : 0,
+        "percentageExtra" : 1.00,
+        "flatExtra" : 0.00
+      },
+      "currency" : {
+        "currencyPK" : {
+          "currencyId" : "VND"
+        }
+      }
+    },
+    "channel" : "Agency"
   }
-  url = 'https://product-engine-nodejs.herokuapp.com/api/v1/product/project';
+
+  url = 'https://product-engine-service.apps.ext.eas.pcf.manulife.com/product/project?renew=Y';
 
   constructor(public http: HttpClient) { }
 
+
+
   getData(input) {
-    console.log(this.jsonData.coverageInfo.faceAmount);
-    this.jsonData.coverageInfo.faceAmount = input.faceAmt + '';
-    this.jsonData.coverageInfo.initialDumpIn = input.faceAmt + '';
-    this.jsonData.coverageInfo.parties.party.insuredAge = input.age + '';
-    console.log(this.jsonData)
+    this.jsonData.coverageInfo.faceAmount = input.faceAmt ;
+    this.jsonData.coverageInfo.plannedPremium = input.plannedPremium  ;
+    this.jsonData.coverageInfo.parties.party.insuredAge = input.age ;
     return this.http.post(
       this.url, this.jsonData
     );

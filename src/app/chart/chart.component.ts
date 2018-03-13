@@ -29,6 +29,7 @@ export class ChartComponent implements OnInit {
   rtn = 'MEDIUM';
   tableData = [];
   fm = 200000;
+  plannedPremium = 10000;
   age = 30;
   ps;
   y;
@@ -45,19 +46,12 @@ export class ChartComponent implements OnInit {
 
   OptionalFields = [];
   proposalData = {
-    age: [],
-    year: [],
-    premium: [],
-    origin_premium: [],
-    surrenderValue: [],
-    accountValue: [],
-    origin_accountValue: [],
   };
 
   viewDataSet;
 
   updateView() {
-    console.log(this.selectedView)
+    console.log(this.proposalData)
     if (this.selectedView == 'AV') {
       this.viewDataSet =
         [
@@ -95,9 +89,7 @@ export class ChartComponent implements OnInit {
           }
         ];
     }
-
     if (this.selectedView == 'SV') {
-      console.log('enter SV');
       this.viewDataSet =
         [
           {
@@ -135,7 +127,7 @@ export class ChartComponent implements OnInit {
         ];
     }
     if (this.selectedView == 'DB') {
-      console.log(this.proposalData)
+      //console.log(this.proposalData)
       this.viewDataSet =
         [
           {
@@ -189,11 +181,10 @@ export class ChartComponent implements OnInit {
       (e, i) => {
         if (e.label.indexOf('Origin') > -1) {
           this.chart.getDatasetMeta(i).hidden = !this.chart.getDatasetMeta(i).hidden;
-          console.log(i)
+          //console.log(i)
         }
       }
-      );
-
+    );
     this.chart.update(0);
 
   }
@@ -214,7 +205,7 @@ export class ChartComponent implements OnInit {
 
   loadData() {
     this.loading = true;
-    this.ps.getData({ faceAmt: this.fm, age: this.age }).subscribe(data => {
+    this.ps.getData({ faceAmt: this.fm, age: this.age, plannedPremium: this.plannedPremium }).subscribe(data => {
       this.loading = false;
       this.raw = data;
       this.ds = data.projections[0].columns;
@@ -240,7 +231,7 @@ export class ChartComponent implements OnInit {
     else {
       this.OptionalFields.push(fieldName);
     }
-    console.log(this.OptionalFields)
+
   }
 
   hasOptionalFields(fieldName) {
@@ -262,14 +253,14 @@ export class ChartComponent implements OnInit {
       var t = topup.topups.filter(x => x.year == i + 1)[0];
       var w = topup.withdrawals.filter(x => x.year == i + 1)[0];
 
-      console.log(t)
+      //console.log(t)
       if (t) {
         p += +t.amount;
       }
       if (w) {
         p -= +w.amount;
       }
-      console.log(t, w);
+      //console.log(t, w);
       return p;
     })
 
@@ -285,10 +276,6 @@ export class ChartComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      console.log(object);
-      console.log(index);
       for (var i = 0; i < result.year; i++) {
         object[index + i] = result.value;
       }
@@ -326,7 +313,7 @@ export class ChartComponent implements OnInit {
 
     this.updateView();
 
-    console.log(this.viewDataSet)
+    //console.log(this.viewDataSet)
     var chartData = {
       labels: this.proposalData["Age"],
       datasets: this.viewDataSet
