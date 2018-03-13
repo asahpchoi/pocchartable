@@ -61,16 +61,16 @@
 
     <nouislider id="slider" style="" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="sliderValues"></nouislider>
     {{value}}
-    <canvas id="canvas" (mousedown)="toggleOrigin()">
+    <canvas id="canvas" (mousedown)="toggleOrigin()" >
     </canvas>
 
     <br>
     <table *ngIf="proposalData['Year']">
       <tr>
-        <th>
+        <th class="sticky">
           Year/Age
         </th>
-        <th>
+        <th >
           Premium Paid
         </th>
         <th>
@@ -83,8 +83,8 @@
         </th>
       </tr>
       <tr *ngFor="let i of [0, this.sliderValues[0], this.sliderValues[1]]">
-        <td>{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
-        <td>{{proposalData["Total Premium"][i]| currency}}</td>
+        <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
+        <td  >{{proposalData["Total Premium"][i]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
         <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>

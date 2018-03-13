@@ -20,6 +20,26 @@ table, th, td {
   border: 1px solid black;
 }
 
+table {
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+button {
+  width: 100px;
+}
+
+th, td {
+  width: 100px;
+}
+
+.sticky {
+    position: sticky;
+    left:0;
+    background-color: #cae8ca;
+}
+
 .hl {
   background-color: grey;
 }
@@ -32,4 +52,5 @@ canvas {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+
 }

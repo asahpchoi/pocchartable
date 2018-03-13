@@ -71,7 +71,7 @@ export class ChartComponent implements OnInit {
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
-pointRadius: 0,
+            pointRadius: 0,
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
@@ -109,7 +109,7 @@ pointRadius: 0,
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
-pointRadius: 0,
+            pointRadius: 0,
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
@@ -139,7 +139,7 @@ pointRadius: 0,
             borderColor: '#CC0000',
             borderDash: [5, 1],
             borderWidth: 2,
-pointRadius: 0,
+            pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
           },
@@ -148,7 +148,7 @@ pointRadius: 0,
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
-pointRadius: 0,
+            pointRadius: 0,
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
@@ -253,20 +253,17 @@ pointRadius: 0,
     let topup = this.getInput()
 
     premiums = premiums.map((p, i) => {
-      return p + topup.topups.filter(x => x.year < i + i).reduce(
+      console.log(i, p, topup.topups.filter(x => x.year < i + 1).reduce(
+        (prev, element) => {
+          return prev + element.amount;
+        }, 0
+      ))
+      return p + topup.topups.filter(x => x.year < i + 1).reduce(
         (prev, element) => {
           return prev + element.amount;
         }, 0
       );
-
-      /*
-      if (w) {
-        p -= +w.amount;
-      }
-      */
-      //console.log(t, w);
-      //return p;
-    })
+    });
 
     return premiums;
   }
@@ -332,12 +329,8 @@ pointRadius: 0,
       data: chartData,
       options: {
         responsive: true,
-        title: {
-          display: true,
-          text: 'Quick POC of interactive table with chartJS'
-        },
         tooltips: {
-          enabled: false
+          enabled: true
         },
         scales: {
           xAxes: [
@@ -352,7 +345,25 @@ pointRadius: 0,
             }
           }]
         },
-        //onClick: (clickEvt, activeElems) => this.onChartClick(clickEvt, activeElems)
+        // Container for pan options
+        pan: {
+          // Boolean to enable panning
+          enabled: true,
+
+          // Panning directions. Remove the appropriate direction to disable
+          // Eg. 'y' would only allow panning in the y direction
+          mode: 'xy'
+        },
+
+        // Container for zoom options
+        zoom: {
+          // Boolean to enable zooming
+          enabled: true,
+
+          // Zooming directions. Remove the appropriate direction to disable
+          // Eg. 'y' would only allow zooming in the y direction
+          mode: 'xy',
+        }
       }
     });
     this.chart.update();
