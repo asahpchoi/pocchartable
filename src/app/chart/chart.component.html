@@ -19,8 +19,6 @@
         <button mat-raised-button (click)="setView('DB')" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
 
       </mat-card>
-    </div>
-    <div style="display: flex;width:100%;">
       <mat-card>
         <mat-card-title>Opitonal Fields</mat-card-title>
         <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f}} </button>
@@ -28,12 +26,17 @@
 
       </mat-card>
       <mat-card>
-        <mat-card-title>Input Fields</mat-card-title>
+        <mat-card-title>Base Plan</mat-card-title>
         <mat-form-field>
-          <input matInput placeholder="Face Amount" [(ngModel)]="fm">
+          <input matInput placeholder="Face Amount" [(ngModel)]="fm" type=number>
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
+
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Planned Premium" [(ngModel)]="plannedPremium">
+          <input matInput placeholder="Planned Premium" [(ngModel)]="plannedPremium" type=number>
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
         </mat-form-field>
         <mat-form-field>
           <input matInput placeholder="Insured Age" [(ngModel)]="age">
@@ -41,6 +44,9 @@
         <button mat-raised-button (click)="update()">update</button>
       </mat-card>
     </div>
+    <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
+    <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
+    <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
   </mat-expansion-panel>
 </mat-accordion>
 
@@ -124,9 +130,7 @@
   </div>
 
 
-  <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
-  <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
-  <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
+
 
 </mat-card>
 <pre>

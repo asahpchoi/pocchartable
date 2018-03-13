@@ -62,6 +62,7 @@ export class ChartComponent implements OnInit {
             borderColor: '#FF0000',
             borderDash: [5, 5],
             borderWidth: 2,
+            pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
           },
@@ -70,7 +71,7 @@ export class ChartComponent implements OnInit {
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
-
+pointRadius: 0,
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
@@ -99,6 +100,7 @@ export class ChartComponent implements OnInit {
             borderColor: '#FF0000',
             borderDash: [5, 5],
             borderWidth: 2,
+            pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
           },
@@ -107,7 +109,7 @@ export class ChartComponent implements OnInit {
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
-
+pointRadius: 0,
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
@@ -134,9 +136,10 @@ export class ChartComponent implements OnInit {
             type: 'line',
             label: 'Origin Premium Paid',
             backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
-            borderDash: [5, 5],
+            borderColor: '#CC0000',
+            borderDash: [5, 1],
             borderWidth: 2,
+pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
           },
@@ -145,7 +148,7 @@ export class ChartComponent implements OnInit {
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
-
+pointRadius: 0,
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
@@ -154,13 +157,13 @@ export class ChartComponent implements OnInit {
             type: 'bar',
             label: 'Total Death Benefit (Guaranteed)',
             backgroundColor: 'rgba(100, 100, 255, 1)',
-            data: this.proposalData["Total Death Benefit (LOW)"]
+            data: this.proposalData["Death Benefit (LOW)"]
           },
           {
             type: 'bar',
             label: 'Total Death Benefit (Non guaranteed)',
             backgroundColor: 'rgba(200, 200, 255, 1)',
-            data: this.proposalData["Total Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
+            data: this.proposalData["Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
           }
         ];
     }
@@ -184,7 +187,7 @@ export class ChartComponent implements OnInit {
           //console.log(i)
         }
       }
-    );
+      );
     this.chart.update(0);
 
   }
@@ -250,18 +253,19 @@ export class ChartComponent implements OnInit {
     let topup = this.getInput()
 
     premiums = premiums.map((p, i) => {
-      var t = topup.topups.filter(x => x.year == i + 1)[0];
-      var w = topup.withdrawals.filter(x => x.year == i + 1)[0];
+      return p + topup.topups.filter(x => x.year < i + i).reduce(
+        (prev, element) => {
+          return prev + element.amount;
+        }, 0
+      );
 
-      //console.log(t)
-      if (t) {
-        p += +t.amount;
-      }
+      /*
       if (w) {
         p -= +w.amount;
       }
+      */
       //console.log(t, w);
-      return p;
+      //return p;
     })
 
     return premiums;
