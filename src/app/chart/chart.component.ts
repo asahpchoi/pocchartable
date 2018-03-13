@@ -18,7 +18,7 @@ export class ChartComponent implements OnInit {
   sliderValues = [0, 70];
   chart;
   raw;
-  originds;
+
   ctx;
   a;
   p;
@@ -51,7 +51,45 @@ export class ChartComponent implements OnInit {
   viewDataSet;
 
   updateView() {
-    console.log(this.proposalData)
+
+    if (this.selectedView == 'TV') {
+      this.viewDataSet =
+        [
+          {
+            type: 'line',
+            label: 'Origin Premium Paid',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+            borderDash: [5, 5],
+            borderWidth: 2,
+            pointRadius: 0,
+            fill: false,
+            data: this.proposalData["Total Premium"]
+          },
+          {
+            type: 'line',
+            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+            pointRadius: 0,
+            borderWidth: 2,
+            fill: false,
+            data: this.getPremiums()
+          },
+          {
+            type: 'bar',
+            label: 'Account Value (Guaranteed)',
+            backgroundColor: 'rgba(100, 100, 255, 1)',
+            data: this.proposalData["Account Value (LOW)"].map(x => x * 1.1)
+          },
+          {
+            type: 'bar',
+            label: 'Account Value (Non guaranteed)',
+            backgroundColor: 'rgba(200, 200, 255, 1)',
+            data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.1)//fake formula, it should come from product engine later
+          }
+        ];
+    }
     if (this.selectedView == 'AV') {
       this.viewDataSet =
         [
@@ -179,6 +217,7 @@ export class ChartComponent implements OnInit {
   }
 
   toggleOrigin() {
+    /*
     this.chart.config.data.datasets
       .forEach(
       (e, i) => {
@@ -188,7 +227,18 @@ export class ChartComponent implements OnInit {
         }
       }
       );
-    this.chart.update(0);
+      */
+      console.log('Toogle', this.selectedView)
+    if (this.selectedView == 'TV') {
+      this.setView('AV')
+      this.createChart()
+      //this.chart.update()
+    }
+    if (this.selectedView == 'AV') {
+      this.setView('TV')
+      this.createChart()
+      //this.chart.update()
+    }
 
   }
 
@@ -212,20 +262,17 @@ export class ChartComponent implements OnInit {
       this.loading = false;
       this.raw = data;
       this.ds = data.projections[0].columns;
-      if (!this.originds) {
-        this.originds = this.ds;
-      }
       this.createChart();
     });
   }
 
   setReturn(rtn) {
     this.rtn = rtn;
-    this.createChart();
+    //this.createChart();
   }
   setView(view) {
     this.selectedView = view;
-    this.createChart();
+    //this.createChart();
   }
   updateOptionalFields(fieldName) {
     if (this.hasOptionalFields(fieldName)) {
@@ -253,11 +300,7 @@ export class ChartComponent implements OnInit {
     let topup = this.getInput()
 
     premiums = premiums.map((p, i) => {
-      console.log(i, p, topup.topups.filter(x => x.year < i + 1).reduce(
-        (prev, element) => {
-          return prev + element.amount;
-        }, 0
-      ))
+
       return p + topup.topups.filter(x => x.year < i + 1).reduce(
         (prev, element) => {
           return prev + element.amount;
@@ -292,8 +335,6 @@ export class ChartComponent implements OnInit {
         this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
       }
     )
-
-
     this.proposalData["Age"].forEach(
       (x, i) => {
         let row = {}
@@ -307,14 +348,10 @@ export class ChartComponent implements OnInit {
     )
     this.displayedColumns = this.defaultColumns;
     this.dataSource = this.tableData;
-
-
     this.maxIndex = this.proposalData["Age"].length - 1;
     this.sliderValues = [0, this.maxIndex];
 
     this.updateView();
-
-    //console.log(this.viewDataSet)
     var chartData = {
       labels: this.proposalData["Age"],
       datasets: this.viewDataSet
@@ -367,7 +404,7 @@ export class ChartComponent implements OnInit {
       }
     });
     this.chart.update();
-    this.toggleOrigin();
+    //this.toggleOrigin();
   }
   getInput() {
     return {

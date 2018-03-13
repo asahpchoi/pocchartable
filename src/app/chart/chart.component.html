@@ -8,15 +8,15 @@
     <div style="display: flex;width:100%;">
       <mat-card>
         <mat-card-title>Illustrated Scenario</mat-card-title>
-        <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
-        <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
-        <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+        <button mat-raised-button (click)="setReturn('LOW');createChart();" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
+        <button mat-raised-button (click)="setReturn('MEDIUM');createChart();" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
+        <button mat-raised-button (click)="setReturn('HIGH');createChart();" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
       </mat-card>
       <mat-card>
         <mat-card-title>View</mat-card-title>
-        <button mat-raised-button (click)="setView('AV')" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
-        <button mat-raised-button (click)="setView('SV')" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
-        <button mat-raised-button (click)="setView('DB')" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
+        <button mat-raised-button (click)="setView('AV');createChart();" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
+        <button mat-raised-button (click)="setView('SV');createChart();" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
+        <button mat-raised-button (click)="setView('DB');createChart();" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
 
       </mat-card>
       <mat-card>
