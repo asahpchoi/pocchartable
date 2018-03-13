@@ -1,5 +1,7 @@
 <mat-form-field>
   <input matInput [(ngModel)]="data.value" type=number>
+  <span matPrefix>$&nbsp;</span>
+  <span matSuffix>.00</span>
 </mat-form-field>
 <mat-form-field>
   <input matInput [(ngModel)]="data.year" type=number value="1">

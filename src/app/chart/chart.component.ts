@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { PremiumService } from '../premium.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import {TopupInputComponent } from '../topup-input/topup-input.component';
+import { TopupInputComponent } from '../topup-input/topup-input.component';
 
 @Component({
   selector: 'app-chart',
@@ -25,7 +25,6 @@ export class ChartComponent implements OnInit {
   sv;
   av;
 
-
   maxIndex = 100;
   rtn = 'MEDIUM';
   tableData = [];
@@ -40,7 +39,7 @@ export class ChartComponent implements OnInit {
   displayedColumns;
   dataSource;
   defaultColumns = ['Year', 'Age', "Account Value (" + this.rtn + ")"]
-
+  selectedView = 'AV';
 
 
 
@@ -55,6 +54,125 @@ export class ChartComponent implements OnInit {
     origin_accountValue: [],
   };
 
+  viewDataSet;
+
+  updateView() {
+    console.log(this.selectedView)
+    if (this.selectedView == 'AV') {
+      this.viewDataSet =
+        [
+          {
+            type: 'line',
+            label: 'Origin Premium Paid',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+            borderDash: [5, 5],
+            borderWidth: 2,
+            fill: false,
+            data: this.proposalData["Total Premium"]
+          },
+          {
+            type: 'line',
+            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+
+            borderWidth: 2,
+            fill: false,
+            data: this.getPremiums()
+          },
+          {
+            type: 'bar',
+            label: 'Account Value (Guaranteed)',
+            backgroundColor: 'rgba(100, 100, 255, 1)',
+            data: this.proposalData["Account Value (LOW)"]
+          },
+          {
+            type: 'bar',
+            label: 'Account Value (Non guaranteed)',
+            backgroundColor: 'rgba(200, 200, 255, 1)',
+            data: this.proposalData["Account Value (" + this.rtn + ")"]//fake formula, it should come from product engine later
+          }
+        ];
+    }
+
+    if (this.selectedView == 'SV') {
+      console.log('enter SV');
+      this.viewDataSet =
+        [
+          {
+            type: 'line',
+            label: 'Origin Premium Paid',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+            borderDash: [5, 5],
+            borderWidth: 2,
+            fill: false,
+            data: this.proposalData["Total Premium"]
+          },
+          {
+            type: 'line',
+            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+
+            borderWidth: 2,
+            fill: false,
+            data: this.getPremiums()
+          },
+          {
+            type: 'bar',
+            label: 'Surrender Value (Guaranteed)',
+            backgroundColor: 'rgba(100, 100, 255, 1)',
+            data: this.proposalData["Surrender Value (LOW)"]
+          },
+          {
+            type: 'bar',
+            label: 'Surrender Value (Non guaranteed)',
+            backgroundColor: 'rgba(200, 200, 255, 1)',
+            data: this.proposalData["Surrender Value (" + this.rtn + ")"]//fake formula, it should come from product engine later
+          }
+        ];
+    }
+    if (this.selectedView == 'DB') {
+      console.log(this.proposalData)
+      this.viewDataSet =
+        [
+          {
+            type: 'line',
+            label: 'Origin Premium Paid',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+            borderDash: [5, 5],
+            borderWidth: 2,
+            fill: false,
+            data: this.proposalData["Total Premium"]
+          },
+          {
+            type: 'line',
+            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
+            backgroundColor: '#FF0000',
+            borderColor: '#FF0000',
+
+            borderWidth: 2,
+            fill: false,
+            data: this.getPremiums()
+          },
+          {
+            type: 'bar',
+            label: 'Total Death Benefit (Guaranteed)',
+            backgroundColor: 'rgba(100, 100, 255, 1)',
+            data: this.proposalData["Total Death Benefit (LOW)"]
+          },
+          {
+            type: 'bar',
+            label: 'Total Death Benefit (Non guaranteed)',
+            backgroundColor: 'rgba(200, 200, 255, 1)',
+            data: this.proposalData["Total Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
+          }
+        ];
+    }
+  }
   update() {
     this.loadData();
   }
@@ -111,7 +229,10 @@ export class ChartComponent implements OnInit {
     this.rtn = rtn;
     this.createChart();
   }
-
+  setView(view) {
+    this.selectedView = view;
+    this.createChart();
+  }
   updateOptionalFields(fieldName) {
     if (this.hasOptionalFields(fieldName)) {
       this.OptionalFields = this.OptionalFields.filter(x => x != fieldName);
@@ -132,7 +253,9 @@ export class ChartComponent implements OnInit {
   }
 
   getPremiums() {
+
     let premiums = this.proposalData["Total Premium"]
+
     let topup = this.getInput()
 
     premiums = premiums.map((p, i) => {
@@ -149,17 +272,15 @@ export class ChartComponent implements OnInit {
       console.log(t, w);
       return p;
     })
-    console.log(premiums)
-
 
     return premiums;
   }
 
-  openDialog(object, index ): void {
+  openDialog(object, index): void {
     let dialogRef = this.dialog.open(TopupInputComponent, {
       width: '300px',
       data: {
-        value : object[index]
+        value: object[index]
       }
     });
 
@@ -168,7 +289,7 @@ export class ChartComponent implements OnInit {
       console.log(result);
       console.log(object);
       console.log(index);
-      for(var i = 0; i < result.year; i++) {
+      for (var i = 0; i < result.year; i++) {
         object[index + i] = result.value;
       }
     });
@@ -176,17 +297,13 @@ export class ChartComponent implements OnInit {
 
   createChart() {
     let fields = this.ds.map(x => x.Name)
-    console.log(fields)
+
 
     fields.forEach(
       f => {
         this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
       }
     )
-
-
-    this.proposalData.origin_premium = this.originds.filter(x => x.Name == "Total Premium")[0].Values.map(x => x.value);
-    this.proposalData.origin_accountValue = this.originds.filter(x => x.Name == "Account Value (" + this.rtn + ")")[0].Values.map(x => x.value > 0 ? x.value : 0);
 
 
     this.proposalData["Age"].forEach(
@@ -200,84 +317,19 @@ export class ChartComponent implements OnInit {
         this.tableData.push(row)
       }
     )
-    //this.displayedColumns = ['position', 'name', 'weight', 'symbol'];//fields;
     this.displayedColumns = this.defaultColumns;
-    this.dataSource = this.tableData;//this.tableData;
+    this.dataSource = this.tableData;
 
 
     this.maxIndex = this.proposalData["Age"].length - 1;
-    // /console.log(this.maxIndex)
     this.sliderValues = [0, this.maxIndex];
 
+    this.updateView();
+
+    console.log(this.viewDataSet)
     var chartData = {
       labels: this.proposalData["Age"],
-      datasets: [
-        {
-          type: 'line',
-          label: 'Origin Premium Paid',
-          backgroundColor: '#FF0000',
-          borderColor: '#FF0000',
-          borderDash: [5, 5],
-          borderWidth: 2,
-          fill: false,
-          data: this.proposalData["Total Premium"]
-        },
-        {
-          type: 'line',
-          label: 'Cumulative Premium Paid (with Topup and withdrawal)',
-          backgroundColor: '#FF0000',
-          borderColor: '#FF0000',
-
-          borderWidth: 2,
-          fill: false,
-          data: this.getPremiums()
-        },
-        /*{
-          type: 'line',
-          label: 'Cumulative Premium Paid (original)',
-          borderColor: '#00FF00',
-          borderWidth: 2,
-          fill: false,
-          data: this.proposalData["Total Premium"]
-        },
-        {
-          type: 'line',
-          label: 'Allocated Premium',
-          borderColor: '#00DD00',
-          borderWidth: 2,
-          fill: false,
-          data: this.proposalData["Total Premium"].map(
-            (x, i) => x - this.proposalData["COI (" + this.rtn + ")"][i]
-          ) //fake formula, it should come from product engine later
-        },
-        */
-        {
-          type: 'bar',
-          label: 'Origin Account Value',
-          backgroundColor: 'rgba(0, 255, 0, 0.5)',
-          data: this.proposalData.origin_accountValue
-        },
-        {
-          type: 'bar',
-          label: 'Account Value (Guaranteed)',
-          backgroundColor: 'rgba(100, 100, 255, 1)',
-          data: this.proposalData["Account Value (" + this.rtn + ")"]
-        },
-        {
-          type: 'bar',
-          label: 'Account Value (Non guaranteed)',
-          backgroundColor: 'rgba(200, 200, 255, 1)',
-          data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.25) //fake formula, it should come from product engine later
-        },
-        {
-          type: 'bar',
-          label: 'Surrender Value',
-          data: this.proposalData.surrenderValue,
-          borderColor: 'rgba(255, 0, 0, 0.5)',
-          borderWidth: 2
-        }
-      ]
-
+      datasets: this.viewDataSet
     };
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     this.ctx = canvas.getContext("2d");
@@ -344,27 +396,3 @@ export class ChartComponent implements OnInit {
   }
 
 }
-
-
-const ELEMENT_DATA = [
-  { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
-  { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
-  { position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li' },
-  { position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be' },
-  { position: 5, name: 'Boron', weight: 10.811, symbol: 'B' },
-  { position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C' },
-  { position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N' },
-  { position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O' },
-  { position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F' },
-  { position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne' },
-  { position: 11, name: 'Sodium', weight: 22.9897, symbol: 'Na' },
-  { position: 12, name: 'Magnesium', weight: 24.305, symbol: 'Mg' },
-  { position: 13, name: 'Aluminum', weight: 26.9815, symbol: 'Al' },
-  { position: 14, name: 'Silicon', weight: 28.0855, symbol: 'Si' },
-  { position: 15, name: 'Phosphorus', weight: 30.9738, symbol: 'P' },
-  { position: 16, name: 'Sulfur', weight: 32.065, symbol: 'S' },
-  { position: 17, name: 'Chlorine', weight: 35.453, symbol: 'Cl' },
-  { position: 18, name: 'Argon', weight: 39.948, symbol: 'Ar' },
-  { position: 19, name: 'Potassium', weight: 39.0983, symbol: 'K' },
-  { position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca' },
-];

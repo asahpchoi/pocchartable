@@ -5,29 +5,39 @@
         Change
       </mat-panel-title>
     </mat-expansion-panel-header>
-    <mat-card>
-      <mat-card-title>Illustrated Scenario</mat-card-title>
-      <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
-      <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
-      <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+    <div style="display: flex;width:100%;">
+      <mat-card>
+        <mat-card-title>Illustrated Scenario</mat-card-title>
+        <button mat-raised-button (click)="setReturn('LOW')" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
+        <button mat-raised-button (click)="setReturn('MEDIUM')" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
+        <button mat-raised-button (click)="setReturn('HIGH')" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>View</mat-card-title>
+        <button mat-raised-button (click)="setView('AV')" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
+        <button mat-raised-button (click)="setView('SV')" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
+        <button mat-raised-button (click)="setView('DB')" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
 
-    </mat-card>
-    <mat-card>
-      <mat-card-title>Opitonal Fields</mat-card-title>
-      <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f}} </button>
+      </mat-card>
+    </div>
+    <div style="display: flex;width:100%;">
+      <mat-card>
+        <mat-card-title>Opitonal Fields</mat-card-title>
+        <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f}} </button>
 
 
-    </mat-card>
-    <mat-card>
-      <mat-card-title>Input Fields</mat-card-title>
-      <mat-form-field>
-        <input matInput placeholder="Face Amount" [(ngModel)]="fm">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Insured Age" [(ngModel)]="age">
-      </mat-form-field>
-      <button mat-raised-button (click)="update()">update</button>
-    </mat-card>
+      </mat-card>
+      <mat-card>
+        <mat-card-title>Input Fields</mat-card-title>
+        <mat-form-field>
+          <input matInput placeholder="Face Amount" [(ngModel)]="fm">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Insured Age" [(ngModel)]="age">
+        </mat-form-field>
+        <button mat-raised-button (click)="update()">update</button>
+      </mat-card>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>
 
@@ -67,8 +77,8 @@
         <td>{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
         <td>{{proposalData["Total Premium"][i]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
-        <td><input matInput [(ngModel)]="input.topup[i]"  placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
-        <td><input matInput [(ngModel)]="input.withdrawal[i]"  placeholder="withdrawal"  (click)="openDialog(input.withdrawal, i)"></td>
+        <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
+        <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>
         <td *ngFor="let f of OptionalFields">
           {{proposalData[f + " (" + rtn + ")"][i] | currency}}
         </td>
