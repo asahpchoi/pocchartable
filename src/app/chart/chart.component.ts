@@ -19,7 +19,7 @@ export class ChartComponent implements OnInit {
   chart;
   raw;
 
-  ctx;
+  ctx: CanvasRenderingContext2D;
   a;
   p;
   sv;
@@ -31,6 +31,8 @@ export class ChartComponent implements OnInit {
   fm = 200000;
   plannedPremium = 10000;
   age = 30;
+  riders = [];
+
   ps;
   y;
   loading;
@@ -43,7 +45,6 @@ export class ChartComponent implements OnInit {
   selectedView = 'AV';
 
 
-
   OptionalFields = [];
   proposalData = {
   };
@@ -51,45 +52,6 @@ export class ChartComponent implements OnInit {
   viewDataSet;
 
   updateView() {
-
-    if (this.selectedView == 'TV') {
-      this.viewDataSet =
-        [
-          {
-            type: 'line',
-            label: 'Origin Premium Paid',
-            backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
-            borderDash: [5, 5],
-            borderWidth: 2,
-            pointRadius: 0,
-            fill: false,
-            data: this.proposalData["Total Premium"]
-          },
-          {
-            type: 'line',
-            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
-            backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
-            pointRadius: 0,
-            borderWidth: 2,
-            fill: false,
-            data: this.getPremiums()
-          },
-          {
-            type: 'bar',
-            label: 'Account Value (Guaranteed)',
-            backgroundColor: 'rgba(100, 100, 255, 1)',
-            data: this.proposalData["Account Value (LOW)"].map(x => x * 1.1)
-          },
-          {
-            type: 'bar',
-            label: 'Account Value (Non guaranteed)',
-            backgroundColor: 'rgba(200, 200, 255, 1)',
-            data: this.proposalData["Account Value (" + this.rtn + ")"].map(x => x * 1.1)//fake formula, it should come from product engine later
-          }
-        ];
-    }
     if (this.selectedView == 'AV') {
       this.viewDataSet =
         [
@@ -228,7 +190,7 @@ export class ChartComponent implements OnInit {
       }
       );
       */
-      console.log('Toogle', this.selectedView)
+    console.log('Toogle', this.selectedView)
     if (this.selectedView == 'TV') {
       this.setView('AV')
       this.createChart()
@@ -252,20 +214,37 @@ export class ChartComponent implements OnInit {
     el.style.top = xAxis.top + 'px';
     el.style.left = xAxis.left + 20 + 'px';
     el.style.width = xAxis.width + 'px';
-
-
   }
-
+  addRider() {
+    this.riders.push(
+      {
+        productId: 'ADD03',
+        fm: 800000,
+        age: 27
+      }
+    );
+  }
+  deleteRider(index) {
+    console.log(this.riders)
+    this.riders.splice(index,1);
+    //this.riders = [];
+  }
   loadData() {
     this.loading = true;
-    this.ps.getData({ faceAmt: this.fm, age: this.age, plannedPremium: this.plannedPremium }).subscribe(data => {
+    this.ps.getData(
+      {
+        faceAmt: this.fm,
+        age: this.age,
+        plannedPremium: this.plannedPremium,
+        riders: this.riders
+      }
+    ).subscribe(data => {
       this.loading = false;
       this.raw = data;
       this.ds = data.projections[0].columns;
       this.createChart();
     });
   }
-
   setReturn(rtn) {
     this.rtn = rtn;
     //this.createChart();
@@ -381,29 +360,20 @@ export class ChartComponent implements OnInit {
               beginAtZero: true
             }
           }]
-        },
-        // Container for pan options
-        pan: {
-          // Boolean to enable panning
-          enabled: true,
-
-          // Panning directions. Remove the appropriate direction to disable
-          // Eg. 'y' would only allow panning in the y direction
-          mode: 'xy'
-        },
-
-        // Container for zoom options
-        zoom: {
-          // Boolean to enable zooming
-          enabled: true,
-
-          // Zooming directions. Remove the appropriate direction to disable
-          // Eg. 'y' would only allow zooming in the y direction
-          mode: 'xy',
         }
       }
     });
     this.chart.update();
+
+    /*
+        document.getElementById("canvas").onclick = function(evt) {
+          var activePoints = this.chart.getElementsAtEventForMode(evt, 'point', this.chart.options);
+          var firstPoint = activePoints[0];
+          var label = this.chart.data.labels[firstPoint._index];
+          var value = this.chart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
+          alert(label + ": " + value);
+        };
+        */
     //this.toggleOrigin();
   }
   getInput() {
@@ -433,5 +403,8 @@ export class ChartComponent implements OnInit {
     this.loadData();
 
   }
+
+
+
 
 }

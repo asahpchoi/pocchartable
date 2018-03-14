@@ -22,9 +22,10 @@
       <mat-card>
         <mat-card-title>Opitonal Fields</mat-card-title>
         <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f}} </button>
-
-
       </mat-card>
+    </div>
+    <br>
+    <div style="display: flex;width:100%;">
       <mat-card>
         <mat-card-title>Base Plan</mat-card-title>
         <mat-form-field>
@@ -41,17 +42,35 @@
         <mat-form-field>
           <input matInput placeholder="Insured Age" [(ngModel)]="age">
         </mat-form-field>
-        <button mat-raised-button (click)="update()">update</button>
+
+      </mat-card>
+      <mat-card *ngFor="let rider of riders;let i = index; ">
+        <mat-card-title>Rider</mat-card-title>
+        <mat-form-field>
+          <input matInput placeholder="product id" [(ngModel)]="rider.productId">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Face Amount" [(ngModel)]="rider.fm" type=number>
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Insured Age" [(ngModel)]="rider.age">
+        </mat-form-field>
+        <button mat-raised-button (click)="deleteRider(i)">Delete</button>
+
       </mat-card>
     </div>
+<br>
+
+
     <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
     <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
     <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
+    <button mat-raised-button (click)="addRider()">Add Rider</button>
+    <button mat-raised-button (click)="update()">update</button>
   </mat-expansion-panel>
 </mat-accordion>
-
-
-
 <mat-card>
   <div *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -61,7 +80,7 @@
 
     <nouislider id="slider" style="" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="sliderValues"></nouislider>
     {{value}}
-    <canvas id="canvas" (mousedown)="toggleOrigin()" >
+    <canvas id="canvas" (mousedown)="toggleOrigin()">
     </canvas>
 
     <br>
@@ -70,7 +89,7 @@
         <th class="sticky">
           Year/Age
         </th>
-        <th >
+        <th>
           Premium Paid
         </th>
         <th>
@@ -84,7 +103,7 @@
       </tr>
       <tr *ngFor="let i of [0, this.sliderValues[0], this.sliderValues[1]]">
         <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
-        <td  >{{proposalData["Total Premium"][i]| currency}}</td>
+        <td>{{proposalData["Total Premium"][i]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
         <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>
@@ -97,7 +116,7 @@
   <div style="width:100%;" [ngStyle]="{'display':!showTable?'none':'block'}">
     <table>
       <tr>
-        <th>
+        <th  class="sticky">
           Year/Age
         </th>
         <th>
@@ -115,7 +134,7 @@
 
       <tr *ngFor="let i of getShowTable()">
 
-        <td>{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
+        <td  class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
         <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
         <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
