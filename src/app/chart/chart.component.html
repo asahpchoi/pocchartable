@@ -55,6 +55,9 @@
           <span matSuffix>.00</span>
         </mat-form-field>
         <mat-form-field>
+          <input matInput placeholder="occupation" [(ngModel)]="rider.occupation">
+        </mat-form-field>
+        <mat-form-field>
           <input matInput placeholder="Insured Age" [(ngModel)]="rider.age">
         </mat-form-field>
         <button mat-raised-button (click)="deleteRider(i)">Delete</button>

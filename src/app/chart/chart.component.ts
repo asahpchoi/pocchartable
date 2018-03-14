@@ -220,7 +220,8 @@ export class ChartComponent implements OnInit {
       {
         productId: 'ADD03',
         fm: 800000,
-        age: 27
+        age: 27,
+        occupation: 1
       }
     );
   }

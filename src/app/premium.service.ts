@@ -169,6 +169,7 @@ export class PremiumService {
         rider.faceAmount = r.fm;
         rider.parties.party.insuredAge = r.age;
         rider.product.productKey.primaryProduct.productPK.productId = r.productId;
+        rider.occupation = r.occupation;
 
         console.log(rider);
         return rider;
