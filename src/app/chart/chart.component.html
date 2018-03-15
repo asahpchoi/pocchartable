@@ -27,13 +27,15 @@
         <mat-card-title>Opitonal Fields</mat-card-title>
         <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f.replace('($rtn)', '')}} </button>
       </mat-card>
+
     </div>
-    <br>
+
 
     <br>
     <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
     <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
-
+    
+    <mat-slider [(ngModel)]="ui.step" min=1 max=5 (change)="createChart()"></mat-slider>
   </mat-expansion-panel>
 </mat-accordion>
 <mat-card>
@@ -100,7 +102,7 @@
 
         <td class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
         <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
- 
+
         <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i - 1]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i-1)"></td>
         <td *ngFor="let f of fullTableFields">

@@ -20,7 +20,8 @@ export class ChartComponent implements OnInit {
   }
   ui = {
     sliderValues: [0, 70],
-    isLoading : true
+    isLoading : true,
+    step: 1
   }
 
   chart;
@@ -65,7 +66,7 @@ export class ChartComponent implements OnInit {
             fill: false,
             data: this.proposalData["Total Premium"]
           },
-          {
+          /*{
             type: 'line',
             label: 'Cumulative Premium Paid (with Topup and withdrawal)',
             backgroundColor: '#FF0000',
@@ -74,7 +75,7 @@ export class ChartComponent implements OnInit {
             borderWidth: 2,
             fill: false,
             data: this.getPremiums()
-          },
+          },*/
           {
             type: 'bar',
             label: 'Account Value (Guaranteed)',
@@ -104,16 +105,6 @@ export class ChartComponent implements OnInit {
             data: this.proposalData["Total Premium"]
           },
           {
-            type: 'line',
-            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
-            backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
-            pointRadius: 0,
-            borderWidth: 2,
-            fill: false,
-            data: this.getPremiums()
-          },
-          {
             type: 'bar',
             label: 'Surrender Value (Guaranteed)',
             backgroundColor: 'rgba(100, 100, 255, 1)',
@@ -140,16 +131,6 @@ export class ChartComponent implements OnInit {
             pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
-          },
-          {
-            type: 'line',
-            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
-            backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
-            pointRadius: 0,
-            borderWidth: 2,
-            fill: false,
-            data: this.getPremiums()
           },
           {
             type: 'bar',
@@ -270,9 +251,17 @@ export class ChartComponent implements OnInit {
 
     this.updateView();
     var chartData = {
-      labels: this.proposalData["Age"],
+      labels: this.proposalData["Age"].filter((d, i)=> i % this.ui.step == 0),
       datasets: this.viewDataSet
     };
+
+    this.viewDataSet.forEach(
+      x => {
+        x.data = x.data.filter((d, i)=> i % this.ui.step == 0)
+      }
+    )
+    console.log(chartData);
+
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if (!canvas) return;
     this.ctx = canvas.getContext("2d");
@@ -305,7 +294,7 @@ export class ChartComponent implements OnInit {
         }
       }
     });
-    //this.chart.update(0);
+    this.chart.update(0);
   }
   getInput() {
     return {
