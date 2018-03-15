@@ -4,7 +4,7 @@
   <div>Name: {{customers.owner.firstName}} {{customers.owner.lastName}}</div>
   <div>Age: {{customers.owner.age}}</div>
   <div *ngIf="!customers.owner.firstName" class="warning">
-    Please enter customer info
+    Missing Information
   </div>
   <button mat-raised-button (click)="edit()">Edit</button>
 </mat-card>
