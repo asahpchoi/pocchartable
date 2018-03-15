@@ -8,20 +8,20 @@
     <div style="display: flex;width:100%;">
       <mat-card>
         <mat-card-title>Illustrated Scenario</mat-card-title>
-        <button mat-raised-button (click)="setReturn('LOW');createChart();" [ngClass]="rtn=='LOW'?'hl':''"> Low </button>
-        <button mat-raised-button (click)="setReturn('MEDIUM');createChart();" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
-        <button mat-raised-button (click)="setReturn('HIGH');createChart();" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+        <button mat-raised-button (click)="setReturn('LOW');createChart(0);" [ngClass]="rtn=='LOW'?'hl':''"> Guaranteed </button>
+        <button mat-raised-button (click)="setReturn('MEDIUM');createChart(0);" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
+        <button mat-raised-button (click)="setReturn('HIGH');createChart(0);" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
       </mat-card>
       <mat-card>
         <mat-card-title>View</mat-card-title>
-        <button mat-raised-button (click)="setView('AV');createChart();" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
-        <button mat-raised-button (click)="setView('SV');createChart();" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
-        <button mat-raised-button (click)="setView('DB');createChart();" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
+        <button mat-raised-button (click)="setView('AV');createChart(0);" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
+        <button mat-raised-button (click)="setView('SV');createChart(0);" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
+        <button mat-raised-button (click)="setView('DB');createChart(0);" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
 
       </mat-card>
       <mat-card>
         <mat-card-title>Opitonal Fields</mat-card-title>
-        <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f}} </button>
+        <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f.replace('($rtn)', '')}} </button>
       </mat-card>
     </div>
     <br>
@@ -100,9 +100,9 @@
         </th>
         <th> Topup </th>
         <th> Withdrawal </th>
-        <th *ngFor="let f of OptionalFields">
-          {{f}}
-        </th>
+        <th *ngIf="selectedView=='AV'"> Account Value</th>
+        <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
+        <th *ngIf="selectedView=='DB'"> Death Benefit</th>
       </tr>
       <tr *ngFor="let i of [0, this.sliderValues[0], this.sliderValues[1]]">
         <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
@@ -110,9 +110,9 @@
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
         <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>
-        <td *ngFor="let f of OptionalFields">
-          {{proposalData[f + " (" + rtn + ")"][i] | currency}}
-        </td>
+        <td *ngIf="selectedView=='AV'"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
+        <td *ngIf="selectedView=='SV'"> {{proposalData["Surrender Value (" + rtn + ")"][i]| currency}}</td>
+        <td *ngIf="selectedView=='DB'"> {{proposalData["Death Benefit (" + rtn + ")"][i]| currency}}</td>
       </tr>
     </table>
   </div>
@@ -130,8 +130,11 @@
         </th>
         <th> Topup </th>
         <th> Withdrawal </th>
+        <th *ngFor="let f of fullTableFields">
+          {{f.replace('($rtn)', '')}}
+        </th>
         <th *ngFor="let f of OptionalFields">
-          {{f}}
+          {{f.replace('($rtn)', '')}}
         </th>
       </tr>
 
@@ -142,10 +145,12 @@
         <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
         <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i - 1]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i-1)"></td>
-        <td *ngFor="let f of OptionalFields">
-          {{proposalData[f + " (" + rtn + ")"][i - 1] | currency}}
+        <td *ngFor="let f of fullTableFields">
+          {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
         </td>
-
+        <td *ngFor="let f of OptionalFields">
+          {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
+        </td>
       </tr>
     </table>
 
@@ -155,6 +160,7 @@
 
 
 </mat-card>
+<!--
 <pre>
 {{getInput() | json}}
 </pre>
@@ -168,3 +174,4 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 </div>
+//-->

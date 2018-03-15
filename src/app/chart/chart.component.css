@@ -18,6 +18,7 @@ input {
 
 table, th, td {
   border: 1px solid black;
+  padding: 2px;
 }
 
 table {
@@ -27,7 +28,7 @@ table {
 }
 
 button {
-  width: 150px;
+  width: 250px;
 }
 
 th, td {

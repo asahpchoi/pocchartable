@@ -10,7 +10,10 @@ import { TopupInputComponent } from '../topup-input/topup-input.component';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
-  avaliableFields = ['NAR', 'Surrender Value', 'COI', 'Death Benefit'];
+  avaliableFields =  [`Total Death Benefit ($rtn)`, 'Premium Load',  `COI ($rtn)`, `Loyalty Bonus ($rtn)`,'Total Premium'];
+  fullTableFields = [
+    'Account Value ($rtn)',	'Surrender Value ($rtn)','Death Benefit ($rtn)']
+  ]
   input = {
     topup: [],
     withdrawal: []
@@ -26,7 +29,7 @@ export class ChartComponent implements OnInit {
   av;
 
   maxIndex = 100;
-  rtn = 'MEDIUM';
+  rtn = 'LOW';
   tableData = [];
   fm = 200000;
   plannedPremium = 10000;
@@ -50,6 +53,15 @@ export class ChartComponent implements OnInit {
   };
 
   viewDataSet;
+
+  click(e) {
+    console.log(this)
+    console.log(e)
+    //if(this.getElementAtEvent(e).length != 0) {
+
+      //this.sliderValues[0] = this.getElementAtEvent(e)[0]._index;
+    //}
+  }
 
   updateView() {
     if (this.selectedView == 'AV') {
@@ -194,12 +206,10 @@ export class ChartComponent implements OnInit {
     if (this.selectedView == 'TV') {
       this.setView('AV')
       this.createChart()
-      //this.chart.update()
     }
     if (this.selectedView == 'AV') {
       this.setView('TV')
       this.createChart()
-      //this.chart.update()
     }
 
   }
@@ -303,12 +313,14 @@ export class ChartComponent implements OnInit {
       for (var i = 0; i < result.year; i++) {
         object[index + i] = result.value;
       }
+      this.createChart()
     });
   }
 
   createChart() {
     let fields = this.ds.map(x => x.Name)
 
+    console.log(fields)
 
     fields.forEach(
       f => {
@@ -345,6 +357,7 @@ export class ChartComponent implements OnInit {
       type: 'bar',
       data: chartData,
       options: {
+        onClick: this.click(this),
         responsive: true,
         tooltips: {
           enabled: true
@@ -364,18 +377,7 @@ export class ChartComponent implements OnInit {
         }
       }
     });
-    this.chart.update();
-
-    /*
-        document.getElementById("canvas").onclick = function(evt) {
-          var activePoints = this.chart.getElementsAtEventForMode(evt, 'point', this.chart.options);
-          var firstPoint = activePoints[0];
-          var label = this.chart.data.labels[firstPoint._index];
-          var value = this.chart.data.datasets[firstPoint._datasetIndex].data[firstPoint._index];
-          alert(label + ": " + value);
-        };
-        */
-    //this.toggleOrigin();
+    this.chart.update(0);
   }
   getInput() {
     return {

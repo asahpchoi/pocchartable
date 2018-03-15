@@ -25,11 +25,13 @@ import { NouisliderModule } from 'ng2-nouislider';
 
 import { MatTableModule } from '@angular/material/table';
 import { TopupInputComponent } from './topup-input/topup-input.component';
-
+import { ZoomChartComponent } from './zoom-chart/zoom-chart.component';
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
 const appRoutes: Routes = [
   { path: '', component: ChartComponent },
-  { path: 'customerForm', component: CustomerInputComponent }
+  { path: 'customerForm', component: CustomerInputComponent },
+  { path: 'zoomChart', component: ZoomChartComponent },
 ];
 
 @NgModule({
@@ -38,7 +40,8 @@ const appRoutes: Routes = [
     ChartComponent,
     CustomerInputComponent,
     CustomerFormComponent,
-    TopupInputComponent
+    TopupInputComponent,
+    ZoomChartComponent
   ],
   imports: [
     RouterModule.forRoot(

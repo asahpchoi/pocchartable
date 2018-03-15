@@ -152,11 +152,10 @@ export class PremiumService {
     "channel": "Agency"
   }
 
-  url = 'https://product-engine-service.apps.ext.eas.pcf.manulife.com/product/project?renew=Y';
+  url = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/project';
 
-  constructor(public http: HttpClient) { }
-
-
+  constructor(public http: HttpClient) {
+  }
 
   getData(input) {
     this.jsonData.coverageInfo.faceAmount = input.faceAmt;
