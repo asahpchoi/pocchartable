@@ -10,9 +10,9 @@ import { TopupInputComponent } from '../topup-input/topup-input.component';
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
-  avaliableFields =  [`Total Death Benefit ($rtn)`, 'Premium Load',  `COI ($rtn)`, `Loyalty Bonus ($rtn)`,'Total Premium'];
-  fullTableFields = [    'Account Value ($rtn)',	'Surrender Value ($rtn)','Death Benefit ($rtn)']
-  
+  avaliableFields = [`Total Death Benefit ($rtn)`, 'Premium Load', `COI ($rtn)`, `Loyalty Bonus ($rtn)`, 'Total Premium'];
+  fullTableFields = ['Account Value ($rtn)', 'Surrender Value ($rtn)', 'Death Benefit ($rtn)']
+
 
   input = {
     topup: [],
@@ -53,15 +53,6 @@ export class ChartComponent implements OnInit {
   };
 
   viewDataSet;
-
-  click(e) {
-    console.log(this)
-    console.log(e)
-    //if(this.getElementAtEvent(e).length != 0) {
-
-      //this.sliderValues[0] = this.getElementAtEvent(e)[0]._index;
-    //}
-  }
 
   updateView() {
     if (this.selectedView == 'AV') {
@@ -141,7 +132,6 @@ export class ChartComponent implements OnInit {
         ];
     }
     if (this.selectedView == 'DB') {
-      //console.log(this.proposalData)
       this.viewDataSet =
         [
           {
@@ -184,35 +174,14 @@ export class ChartComponent implements OnInit {
     this.loadData();
   }
 
-  constructor(ps: PremiumService,
+  constructor(
+    ps: PremiumService,
     public dialog: MatDialog
   ) {
     this.ps = ps;
   }
 
-  toggleOrigin() {
-    /*
-    this.chart.config.data.datasets
-      .forEach(
-      (e, i) => {
-        if (e.label.indexOf('Origin') > -1) {
-          this.chart.getDatasetMeta(i).hidden = !this.chart.getDatasetMeta(i).hidden;
-          //console.log(i)
-        }
-      }
-      );
-      */
-    console.log('Toogle', this.selectedView)
-    if (this.selectedView == 'TV') {
-      this.setView('AV')
-      this.createChart()
-    }
-    if (this.selectedView == 'AV') {
-      this.setView('TV')
-      this.createChart()
-    }
 
-  }
 
   showSlider() {
     if (!this.chart) return;
@@ -237,8 +206,7 @@ export class ChartComponent implements OnInit {
   }
   deleteRider(index) {
     console.log(this.riders)
-    this.riders.splice(index,1);
-    //this.riders = [];
+    this.riders.splice(index, 1);
   }
   loadData() {
     this.loading = true;
@@ -258,11 +226,9 @@ export class ChartComponent implements OnInit {
   }
   setReturn(rtn) {
     this.rtn = rtn;
-    //this.createChart();
   }
   setView(view) {
     this.selectedView = view;
-    //this.createChart();
   }
   updateOptionalFields(fieldName) {
     if (this.hasOptionalFields(fieldName)) {
@@ -271,7 +237,6 @@ export class ChartComponent implements OnInit {
     else {
       this.OptionalFields.push(fieldName);
     }
-
   }
 
   hasOptionalFields(fieldName) {
@@ -286,11 +251,8 @@ export class ChartComponent implements OnInit {
   getPremiums() {
 
     let premiums = this.proposalData["Total Premium"]
-
     let topup = this.getInput()
-
     premiums = premiums.map((p, i) => {
-
       return p + topup.topups.filter(x => x.year < i + 1).reduce(
         (prev, element) => {
           return prev + element.amount;
@@ -319,9 +281,6 @@ export class ChartComponent implements OnInit {
 
   createChart() {
     let fields = this.ds.map(x => x.Name)
-
-    console.log(fields)
-
     fields.forEach(
       f => {
         this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
@@ -357,7 +316,6 @@ export class ChartComponent implements OnInit {
       type: 'bar',
       data: chartData,
       options: {
-        onClick: this.click(this),
         responsive: true,
         tooltips: {
           enabled: true
@@ -404,10 +362,5 @@ export class ChartComponent implements OnInit {
   }
   ngOnInit() {
     this.loadData();
-
   }
-
-
-
-
 }

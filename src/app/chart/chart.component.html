@@ -64,10 +64,7 @@
 
       </mat-card>
     </div>
-<br>
-
-
-    <mat-button-toggle (click)="toggleOrigin()">Hide Original Values</mat-button-toggle>
+    <br>
     <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
     <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
     <button mat-raised-button (click)="addRider()">Add Rider</button>
@@ -83,7 +80,7 @@
 
     <nouislider id="slider" style="" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="sliderValues"></nouislider>
     {{value}}
-    <canvas id="canvas" (mousedown)="toggleOrigin()">
+    <canvas id="canvas">
     </canvas>
 
     <br>
@@ -119,7 +116,7 @@
   <div style="width:100%;" [ngStyle]="{'display':!showTable?'none':'block'}">
     <table>
       <tr>
-        <th  class="sticky">
+        <th class="sticky">
           Year/Age
         </th>
         <th>
@@ -140,7 +137,7 @@
 
       <tr *ngFor="let i of getShowTable()">
 
-        <td  class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
+        <td class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
         <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
         <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
@@ -172,6 +169,5 @@
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-</div>
+</mat-table></div>
 //-->
