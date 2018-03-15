@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PremiumService } from '../premium.service';
 import { ProductService } from '../product.service';
 import { CustomerService } from '../customer.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-product-input',
@@ -12,11 +13,14 @@ export class ProductInputComponent implements OnInit {
   productInput;
   premiumSvc;
   productSvc;
+  customerSvc;
 
   constructor(
     premiumSvc: PremiumService,
     productSvc: ProductService,
-    customerSvc: CustomerService
+    customerSvc: CustomerService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.premiumSvc = premiumSvc;
     this.productSvc = productSvc;
@@ -35,9 +39,10 @@ export class ProductInputComponent implements OnInit {
   update() {
     this.productSvc.productInput = this.productInput;
     this.loadData();
+    this.router.navigate(['/chart']);
   }
   addRider() {
-    this.productSvc.riders.push(
+    this.productInput.riders.push(
       {
         productId: 'ADD03',
         fm: 800000,
@@ -47,7 +52,7 @@ export class ProductInputComponent implements OnInit {
     );
   }
   deleteRider(index) {
-    this.productSvc.riders.splice(index, 1);
+    this.productInput.riders.splice(index, 1);
   }
 
   loadData() {
@@ -59,6 +64,7 @@ export class ProductInputComponent implements OnInit {
         riders: this.productInput.riders
       }
     );
+
   }
   ngOnInit() {
       this.loadData();

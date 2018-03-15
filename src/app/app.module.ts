@@ -30,14 +30,15 @@ import { ZoomChartComponent } from './zoom-chart/zoom-chart.component';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { ProductInputComponent } from './product-input/product-input.component';
 import { CustomerService } from './customer.service';
+import { CustomerViewComponent } from './customer-view/customer-view.component';
 
 
 
 const appRoutes: Routes = [
-  { path: '', component: ChartComponent },
+  { path: 'chart', component: ChartComponent },
   { path: 'customerForm', component: CustomerInputComponent },
   { path: 'zoomChart', component: ZoomChartComponent },
-  { path: 'productInput', component: ProductInputComponent }
+  { path: '', component: ProductInputComponent }
 ];
 
 @NgModule({
@@ -48,7 +49,8 @@ const appRoutes: Routes = [
     CustomerFormComponent,
     TopupInputComponent,
     ZoomChartComponent,
-    ProductInputComponent
+    ProductInputComponent,
+    CustomerViewComponent
   ],
   imports: [
     RouterModule.forRoot(
