@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class PremiumService {
@@ -154,6 +156,8 @@ export class PremiumService {
     "channel": "Agency"
   }
 
+  t;
+
   url = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/project';
 
   constructor(public http: HttpClient) {
@@ -178,11 +182,14 @@ export class PremiumService {
 
     this.jsonData.riders.coverageInfo = riders;
 
+    console.log('http call');
     this.http.post(
       this.url, this.jsonData
-    ).subscribe(t=> {
-      console.log(t);
-      this._subject.next(t)
+    ).subscribe(t => {
+      if (this.t != t) {
+        this._subject.next(t)
+        this.t = t
+      }
     });
   }
 

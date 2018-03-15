@@ -57,22 +57,20 @@
         <th>
           Premium Paid
         </th>
-        <th>
-          Account Value
-        </th>
+
         <th> Topup </th>
         <th> Withdrawal </th>
-        <th *ngIf="selectedView=='AV'"> Account Value</th>
+        <th *ngIf="selectedView=='AV' || selectedView=='SV'"> Account Value</th>
         <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
         <th *ngIf="selectedView=='DB'"> Death Benefit</th>
       </tr>
       <tr *ngFor="let i of [0, ui.sliderValues[0], ui.sliderValues[1]]">
         <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
         <td>{{proposalData["Total Premium"][i]| currency}}</td>
-        <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
+
         <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>
-        <td *ngIf="selectedView=='AV'"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
+        <td *ngIf="selectedView=='AV' || selectedView=='SV'"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
         <td *ngIf="selectedView=='SV'"> {{proposalData["Surrender Value (" + rtn + ")"][i]| currency}}</td>
         <td *ngIf="selectedView=='DB'"> {{proposalData["Death Benefit (" + rtn + ")"][i]| currency}}</td>
       </tr>
@@ -87,9 +85,7 @@
         <th>
           Premium Paid
         </th>
-        <th>
-          Account Value
-        </th>
+
         <th> Topup </th>
         <th> Withdrawal </th>
         <th *ngFor="let f of fullTableFields">
@@ -104,7 +100,7 @@
 
         <td class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
         <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
-        <td>{{proposalData["Account Value (" + rtn + ")"][i -1] | currency}}</td>
+ 
         <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
         <td><input matInput [(ngModel)]="input.withdrawal[i - 1]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i-1)"></td>
         <td *ngFor="let f of fullTableFields">

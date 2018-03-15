@@ -47,6 +47,7 @@ export class ChartComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.premiumSvc = premiumSvc;
+    this.loadData();
   }
 
   updateView() {
@@ -178,12 +179,14 @@ export class ChartComponent implements OnInit {
   }
   loadData() {
     this.ui.isLoading = true;
-    this.premiumSvc.getData().subscribe(data => {
+    this.premiumSvc.getData().throttleTime(500).subscribe(data => {
+      console.log('data', data)
       if (data) {
+
         this.ui.isLoading = false;
 
         this.ds = data.projections[0].columns;
-        this.createChart();
+        this.createChart(0);
       }
     });
 
@@ -239,11 +242,12 @@ export class ChartComponent implements OnInit {
       for (var i = 0; i < result.year; i++) {
         object[index + i] = result.value;
       }
-      this.createChart()
+      this.createChart(0)
     });
   }
 
-  createChart() {
+  createChart(delay) {
+    console.log('create chart');
     let fields = this.ds.map(x => x.Name)
     fields.forEach(
       f => {
@@ -274,7 +278,9 @@ export class ChartComponent implements OnInit {
     this.ctx = canvas.getContext("2d");
     if (this.chart) {
       this.chart.destroy();
+      this.chart = null;
     }
+
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: chartData,
@@ -288,6 +294,7 @@ export class ChartComponent implements OnInit {
             {
               stacked: true
             }
+
           ],
           yAxes: [{
             stacked: false,
@@ -298,7 +305,7 @@ export class ChartComponent implements OnInit {
         }
       }
     });
-    this.chart.update(0);
+    //this.chart.update(0);
   }
   getInput() {
     return {
@@ -324,6 +331,6 @@ export class ChartComponent implements OnInit {
     }
   }
   ngOnInit() {
-    this.loadData();
+
   }
 }
