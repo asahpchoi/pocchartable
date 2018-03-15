@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class PremiumService {
+  private _subject = new BehaviorSubject(null);
 
   riderSchema = {
     "rcc": "N",
@@ -88,7 +90,7 @@ export class PremiumService {
     "policyYearDate": "20180305070000",
     "policyExcludeSOS": "N",
     "language": "en_vn",
-    "enableDebug": true,
+    "enableDebug": false,
     "displayEOYOnly": false,
     "coverageInfo": {
       "startAnnuityAge": "0",
@@ -157,7 +159,7 @@ export class PremiumService {
   constructor(public http: HttpClient) {
   }
 
-  getData(input) {
+  submit(input) {
     this.jsonData.coverageInfo.faceAmount = input.faceAmt;
     this.jsonData.coverageInfo.plannedPremium = input.plannedPremium;
     this.jsonData.coverageInfo.parties.party.insuredAge = input.age;
@@ -170,17 +172,22 @@ export class PremiumService {
         rider.product.productKey.primaryProduct.productPK.productId = r.productId;
         rider.occupation = r.occupation;
 
-        console.log(rider);
         return rider;
       }
     )
 
-    console.log(riders)
-
     this.jsonData.riders.coverageInfo = riders;
-    return this.http.post(
+
+    this.http.post(
       this.url, this.jsonData
-    );
+    ).subscribe(t=> {
+      console.log(t);
+      this._subject.next(t)
+    });
+  }
+
+  getData() {
+    return this._subject;
   }
 
 

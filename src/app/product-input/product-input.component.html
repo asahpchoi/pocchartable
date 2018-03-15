@@ -1,0 +1,39 @@
+<div style="display: flex;width:100%;">
+  <mat-card>
+    <mat-card-title>Base Plan</mat-card-title>
+    <mat-form-field>
+      <input matInput placeholder="Face Amount" [(ngModel)]="productInput.fm" type=number>
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Planned Premium" [(ngModel)]="productInput.plannedPremium" type=number>
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Insured Age" [(ngModel)]="productInput.age">
+    </mat-form-field>
+  </mat-card>
+  <mat-card *ngFor="let rider of productInput.riders;let i = index; ">
+    <mat-card-title>Rider</mat-card-title>
+    <mat-form-field>
+      <input matInput placeholder="product id" [(ngModel)]="rider.productId">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Face Amount" [(ngModel)]="rider.fm" type=number>
+      <span matPrefix>$&nbsp;</span>
+      <span matSuffix>.00</span>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="occupation" [(ngModel)]="rider.occupation">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Insured Age" readonly [(ngModel)]="rider.age">
+    </mat-form-field>
+    <button mat-raised-button (click)="deleteRider(i)">Delete</button>
+
+  </mat-card>
+</div>
+<button mat-raised-button (click)="addRider()">Add Rider</button>
+<button mat-raised-button (click)="update()">update</button>

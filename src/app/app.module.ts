@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { ChartComponent } from './chart/chart.component';
 import { PremiumService } from './premium.service';
+import { ProductService } from './product.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
@@ -27,11 +28,16 @@ import { MatTableModule } from '@angular/material/table';
 import { TopupInputComponent } from './topup-input/topup-input.component';
 import { ZoomChartComponent } from './zoom-chart/zoom-chart.component';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
+import { ProductInputComponent } from './product-input/product-input.component';
+import { CustomerService } from './customer.service';
+
+
 
 const appRoutes: Routes = [
   { path: '', component: ChartComponent },
   { path: 'customerForm', component: CustomerInputComponent },
   { path: 'zoomChart', component: ZoomChartComponent },
+  { path: 'productInput', component: ProductInputComponent }
 ];
 
 @NgModule({
@@ -41,7 +47,8 @@ const appRoutes: Routes = [
     CustomerInputComponent,
     CustomerFormComponent,
     TopupInputComponent,
-    ZoomChartComponent
+    ZoomChartComponent,
+    ProductInputComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -59,7 +66,7 @@ const appRoutes: Routes = [
     MatTableModule,
     MatDialogModule
   ],
-  providers: [PremiumService],
+  providers: [PremiumService, ProductService, CustomerService],
   bootstrap: [AppComponent],
   entryComponents: [
     TopupInputComponent

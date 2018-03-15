@@ -18,41 +18,36 @@ export class ChartComponent implements OnInit {
     topup: [],
     withdrawal: []
   }
-  sliderValues = [0, 70];
-  chart;
-  raw;
+  ui = {
+    sliderValues: [0, 70],
+    isLoading : true
+  }
 
+  chart;
   ctx: CanvasRenderingContext2D;
-  a;
-  p;
-  sv;
-  av;
 
   maxIndex = 100;
   rtn = 'LOW';
   tableData = [];
-  fm = 200000;
-  plannedPremium = 10000;
-  age = 30;
-  riders = [];
-
-  ps;
-  y;
-  loading;
   ds;
   showTable = false;
-
-  displayedColumns;
-  dataSource;
   defaultColumns = ['Year', 'Age', "Account Value (" + this.rtn + ")"]
   selectedView = 'AV';
 
+  premiumSvc;
 
   OptionalFields = [];
   proposalData = {
   };
 
   viewDataSet;
+
+  constructor(
+    premiumSvc: PremiumService,
+    public dialog: MatDialog
+  ) {
+    this.premiumSvc = premiumSvc;
+  }
 
   updateView() {
     if (this.selectedView == 'AV') {
@@ -170,19 +165,6 @@ export class ChartComponent implements OnInit {
         ];
     }
   }
-  update() {
-    this.loadData();
-  }
-
-  constructor(
-    ps: PremiumService,
-    public dialog: MatDialog
-  ) {
-    this.ps = ps;
-  }
-
-
-
   showSlider() {
     if (!this.chart) return;
 
@@ -194,35 +176,17 @@ export class ChartComponent implements OnInit {
     el.style.left = xAxis.left + 20 + 'px';
     el.style.width = xAxis.width + 'px';
   }
-  addRider() {
-    this.riders.push(
-      {
-        productId: 'ADD03',
-        fm: 800000,
-        age: 27,
-        occupation: 1
-      }
-    );
-  }
-  deleteRider(index) {
-    console.log(this.riders)
-    this.riders.splice(index, 1);
-  }
   loadData() {
-    this.loading = true;
-    this.ps.getData(
-      {
-        faceAmt: this.fm,
-        age: this.age,
-        plannedPremium: this.plannedPremium,
-        riders: this.riders
+    this.ui.isLoading = true;
+    this.premiumSvc.getData().subscribe(data => {
+      if (data) {
+        this.ui.isLoading = false;
+
+        this.ds = data.projections[0].columns;
+        this.createChart();
       }
-    ).subscribe(data => {
-      this.loading = false;
-      this.raw = data;
-      this.ds = data.projections[0].columns;
-      this.createChart();
     });
+
   }
   setReturn(rtn) {
     this.rtn = rtn;
@@ -245,7 +209,7 @@ export class ChartComponent implements OnInit {
 
   getShowTable() {
     if (this.proposalData['Year'])
-      return this.proposalData['Year'].filter(i => i <= this.sliderValues[1] + 1);
+      return this.proposalData['Year'].filter(i => i <= this.ui.sliderValues[1] + 1);
   }
 
   getPremiums() {
@@ -297,10 +261,8 @@ export class ChartComponent implements OnInit {
         this.tableData.push(row)
       }
     )
-    this.displayedColumns = this.defaultColumns;
-    this.dataSource = this.tableData;
     this.maxIndex = this.proposalData["Age"].length - 1;
-    this.sliderValues = [0, this.maxIndex];
+    this.ui.sliderValues = [0, this.maxIndex];
 
     this.updateView();
     var chartData = {
@@ -308,6 +270,7 @@ export class ChartComponent implements OnInit {
       datasets: this.viewDataSet
     };
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
+    if (!canvas) return;
     this.ctx = canvas.getContext("2d");
     if (this.chart) {
       this.chart.destroy();

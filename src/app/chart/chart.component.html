@@ -25,60 +25,21 @@
       </mat-card>
     </div>
     <br>
-    <div style="display: flex;width:100%;">
-      <mat-card>
-        <mat-card-title>Base Plan</mat-card-title>
-        <mat-form-field>
-          <input matInput placeholder="Face Amount" [(ngModel)]="fm" type=number>
-          <span matPrefix>$&nbsp;</span>
-          <span matSuffix>.00</span>
 
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Planned Premium" [(ngModel)]="plannedPremium" type=number>
-          <span matPrefix>$&nbsp;</span>
-          <span matSuffix>.00</span>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Insured Age" [(ngModel)]="age">
-        </mat-form-field>
-
-      </mat-card>
-      <mat-card *ngFor="let rider of riders;let i = index; ">
-        <mat-card-title>Rider</mat-card-title>
-        <mat-form-field>
-          <input matInput placeholder="product id" [(ngModel)]="rider.productId">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Face Amount" [(ngModel)]="rider.fm" type=number>
-          <span matPrefix>$&nbsp;</span>
-          <span matSuffix>.00</span>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="occupation" [(ngModel)]="rider.occupation">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput placeholder="Insured Age" [(ngModel)]="rider.age">
-        </mat-form-field>
-        <button mat-raised-button (click)="deleteRider(i)">Delete</button>
-
-      </mat-card>
-    </div>
     <br>
     <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
     <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
-    <button mat-raised-button (click)="addRider()">Add Rider</button>
-    <button mat-raised-button (click)="update()">update</button>
+
   </mat-expansion-panel>
 </mat-accordion>
 <mat-card>
-  <div *ngIf="loading">
+  <div *ngIf="ui.isLoading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
   <div style="width:100%;" [ngStyle]="{'display':showTable?'none':'block'}">
 
 
-    <nouislider id="slider" style="" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="sliderValues"></nouislider>
+    <nouislider id="slider" style="" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="ui.sliderValues"></nouislider>
     {{value}}
     <canvas id="canvas">
     </canvas>
@@ -101,7 +62,7 @@
         <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
         <th *ngIf="selectedView=='DB'"> Death Benefit</th>
       </tr>
-      <tr *ngFor="let i of [0, this.sliderValues[0], this.sliderValues[1]]">
+      <tr *ngFor="let i of [0, ui.sliderValues[0], ui.sliderValues[1]]">
         <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
         <td>{{proposalData["Total Premium"][i]| currency}}</td>
         <td>{{proposalData["Account Value (" + rtn + ")"][i] | currency}}</td>
@@ -152,22 +113,4 @@
     </table>
 
   </div>
-
-
-
-
 </mat-card>
-<!--
-<pre>
-{{getInput() | json}}
-</pre>
-<div class="example-container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource">
-    <ng-container matColumnDef="{{c}}" *ngFor="let c of displayedColumns">
-      <mat-header-cell *matHeaderCellDef> {{c}} </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element[c]}} </mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-</mat-table></div>
-//-->

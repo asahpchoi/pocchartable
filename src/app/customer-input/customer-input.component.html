@@ -2,7 +2,7 @@
   <mat-grid-tile>
     <mat-card class="form">
       <mat-card-title>Owner</mat-card-title>
-      <mat-checkbox [(ngModel)]="customers.owner.isInsured">Same as Insured</mat-checkbox>
+      <mat-checkbox [(ngModel)]="customers.owner.isInsured" (click)="changeIsInsured()">Same as Insured</mat-checkbox>
       <app-customer-form [(customerObject)]="customers.owner" [(customerMaster)]="customerMaster"></app-customer-form>
     </mat-card>
   </mat-grid-tile>
@@ -20,7 +20,8 @@
   </mat-grid-tile>
 </mat-grid-list>
 
-<button mat-raised-button (click)="addDependent()">ADD</button>
+<button mat-raised-button (click)="addDependent()">add dependent</button>
+<button mat-raised-button (click)="save()">save</button>
 
 <h3> Data </h3>
 <div style="width: 100%; overflow: hidden;">

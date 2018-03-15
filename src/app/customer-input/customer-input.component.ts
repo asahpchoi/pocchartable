@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CustomerService } from '../customer.service';
 
 
 @Component({
@@ -7,12 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./customer-input.component.css']
 })
 export class CustomerInputComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  customerSvc;
 
   customerMaster =  {
     "customerId": "2",
@@ -207,11 +203,26 @@ export class CustomerInputComponent implements OnInit {
     dependents:[]
   }
 
+  constructor(
+    customerSvc: CustomerService
+  ) {
+    this.customerSvc = customerSvc;
+    if(this.customerSvc.customers) {
+      this.customers = this.customerSvc.customers;
+    }
+  }
+
+  ngOnInit() {
+  }
+
+  save() {
+    this.customerSvc.customers = this.customers;
+  }
+
   addDependent() {
     this.customers.dependents.push(
       {}
     );
-
   }
 
   getBindedId() {
@@ -222,5 +233,12 @@ export class CustomerInputComponent implements OnInit {
       depends.push(this.customers.insured.id);
     }
     return depends;
+  }
+
+  changeIsInsured() {
+      this.customers.insured = {
+        role: 'insured',
+        id: null
+      }
   }
 }
