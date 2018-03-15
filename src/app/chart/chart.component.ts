@@ -11,9 +11,9 @@ import { TopupInputComponent } from '../topup-input/topup-input.component';
 })
 export class ChartComponent implements OnInit {
   avaliableFields =  [`Total Death Benefit ($rtn)`, 'Premium Load',  `COI ($rtn)`, `Loyalty Bonus ($rtn)`,'Total Premium'];
-  fullTableFields = [
-    'Account Value ($rtn)',	'Surrender Value ($rtn)','Death Benefit ($rtn)']
-  ]
+  fullTableFields = [    'Account Value ($rtn)',	'Surrender Value ($rtn)','Death Benefit ($rtn)']
+  
+
   input = {
     topup: [],
     withdrawal: []
