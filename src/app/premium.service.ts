@@ -8,52 +8,6 @@ import 'rxjs/add/operator/map';
 export class PremiumService {
   private _subject = new BehaviorSubject(null);
 
-  riderSchema = {
-    "rcc": "N",
-    "occupation": "1",
-    "product": {
-      "productKey": {
-        "valueDate": "20180305070000",
-        "location": "VN",
-        "basicProduct": {
-          "productPK": {
-            "productId": "--"
-          }
-        },
-        "associateProduct": {
-          "productPK": {
-            "productId": "--"
-          }
-        },
-        "primaryProduct": {
-          "productPK": {
-            "productId": "ADD03"
-          }
-        }
-      }
-    },
-    "parties": {
-      "party": {
-        "insuredAge": 29,
-        "type": "BASIC",
-        "smokingStatus": "NS",
-        "insuredSex": "M",
-        "insuredId": "PROJ, RIDER(ADD 800K)",
-        "birthDate": "19890305070000"
-      }
-    },
-    "faceAmount": 800000.00, //rider face amount
-    "extraRating": {
-      "tempPercentage": 1.00,
-      "percentageExtra": 1.00
-    },
-    "currency": {
-      "currencyPK": {
-        "currencyId": "VND"
-      }
-    }
-  };
-
   jsonData = {
     "channel": "Agency",
     "coverageInfo": {
@@ -70,7 +24,7 @@ export class PremiumService {
         "tempPercentageDuration": 0,
         "tempPercentage": 1.00
       },
-      "faceAmount": 500000.00,
+      "faceAmount": 800000.00,
       "initialDumpIn": 0.00,
       "noOfInstallmentYear": 0,
       "options": {
@@ -82,10 +36,10 @@ export class PremiumService {
       },
       "parties": {
         "party": {
-          "birthDate": "19800101070000",
-          "insuredAge": 38,
-          "insuredId": "-VALID, top up validation test",
-          "insuredSex": "F",
+          "birthDate": "19890305070000",
+          "insuredAge": 29,
+          "insuredId": "PROJ, RIDER(ADD 800K)",
+          "insuredSex": "M",
           "smokingStatus": "NS",
           "type": "BASIC"
         }
@@ -108,28 +62,29 @@ export class PremiumService {
             }
           },
           "location": "VN",
-          "valueDate": "20180102070000"
+          "valueDate": "20180305070000"
         }
       },
-      "plannedPremium": 8334,
+      "plannedPremium": 10000,
       "prepayYear": 0,
       "startAnnuityAge": "0"
     },
     "displayEOYOnly": false,
     "enableDebug": true,
-    "language": "en_vn",
+    "language": "en",
     "policyExcludeSOS": "N",
-    "policyYearDate": "20180102070000",
-    "reference": "PROP-000000079",
+    "policyYearDate": "20180305070000",
+    "reference": "PROP-000000002",
     "sortRider": "N",
     "startDebugYear": 0,
-    "stopDebugYear": 10,
+    "stopDebugYear": 5,
     "owner": {
-      "insuredIsOwner": false,
-      "ownerAge": 38,
-      "ownerDOB": "19800101070000",
-      "ownerId": "Owner Name XXX",
-      "ownerSex": "F"
+      "insuredIsOwner": true,
+      "relationToInsured": "01",
+      "ownerAge": 29,
+      "ownerDOB": "19890305070000",
+      "ownerId": "Test Projection Case 1",
+      "ownerSex": "M"
     },
     "fundActivities": {
       "fundActivity": []
@@ -138,17 +93,104 @@ export class PremiumService {
       "fundRecord": [{
         "allocation": 100,
         "code": "UL007",
-        "returnRateHigh": 7.0000,
+        "returnRateHigh": 7.5000,
         "returnRateMedium": 5.0000,
         "returnRate": 4.0000
       }]
     },
     "dependents": [],
     "riders": {
-      "coverageInfo": []
+      "coverageInfo": [{
+            "currency": {
+                "currencyPK": {
+                    "currencyId": "VND"
+                }
+            },
+            "extraRating": {
+                "percentageExtra": 1.00,
+                "tempPercentage": 1.00
+            },
+            "faceAmount": 800000.00,
+            "parties": {
+                "party": {
+                    "insuredId": "PROJ, RIDER(ADD 800K)",
+                    "insuredSex": "M",
+                    "smokingStatus": "NS",
+                    "type": "BASIC",
+                    "insuredAge": 29
+                }
+            },
+            "product": {
+                "productKey": {
+                    "primaryProduct": {
+                        "productPK": {
+                            "productId": "ADD03"
+                        }
+                    },
+                    "associateProduct": {
+                        "productPK": {
+                            "productId": "--"
+                        }
+                    },
+                    "basicProduct": {
+                        "productPK": {
+                            "productId": "--"
+                        }
+                    },
+                    "location": "VN",
+                    "valueDate": "20180305070000"
+                }
+            },
+            "occupation": "1",
+            "rcc": "N"
+        }]
     },
     "watchPoints": []
   }
+  riderSchema = {
+    "currency": {
+      "currencyPK": {
+        "currencyId": "VND"
+      }
+    },
+    "extraRating": {
+      "percentageExtra": 1.00,
+      "tempPercentage": 1.00
+    },
+    "faceAmount": 800000.00,
+    "parties": {
+      "party": {
+        "insuredId": "PROJ, RIDER(ADD 800K)",
+        "insuredSex": "M",
+        "smokingStatus": "NS",
+        "type": "BASIC",
+        "insuredAge": 29
+      }
+    },
+    "product": {
+      "productKey": {
+        "primaryProduct": {
+          "productPK": {
+            "productId": "ADD03"
+          }
+        },
+        "associateProduct": {
+          "productPK": {
+            "productId": "--"
+          }
+        },
+        "basicProduct": {
+          "productPK": {
+            "productId": "--"
+          }
+        },
+        "location": "VN",
+        "valueDate": "20180305070000"
+      }
+    },
+    "occupation": "1",
+    "rcc": "N"
+  };
 
 
   t;
@@ -168,12 +210,12 @@ export class PremiumService {
   private submit() {
 
     console.log(this.jsonData);
-
+    //this.jsonData = this.sampleJSON;
     this.http.post(
       this.url, this.jsonData
     ).subscribe(t => {
-//        console.log('return', t)
-        this._subject.next(t)
+      console.log('return', t)
+      this._subject.next(t)
     });
   }
 
@@ -188,12 +230,12 @@ export class PremiumService {
         rider.faceAmount = r.fm;
         rider.parties.party.insuredAge = r.age;
         rider.product.productKey.primaryProduct.productPK.productId = r.productId;
-        rider.occupation = r.occupation;
+        rider.occupation = "" + r.occupation;
 
         return rider;
       }
     )
-
+    console.log("R", riders, this.jsonData.riders.coverageInfo);
     this.jsonData.riders.coverageInfo = riders;
     this.submit();
   }
