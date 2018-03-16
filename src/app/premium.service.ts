@@ -132,13 +132,7 @@ export class PremiumService {
       "ownerSex": "F"
     },
     "fundActivities": {
-      "fundActivity": [{
-        "attainAge": 42,
-        "withdrawal": 300000.00
-      }, {
-        "attainAge": 48,
-        "topupPremium": 1000000.00
-      }]
+      "fundActivity": []
     },
     "funds": {
       "fundRecord": [{
@@ -155,113 +149,6 @@ export class PremiumService {
     },
     "watchPoints": []
   }
-
-
-/*
-  jsonData = {
-    "watchPoints": [],
-    "riders": {
-      "coverageInfo": []
-    },
-    "dependents": [{
-      "relationToInsured": "03",
-      "birthdate": "20110308070000",
-      "dependentSex": "Male",
-      "dependentName": "PROJ, RIDER(ADD 800K) DEPEN",
-      "dependentAge": 7
-    }],
-    "funds": {
-      "fundRecord": [{
-        "returnRate": 4.0000,
-        "returnRateMedium": 5.0000,
-        "returnRateHigh": 7.5000,
-        "code": "UL007",
-        "allocation": 100
-      }]
-    },
-    "fundActivities": {
-      "fundActivity": []
-    },
-    "owner": {
-      "ownerSex": "M",
-      "ownerId": "Test Projection Case 1",
-      "ownerDOB": "19890305070000",
-      "ownerAge": 29,
-      "insuredIsOwner": false
-    },
-    "stopDebugYear": 10,
-    "startDebugYear": 0,
-    "sortRider": "N",
-    "reference": "PROP-000000002",
-    "policyYearDate": "20180305070000",
-    "policyExcludeSOS": "N",
-    "language": "en_vn",
-    "enableDebug": false,
-    "displayEOYOnly": false,
-    "coverageInfo": {
-      "startAnnuityAge": "0",
-      "prepayYear": 0,
-      "plannedPremium": 10000, //*
-      "product": {
-        "productKey": {
-          "valueDate": "20180305070000",
-          "location": "VN",
-          "basicProduct": {
-            "productPK": {
-              "productId": "--"
-            }
-          },
-          "associateProduct": {
-            "productPK": {
-              "productId": "--"
-            }
-          },
-          "primaryProduct": {
-            "productPK": {
-              "productId": "UL007"
-            }
-          }
-        }
-      },
-      "parties": {
-        "party": {
-          "type": "BASIC",
-          "smokingStatus": "NS",
-          "insuredSex": "M",
-          "insuredId": "PROJ, RIDER(ADD 800K)",
-          "insuredAge": 29, //*
-          "birthDate": "19890305070000"
-        }
-      },
-      "options": {
-        "paymentMode": "A",
-        "fundWithdrawalsByPercentage": "N",
-        "dbLevel": "Increase",
-        "calculateSinglePremiumBand": "N",
-        "billingMethod": "DirectBilling"
-      },
-      "noOfInstallmentYear": 0,
-      "initialDumpIn": 0.00,
-      "faceAmount": 800000.00, //*
-      "extraRating": {
-        "tempPercentage": 1.00,
-        "tempPercentageDuration": 0,
-        "tempFlat": 0.00,
-        "tempFlatDuration": 0,
-        "percentageExtra": 1.00,
-        "flatExtra": 0.00
-      },
-      "currency": {
-        "currencyPK": {
-          "currencyId": "VND"
-        }
-      }
-    },
-    "channel": "Agency"
-  }
-
-
-*/
 
 
   t;
