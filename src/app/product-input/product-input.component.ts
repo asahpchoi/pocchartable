@@ -56,7 +56,7 @@ export class ProductInputComponent implements OnInit {
   }
 
   loadData() {
-    this.premiumSvc.submit(
+    this.premiumSvc.submitBasic(
       {
         faceAmt: this.productInput.fm,
         age: this.productInput.age,

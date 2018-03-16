@@ -20,7 +20,7 @@ export class ChartComponent implements OnInit {
   }
   ui = {
     sliderValues: [0, 70],
-    isLoading : true,
+    isLoading: true,
     step: 1
   }
 
@@ -51,13 +51,45 @@ export class ChartComponent implements OnInit {
     this.loadData();
   }
 
+  submitfundActivity() {
+    //console.log(this.input)
+
+    let fundActs =
+      [
+        ...this.input.topup.map((v, i) => {
+          return {
+            "attainAge": this.proposalData["Age"][i],
+            "topupPremium": v
+          }
+        }
+        ),
+        ...this.input.withdrawal.map((v, i) => {
+          return {
+            "attainAge": this.proposalData["Age"][i],
+            "withdrawal": v
+          }
+        }
+        )
+      ];
+
+
+      this.premiumSvc.submitFundActivities(fundActs.filter(x=>x));
+      this.createChart(0);
+    /*
+    "attainAge": 42,
+    "withdrawal": 300000.00
+  }, {
+    "attainAge": 48,
+    "topupPremium": 1000000.00
+    */
+  }
   updateView() {
     if (this.selectedView == 'AV') {
       this.viewDataSet =
         [
           {
             type: 'line',
-            label: 'Origin Premium Paid',
+            label: 'Total Premium',
             backgroundColor: '#FF0000',
             borderColor: '#FF0000',
             borderDash: [5, 5],
@@ -66,16 +98,6 @@ export class ChartComponent implements OnInit {
             fill: false,
             data: this.proposalData["Total Premium"]
           },
-          /*{
-            type: 'line',
-            label: 'Cumulative Premium Paid (with Topup and withdrawal)',
-            backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
-            pointRadius: 0,
-            borderWidth: 2,
-            fill: false,
-            data: this.getPremiums()
-          },*/
           {
             type: 'bar',
             label: 'Account Value (Guaranteed)',
@@ -161,11 +183,9 @@ export class ChartComponent implements OnInit {
   loadData() {
     this.ui.isLoading = true;
     this.premiumSvc.getData().throttleTime(500).subscribe(data => {
-      console.log('data', data)
+      //console.log('data', data)
       if (data) {
-
         this.ui.isLoading = false;
-
         this.ds = data.projections[0].columns;
         this.createChart(0);
       }
@@ -223,12 +243,13 @@ export class ChartComponent implements OnInit {
       for (var i = 0; i < result.year; i++) {
         object[index + i] = result.value;
       }
+      this.submitfundActivity();
       this.createChart(0)
     });
   }
 
   createChart(delay) {
-    console.log('create chart');
+    //('create chart');
     let fields = this.ds.map(x => x.Name)
     fields.forEach(
       f => {
@@ -248,19 +269,19 @@ export class ChartComponent implements OnInit {
     )
     this.maxIndex = this.proposalData["Age"].length - 1;
     this.ui.sliderValues = [0, this.maxIndex];
-
+console.log("propose data", this.proposalData);
     this.updateView();
     var chartData = {
-      labels: this.proposalData["Age"].filter((d, i)=> i % this.ui.step == 0),
+      labels: this.proposalData["Age"].filter((d, i) => i % this.ui.step == 0),
       datasets: this.viewDataSet
     };
 
     this.viewDataSet.forEach(
       x => {
-        x.data = x.data.filter((d, i)=> i % this.ui.step == 0)
+        x.data = x.data.filter((d, i) => i % this.ui.step == 0)
       }
     )
-    console.log(chartData);
+    //console.log(chartData);
 
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if (!canvas) return;

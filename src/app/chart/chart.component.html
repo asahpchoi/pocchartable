@@ -34,7 +34,7 @@
     <br>
     <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
     <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
-    
+
     <mat-slider [(ngModel)]="ui.step" min=1 max=5 (change)="createChart()"></mat-slider>
   </mat-expansion-panel>
 </mat-accordion>
@@ -57,7 +57,7 @@
           Year/Age
         </th>
         <th>
-          Premium Paid
+          Total Premium
         </th>
 
         <th> Topup </th>
@@ -85,7 +85,7 @@
           Year/Age
         </th>
         <th>
-          Premium Paid
+          Total Premium
         </th>
 
         <th> Topup </th>
