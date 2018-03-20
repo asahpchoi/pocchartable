@@ -12,10 +12,12 @@ export class FormvalidationComponent implements OnInit {
 
 
   customerObject = {};
+  minBasePremium;
+  maxBasePremium;
   basePremiumControl = new FormControl('', []);
   ageControl = new FormControl('', []);
   faceAmountControl = new FormControl('', []);
-  schema = null;
+  schema = {};
 
   productInput = {
     faceAmount: 0,
