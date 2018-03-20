@@ -7,15 +7,31 @@
 
 <div>
   <mat-form-field>
-    <input matInput placeholder="Age" required [(ngModel)]="productInput.age" [formControl]="ageControl">
+    <input matInput placeholder="Insured Age" required [(ngModel)]="productInput.age" [formControl]="ageControl">
   </mat-form-field>
+</div>
+<div>
   <mat-form-field>
     <input matInput placeholder="Face Amount" required [(ngModel)]="productInput.faceAmount" (change)="loadBasePremium()" [formControl]="faceAmountControl">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.plannedPremium" [formControl]="basePremiumControl">
+    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.basePremium" [formControl]="basePremiumControl">
   </mat-form-field>
+<app-custom-validator field="%TOTAL_AMOUNT%"></app-custom-validator>
   base plan premium range: ({{minBasePremium | number }} - {{maxBasePremium | number}})
-  <app-custom-validator field="%TOTAL_AMOUNT%"></app-custom-validator>
+</div>
+<div>
+
+
+  <mat-form-field>
+    <input matInput placeholder="Term Premium" required [(ngModel)]="productInput.termPremium">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Other Riders Premium" required [(ngModel)]="productInput.riderPremium">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Planned Premium" required [(ngModel)]="productInput.plannedPremium">
+  </mat-form-field>
+
 </div>
 <button (click)="check()">Submit</button> {{errors}}

@@ -20,7 +20,7 @@ export class FormvalidationComponent implements OnInit {
   productInput = {
     faceAmount: 0,
     age: 0,
-    plannedPremium: 0
+    basePremium: 0
   }
 
   constructor(
@@ -44,7 +44,7 @@ export class FormvalidationComponent implements OnInit {
       }
     )[0]
 
-    this.productInput.plannedPremium = +this.productInput.faceAmount / +mr.DefaultFAMultiplier.text;
+    this.productInput.basePremium = +this.productInput.faceAmount / +mr.DefaultFAMultiplier.text;
     this.minBasePremium = +this.productInput.faceAmount / +mr.MaxFAMultiplier.text;
     this.maxBasePremium = +this.productInput.faceAmount / +mr.MinFAMultiplier.text;
     this.basePremiumControl = new FormControl('', [
