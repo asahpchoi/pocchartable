@@ -1,0 +1,170 @@
+// *************************************
+// PAGES
+// *************************************
+* {
+    box-sizing: border-box;
+}
+html, body {
+    width: 100%;
+    background: $color-white;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+h1 {
+    @include h1();
+}
+
+h2 {
+    @include h2();
+}
+
+h3 {
+    @include h3();
+}
+
+h4, body {
+    @include h4();
+}
+
+h5 {
+    @include h5();
+}
+
+h6 {
+    @include h6();
+}
+
+button, input:focus, textarea:focus {
+    outline: none !important;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.page  {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    &__background, &__content {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    &__background {
+        &__number {
+            position: absolute;
+            color: $color-white;
+            opacity: .5;
+            right: 0;
+            bottom: 0;
+            font-family: $font-sbold;
+            font-size: 800px;
+            line-height: .3;
+        }
+    }
+    &__content {
+        padding: $header-height $margin $margin $margin;
+    }
+}
+
+.title {
+    @include h3;
+    span {
+        font-size: 10px;
+        color: $color-dark-grey;
+    }
+}
+.unit {
+    @include h6;
+    color: $color-dark-grey;
+}
+.value {
+    @include h1;
+    margin-top: 2px;
+    line-height: 28px;
+    font-family: $font-sbold;
+    display: inline-block;
+    &.editable {
+        border-bottom: 2px solid $color-emerald;
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.red {
+    color: $color-red;
+}
+
+.unselect {
+    color: $color-dark-grey;
+}
+
+.error {
+    color: $color-red;
+    font-family: $font-book;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 15px 0;
+}
+
+.warning-bubble {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: $color-red;
+    color: $color-white;
+    &:before {
+        display: block;
+        content: "!";
+        @include flex-column;
+        @include h3;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.rider-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    @include flex-column;
+    @include h5;
+    line-height: 1;
+    margin-right: 16px;
+    color: $color-emerald;
+    border: 1px solid $color-emerald;
+}
+
+app-customer-card {
+    width: $customer-card-width;
+    height: 100%;
+    overflow: hidden;
+    margin-right: 20px;
+    &:last-child {
+        margin-right: 0;
+    }
+}
+app-critical-illness-popup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity $anim-time $anim-function, z-index 0s linear $anim-time-long;
+    &.active {
+        z-index: 200;
+        opacity: 1;
+        transition-property: opacity;
+        @include transition();
+    }
+}

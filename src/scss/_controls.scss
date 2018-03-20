@@ -1,0 +1,221 @@
+// *************************************
+// CONTROL ELEMENTS
+// *************************************
+.clean-button {
+    @include flex-column();
+    @include font-button();
+    height: 100%;
+    pointer-events: inherit;
+    margin: 0;
+    &__label {
+        margin-top: 5px;
+    }
+    &.disable {
+        pointer-events: none;
+        .clean-button__icon, .clean-button__label {
+            filter: grayscale;
+            filter: brightness(0);
+            opacity: .4;
+        }
+    }
+}
+
+.bubble-button {
+    @include flex-column();
+    width: $bubble-button-width;
+    .icon {
+        @include flex-column();
+        width: $bubble-size;
+        height: $bubble-size;
+        position: relative;
+        &__background{
+            width: $bubble-size;
+            height: $bubble-size;
+            border-radius: 50%;
+            background: $color-emerald;
+            box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        &__img {
+            padding: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            @include flex-column();
+            transform-origin: 50% 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+    .label {
+        @include font-bubble-button;
+        line-height: 1.2;
+        margin-top: 6px;
+    }
+}
+
+.checkbox-container {
+    $checkbox-size: 14px;
+    @include flex-column();
+    width: $checkbox-size;
+    height: $checkbox-size;
+    border-radius: 50%;
+    border: $color-light-grey 1px solid;
+    text-align: center;
+    overflow: hidden;
+    img {
+        width: 7.2px;
+        height: auto;
+        transform: translateY(-$checkbox-size);
+        transition-property: transform;
+        @include transition();
+    }
+    &.selected {
+        border-color: transparent;
+        background: $color-emerald;
+        img {
+            transform: translateY(0);
+            transition-property: transform;
+            @include transition();
+        }
+    }
+}
+
+button {
+    &.primary{
+        text-align: center;
+        text-transform: capitalize;
+        @include h3;
+        width: 100%;
+        min-height: 50px;
+        max-height: 50px;
+        color: $color-white;
+        background: $color-emerald;
+        white-space: nowrap;
+        border: none;
+        margin: 0;
+        &.disable {
+          background: $color-dark-grey;
+        }
+    }
+    &.secondary{
+        text-align: center;
+        text-transform: capitalize;
+        @include h3;
+        min-height: 32px;
+        margin: 0;
+        padding: 4px 25px;
+        border: 1px solid $color-emerald;
+        color: $color-emerald;
+        background: transparent;
+        pointer-events: auto;
+        &.disable {
+          border: 1px solid $color-dark-grey;
+          color: $color-dark-grey;
+          pointer-events: none;
+        }
+    }
+}
+
+.input-popup {
+    &__container {
+        img {
+            margin-left: 10px;
+            pointer-events: none;
+        }
+        &.placeholder {
+            position: absolute;
+            color: white;
+            img {
+                filter: grayscale;
+                filter: brightness(100);
+            }
+        }
+    }
+    &__content {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        left: 0px;
+        top: 0px;
+        z-index: 200;
+        background-color: rgba(0,0,0,.75);
+        opacity: 0;
+        pointer-events: none;
+        transition-property: opacity;
+        @include transition();
+        .controls {
+            position: absolute;
+            box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.1);
+            transform: scale(0.7);
+            transition-property: transform;
+            @include transition();
+            &.flex-column {
+                @include flex-column;
+                background-color: $color-white;
+            }
+            &.flex {
+                position: absolute;
+                left: 0;
+                top: -100%;
+                display: flex;
+            }
+            &__arrow {
+                &__left, &__right {
+                    position: relative;
+                    width: 10px;
+                    height: 16px;
+                    display: block;
+                    margin: 0;
+                    padding: 0;
+                    content: "";
+                    background: $color-white;
+                }
+                &__left {
+                    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+                }
+                &__right {
+                    clip-path: polygon(0 0, 0 100%, 100% 50%);
+                }
+            }
+            &.left {
+                .controls__arrow {
+                    &__left {
+                       display: none;
+                    }
+                }
+            }
+            &.right {
+                .controls__arrow {
+                    &__right {
+                       display: none;
+                    }
+                }
+            }
+            &__container {
+                position: relative;
+                left: -1px;
+                right: -1px;
+                padding: 0;
+                margin: 0;
+                background-color: $color-white;
+                @include flex-column;
+                color: $color-gunmetal;
+            }
+        }
+
+        &.active {
+            opacity: 1;
+            pointer-events: auto;
+            transition-property: opacity;
+            @include transition();
+            .controls {
+                transform: scale(1);
+                transition-property: transform;
+                @include transition();
+            }
+        }
+    }
+}

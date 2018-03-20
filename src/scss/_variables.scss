@@ -1,0 +1,209 @@
+// *************************************
+//
+// VARIABLES
+//
+// *************************************
+
+
+// *************************************
+// FONTS
+// *************************************
+$font-book: 'ClassicGrotesquePro-Book';
+$font-sbold: 'ClassicGrotesquePro-SmBd';
+$font-playfair-italic: "PlayfairDisplay-Italic";
+
+
+// *************************************
+// COLOR
+// *************************************
+$color-dark: #21212b;
+$color-gunmetal: #42445a;
+$color-dark-grey: #737487;
+$color-emerald: #00a85a;
+$color-white: #ffffff;
+$color-pale-grey: #f9f9fa;
+$color-pale-blue-grey: #dbe2ec;
+$color-light-grey: #d3d4de;
+$color-red: #f8453c;
+$color-blue: #1978D4;
+
+
+// *************************************
+// SIZE
+// *************************************
+$statusbar-height: 20px;
+$navbar-height: 60px;
+$header-height: calc( #{$statusbar-height} + #{$navbar-height});
+$margin: 30px;
+$column: 62px;
+$gutter: 20px;
+$bubble-size: 40px;
+$bubble-button-width: calc(#{$bubble-size} * 2);
+$productsummary-leftgrid-width: 224px;
+$productsummary-topgrid-height: 146px;
+$productsummary-margin-left: 50px;
+$customer-card-width: 308px;
+$calendar-bubble-size: 38px;
+$clean-button-min-width: 36px;
+$clean-button-gap: 20px;
+$chart-slider-track-height: 3px;
+$chart-slider-thumb-height: 16px;
+$chart-slider-thumb-area: 30px;
+$mat-slider-track-margin: 8px;
+
+
+// *************************************
+// ANIMATIONS
+// *************************************
+$anim-time: .38s;
+$anim-time-long: .58s;
+$anim-tranlateX: 200px;
+$anim-function: cubic-bezier(.4,0,.2,1);
+// $anim-function-cubic: cubic-bezier(.4,0,.2,1);
+@mixin transition() {
+  transition-duration: $anim-time;
+  transition-timing-function: $anim-function;
+}
+@mixin transition-cubic() {
+  transition-duration: $anim-time-long;
+  transition-timing-function: $anim-function;
+}
+
+// *************************************
+// VARIABLES
+// *************************************
+@mixin h1() {
+  font-family: $font-sbold;
+  font-size: 30px;
+  line-height: 42px;
+}
+@mixin h2() {
+  font-family: $font-sbold;
+  font-size: 20px;
+  line-height: 28px;
+}
+@mixin h3() {
+  font-family: $font-sbold;
+  font-size: 16px;
+  line-height: 22px;
+}
+@mixin h4() {
+  font-family: $font-book;
+  font-size: 16px;
+  line-height: 22px;
+}
+@mixin h5() {
+  font-family: $font-book;
+  font-size: 12px;
+  line-height: 22px;
+}
+@mixin h6() {
+  font-family: $font-sbold;
+  font-size: 12px;
+  line-height: 22px;
+}
+@mixin flex-column() {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+@mixin flex-row() {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+@mixin font-button() {
+  font-family: $font-book;
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 10px;
+  line-height: 10px;
+  color: $color-gunmetal;
+}
+@mixin font-bubble-button() {
+  @include font-button();
+  font-size: 12px;
+  line-height: 16px;
+  color: $color-dark;
+}
+@mixin navbar-item-hide($tranlateX) {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX($tranlateX);
+  transition-property: all;
+  @include transition();
+}
+@mixin navbar-item-show() {
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateX(0);
+  transition-property: all;
+  @include transition();
+  transition-delay: $anim-time;
+}
+@mixin scrollbar($x, $y) {
+  @if $x == true {
+    overflow-x: scroll;
+  }
+  @else {
+    overflow-x: hidden;
+  }
+  @if $y == true {
+    overflow-y: scroll;
+  }
+  @else {
+    overflow-y: hidden;
+  }
+  &::-webkit-scrollbar-track
+  {
+      border-radius: 10px;
+  }
+  &::-webkit-scrollbar
+  {
+      width: 3px;
+      height: 3px;
+  }
+  &::-webkit-scrollbar-thumb
+  {
+      border-radius: 3px;
+      background-color: $color-pale-blue-grey;
+      opacity: .7;
+  }
+}
+@mixin nthChildIterator($prop, $limit: 1, $start: 1, $step: 1) {
+  $index: 1;
+  @while $index <= $limit {
+    @if $index == 0 {
+      &:first-child { #{$prop}: ($start + $step * $index) + s; }
+    }
+    @else {
+      &:nth-child(#{$index}) { #{$prop}: ($start + $step * $index) + s; }
+    }
+    $index: $index + 1;
+  }
+}
+
+
+// *************************************
+// KEYFRAMES
+// *************************************
+@keyframes paper-flip-open {
+  0% {
+    clip-path: polygon(0 0, 0 100%, 100% 100%, 0 100%, 0 0);
+  }
+  15% {
+    clip-path: polygon(0 0, 5% 95%, 100% 100%, 0 100%, 0 0);
+  }
+  65% {
+    clip-path: polygon(0 0, 50% 50%, 100% 100%, 0 100%, 0 0);
+  }
+  95% {
+    clip-path: polygon(0 0, 95% 5%, 100% 100%, 0 100%, 0 0);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%, 0 0);
+  }
+}
+$paper-flip-open-anim: paper-flip-open $anim-time-long $anim-function 0s alternate 1 forwards running;

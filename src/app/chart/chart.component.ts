@@ -53,7 +53,7 @@ export class ChartComponent implements OnInit {
 
   submitfundActivity() {
     //console.log(this.input)
-
+    this.ui.isLoading = true;
     let fundActs =
       [
         ...this.input.topup.map((v, i) => {
@@ -73,8 +73,9 @@ export class ChartComponent implements OnInit {
       ];
 
 
-      this.premiumSvc.submitFundActivities(fundActs.filter(x=>x));
-      this.createChart(0);
+    this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
+    this.premiumSvc.submit();
+    this.createChart(0);
     /*
     "attainAge": 42,
     "withdrawal": 300000.00
@@ -89,9 +90,9 @@ export class ChartComponent implements OnInit {
         [
           {
             type: 'line',
-            label: 'Total Premium',
-            backgroundColor: '#FF0000',
-            borderColor: '#FF0000',
+            label: 'Premium Paid',
+            backgroundColor: 'rgba(0,0,0,0)',
+            borderColor: '#EA7F75',
             borderDash: [5, 5],
             borderWidth: 2,
             pointRadius: 0,
@@ -101,13 +102,17 @@ export class ChartComponent implements OnInit {
           {
             type: 'bar',
             label: 'Account Value (Guaranteed)',
-            backgroundColor: 'rgba(100, 100, 255, 1)',
+            backgroundColor: '#84B3E0',
+            borderColor: 'rgba(0,0,0,0)',
+            borderWidth: 1,
             data: this.proposalData["Account Value (LOW)"]
           },
           {
             type: 'bar',
             label: 'Account Value (Non guaranteed)',
-            backgroundColor: 'rgba(200, 200, 255, 1)',
+            backgroundColor: '#3A539B',
+            borderColor: 'rgba(0,0,0,0)',
+            borderWidth: 1,
             data: this.proposalData["Account Value (" + this.rtn + ")"]//fake formula, it should come from product engine later
           }
         ];
@@ -269,9 +274,9 @@ export class ChartComponent implements OnInit {
     )
     this.maxIndex = this.proposalData["Age"].length - 1;
     this.ui.sliderValues = [0, this.maxIndex];
-console.log("propose data", this.proposalData);
+    console.log("propose data", this.proposalData);
     this.updateView();
-    var chartData = {
+    let chartData = {
       labels: this.proposalData["Age"].filter((d, i) => i % this.ui.step == 0),
       datasets: this.viewDataSet
     };
@@ -281,42 +286,75 @@ console.log("propose data", this.proposalData);
         x.data = x.data.filter((d, i) => i % this.ui.step == 0)
       }
     )
-    //console.log(chartData);
+
+
 
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if (!canvas) return;
-    this.ctx = canvas.getContext("2d");
     if (this.chart) {
       this.chart.destroy();
-      this.chart = null;
     }
+
+    this.ctx = canvas.getContext("2d");
 
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: chartData,
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: true,
+          labels: {
+            fontFamily: 'ClassicGrotesquePro-Book',
+            fontSize: 12,
+            fontColor: '#21212b',
+            boxWidth: 12,
+            padding: 30,
+          }
+        },
+        onResize: ()=> {
+          this.mockSliderData.chart = this.chart;
+        },
         tooltips: {
-          enabled: true
+          enabled: false,
         },
         scales: {
-          xAxes: [
-            {
-              stacked: true
+          xAxes: [{
+            stacked: true,
+            gridLines: {
+              display: false,
+            },
+            ticks: {
+              fontFamily: 'ClassicGrotesquePro-Book',
+              fontSize: 10,
+              fontColor: '#737487',
+              autoSkip: false,
+              maxRotation: 0,
+              minRotation: 0,
             }
-
-          ],
+          }],
           yAxes: [{
             stacked: false,
+            gridLines: {
+              color: 'rgba(212,212,222,1)',
+              drawTicks: false,
+            },
             ticks: {
-              beginAtZero: true
+              fontFamily: 'ClassicGrotesquePro-Book',
+              fontSize: 10,
+              fontColor: '#737487',
+              beginAtZero: true,
+              padding: 10,
             }
           }]
         }
       }
     });
+
     this.chart.update(0);
   }
+
   getInput() {
     return {
       topups:

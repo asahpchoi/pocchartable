@@ -56,7 +56,7 @@ export class ProductInputComponent implements OnInit {
   }
 
   loadData() {
-    this.premiumSvc.submitBasic(
+    this.premiumSvc.updateBasic(
       {
         faceAmt: this.productInput.fm,
         age: this.productInput.age,
@@ -64,6 +64,8 @@ export class ProductInputComponent implements OnInit {
         riders: this.productInput.riders
       }
     );
+
+    this.premiumSvc.submit();
 
   }
   ngOnInit() {

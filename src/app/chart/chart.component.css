@@ -1,57 +1,69 @@
-#slider, #slider2 {
-  position: absolute;
-  width: 100%;
-  display: none;
-}
+ 
 
-table {
-  margin: 0 0 40px 0;
-  width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  display: table;
-  border-collapse: collapse;
-}
-
-input {
-  width: 100px;
-}
-
-table, th, td {
-  border: 1px solid black;
-  padding: 2px;
-}
-
-table {
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-button {
-  width: 250px;
-}
-
-th, td {
-  width: 100px;
-}
-
-.sticky {
-    position: sticky;
-    left:0;
-    background-color: #cae8ca;
-}
-
-.hl {
-  background-color: grey;
-}
-
-td {
-  text-align: right;
-}
-
-canvas {
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-
+.page__chartView {
+    padding: $header-height $margin 0 $margin;
+    @include flex-column;
+    justify-content: flex-start;
+    .chart-container {
+        width: 100%;
+        max-height: 346px;
+        flex-grow: 2;
+        margin-bottom: 10px;
+        position: relative;
+        .chart-slider {
+            position: absolute;
+        }
+    }
+    .unit-container {
+        width: 100%;
+        text-align: right;
+        padding: 0 20px;
+    }
+    .illustration-table-value {
+        @include h4;
+        text-align: right;
+        display: inline-block;
+        &.editable {
+            border-bottom: 2px solid $color-emerald;
+        }
+    }
+    .table-container{
+        width: 100%;
+        height: 240px;
+        .illustration-table {
+            text-align: right;
+            margin-bottom: $margin;
+            .cdk-column{
+                &-Year{
+                    width: 82px;
+                    text-align: left;
+                    flex: none;
+                }
+                &-Age{
+                    width: 52px;
+                    text-align: left;
+                    flex: none;
+                }
+                &-Premium{
+                    width: 140px;
+                    flex: none;
+                }
+                &-Top-up-Premium{
+                    width: 140px;
+                    flex: none;
+                }
+                &-Withdrawal{
+                    width: 140px;
+                    flex: none;
+                }
+                &-Surrender-Value--LOW-{
+                    width: 140px;
+                    flex: none;
+                }
+                &-Account-Value--LOW-, &-Total-Death-Benefit--LOW-{
+                    flex-grow: 2;
+                }
+            }
+        }
+    }
 }

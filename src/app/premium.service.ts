@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class PremiumService {
   private _subject = new BehaviorSubject(null);
+  private _validationSubject = new BehaviorSubject(null);
 
   jsonData = {
     "channel": "Agency",
@@ -36,7 +37,7 @@ export class PremiumService {
       },
       "parties": {
         "party": {
-          "birthDate": "19890305070000",
+          "birthDate": "19800101070000",
           "insuredAge": 29,
           "insuredId": "PROJ, RIDER(ADD 800K)",
           "insuredSex": "M",
@@ -70,7 +71,7 @@ export class PremiumService {
       "startAnnuityAge": "0"
     },
     "displayEOYOnly": false,
-    "enableDebug": true,
+    "enableDebug": false,
     "language": "en",
     "policyExcludeSOS": "N",
     "policyYearDate": "20180305070000",
@@ -79,10 +80,10 @@ export class PremiumService {
     "startDebugYear": 0,
     "stopDebugYear": 5,
     "owner": {
-      "insuredIsOwner": true,
+      "insuredIsOwner": false,
       "relationToInsured": "01",
       "ownerAge": 29,
-      "ownerDOB": "19890305070000",
+      "ownerDOB": "19800101070000",
       "ownerId": "Test Projection Case 1",
       "ownerSex": "M"
     },
@@ -101,49 +102,50 @@ export class PremiumService {
     "dependents": [],
     "riders": {
       "coverageInfo": [{
-            "currency": {
-                "currencyPK": {
-                    "currencyId": "VND"
-                }
+        "currency": {
+          "currencyPK": {
+            "currencyId": "VND"
+          }
+        },
+        "extraRating": {
+          "percentageExtra": 1.00,
+          "tempPercentage": 1.00
+        },
+        "faceAmount": 800000.00,
+        "parties": {
+          "party": {
+            "insuredId": "PROJ, RIDER(ADD 800K)",
+            "insuredSex": "M",
+            "smokingStatus": "NS",
+            "type": "BASIC",
+            "birthDate": "19800101070000",
+            "insuredAge": 29
+          }
+        },
+        "product": {
+          "productKey": {
+            "primaryProduct": {
+              "productPK": {
+                "productId": "ADD03"
+              }
             },
-            "extraRating": {
-                "percentageExtra": 1.00,
-                "tempPercentage": 1.00
+            "associateProduct": {
+              "productPK": {
+                "productId": "--"
+              }
             },
-            "faceAmount": 800000.00,
-            "parties": {
-                "party": {
-                    "insuredId": "PROJ, RIDER(ADD 800K)",
-                    "insuredSex": "M",
-                    "smokingStatus": "NS",
-                    "type": "BASIC",
-                    "insuredAge": 29
-                }
+            "basicProduct": {
+              "productPK": {
+                "productId": "--"
+              }
             },
-            "product": {
-                "productKey": {
-                    "primaryProduct": {
-                        "productPK": {
-                            "productId": "ADD03"
-                        }
-                    },
-                    "associateProduct": {
-                        "productPK": {
-                            "productId": "--"
-                        }
-                    },
-                    "basicProduct": {
-                        "productPK": {
-                            "productId": "--"
-                        }
-                    },
-                    "location": "VN",
-                    "valueDate": "20180305070000"
-                }
-            },
-            "occupation": "1",
-            "rcc": "N"
-        }]
+            "location": "VN",
+            "valueDate": "20180305070000"
+          }
+        },
+        "occupation": "1",
+        "rcc": "N"
+      }]
     },
     "watchPoints": []
   }
@@ -192,34 +194,19 @@ export class PremiumService {
     "rcc": "N"
   };
 
-
   t;
 
   url = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/project';
+  validateUrl = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/validate';
 
-  constructor(public http: HttpClient) {
+  constructor(private http: HttpClient) {
   }
 
-  submitFundActivities(fundacts) {
-    //console.log('FundAct')
+  updateFundActivities(fundacts) {
     this.jsonData.fundActivities.fundActivity = fundacts;
-    console.log(this.jsonData.fundActivities.fundActivity, fundacts)
-    this.submit();
   }
 
-  private submit() {
-
-    console.log(this.jsonData);
-    //this.jsonData = this.sampleJSON;
-    this.http.post(
-      this.url, this.jsonData
-    ).subscribe(t => {
-      console.log('return', t)
-      this._subject.next(t)
-    });
-  }
-
-  submitBasic(input) {
+  updateBasic(input) {
     this.jsonData.coverageInfo.faceAmount = input.faceAmt;
     this.jsonData.coverageInfo.plannedPremium = input.plannedPremium;
     this.jsonData.coverageInfo.parties.party.insuredAge = input.age;
@@ -235,11 +222,53 @@ export class PremiumService {
         return rider;
       }
     )
-    console.log("R", riders, this.jsonData.riders.coverageInfo);
+
     this.jsonData.riders.coverageInfo = riders;
-    this.submit();
   }
 
+  validate() {
+    this.http.post(
+      this.validateUrl, this.jsonData
+    ).subscribe(d => {
+      if (!d) return;
+      let transformedError;
+      transformedError = { GENERAL: [] };
+      (d as Array<any>).forEach(err => {
+        let keys = Object.keys(err["parameters"])
+        if (keys.length == 0) {
+          transformedError.GENERAL.push(err.message)
+        }
+        else {
+          keys.forEach(
+            k => {
+              //k = k.replace('%', '', true)
+              if (!transformedError[k]) {
+                transformedError[k] = [];
+              }
+              transformedError[k].push(err.message);
+            }
+          )
+        }
+      }
+      );
+      this._validationSubject.next(transformedError)
+    });
+  }
+  getValidations() {
+    return this._validationSubject;
+  }
+
+  submit() {
+
+    console.log(this.jsonData);
+    //this.jsonData = this.sampleJSON;
+    this.http.post(
+      this.url, this.jsonData
+    ).subscribe(t => {
+      console.log('return', t)
+      this._subject.next(t)
+    });
+  }
   getData() {
     return this._subject;
   }

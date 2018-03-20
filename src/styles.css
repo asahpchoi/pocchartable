@@ -1,3 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "~nouislider/distribute/nouislider.min.css";
+/* You can add global styles to this file, and also import other style files */
+@import
+    "./scss/_reset.scss",
+    '~@angular/material/prebuilt-themes/deeppurple-amber.css',
+    "./scss/_fonts.scss",
+    "./scss/_variables.scss",
+    "./scss/_ngMaterialTheme.scss",
+    "./scss/_pages.scss",
+    "./scss/_controls.scss";

@@ -31,11 +31,15 @@ import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-br
 import { ProductInputComponent } from './product-input/product-input.component';
 import { CustomerService } from './customer.service';
 import { CustomerViewComponent } from './customer-view/customer-view.component';
+import { FormvalidationComponent } from './formvalidation/formvalidation.component';
+import { CustomValidatorComponent } from './custom-validator/custom-validator.component';
+import { CustomerindicatorComponent } from './customerindicator/customerindicator.component';
 
 
 
 const appRoutes: Routes = [
   { path: 'chart', component: ChartComponent },
+  { path: 'validate', component: FormvalidationComponent },
   { path: 'customerForm', component: CustomerInputComponent },
   { path: 'zoomChart', component: ZoomChartComponent },
   { path: '', component: ProductInputComponent }
@@ -50,12 +54,15 @@ const appRoutes: Routes = [
     TopupInputComponent,
     ZoomChartComponent,
     ProductInputComponent,
-    CustomerViewComponent
+    CustomerViewComponent,
+    FormvalidationComponent,
+    CustomValidatorComponent,
+    CustomerindicatorComponent
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      
+
     ),
     BrowserModule,
     HttpClientModule,
