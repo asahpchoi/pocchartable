@@ -10,19 +10,19 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 })
 export class FormvalidationComponent implements OnInit {
 
-
-  customerObject = {};
   minBasePremium;
   maxBasePremium;
   basePremiumControl = new FormControl('', []);
   ageControl = new FormControl('', []);
   faceAmountControl = new FormControl('', []);
-  schema = {};
+  schema;
+
 
   productInput = {
     faceAmount: 0,
     age: 0,
-    basePremium: 0
+    basePremium: 0,
+    plannedPremium: 0
   }
 
   constructor(
@@ -36,7 +36,8 @@ export class FormvalidationComponent implements OnInit {
   }
 
   loadBasePremium() {
-    let mr = this.schema.ProductSchema.FaceAmountMultiplier.MultiplierRecord.filter(
+    let schema: any = this.schema;
+    let mr = schema.ProductSchema.FaceAmountMultiplier.MultiplierRecord.filter(
       m => {
         return (
           +m.MaxIssueAge.text >= +this.productInput.age
@@ -61,16 +62,17 @@ export class FormvalidationComponent implements OnInit {
 
       d => {
         this.schema = d;
+        let schema : any = d;
         this.ageControl = new FormControl('', [
           Validators.required,
-          Validators.min(+d.ProductSchema.BasicParticular.IssueAge.Min.text),
-          Validators.max(+d.ProductSchema.BasicParticular.IssueAge.Max.text)
+          Validators.min(+schema.ProductSchema.BasicParticular.IssueAge.Min.text),
+          Validators.max(+schema.ProductSchema.BasicParticular.IssueAge.Max.text)
         ]);
 
         this.faceAmountControl = new FormControl('', [
           Validators.required,
-          Validators.min(+d.ProductSchema.BandInformation.BandRecord[0].MinFaceAmount.text),
-          Validators.max(+d.ProductSchema.BandInformation.BandRecord[0].MaxFaceAmount.text)
+          Validators.min(+schema.ProductSchema.BandInformation.BandRecord[0].MinFaceAmount.text),
+          Validators.max(+schema.ProductSchema.BandInformation.BandRecord[0].MaxFaceAmount.text)
         ]);
       }
     )
