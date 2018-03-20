@@ -1,21 +1,19 @@
 <app-customerindicator></app-customerindicator>
-<hr>
-<h2> form level validation </h2>
+<h2> customer info</h2>
+<mat-form-field>
+  <input matInput placeholder="Insured Age" required [(ngModel)]="productInput.age" [formControl]="ageControl">
+</mat-form-field>
+
+<h2>Summary Page</h2>
 <app-custom-validator field="GENERAL"></app-custom-validator>
 <hr>
-<h2> form </h2>
 
 <div>
   <mat-form-field>
-    <input matInput placeholder="Insured Age" required [(ngModel)]="productInput.age" [formControl]="ageControl">
-  </mat-form-field>
-</div>
-<div>
-  <mat-form-field>
-    <input matInput placeholder="Face Amount" required [(ngModel)]="productInput.faceAmount" (change)="loadBasePremium()" [formControl]="faceAmountControl">
+    <input matInput placeholder="Base Protection" required [(ngModel)]="productInput.faceAmount" (change)="loadBasePremium()" [formControl]="faceAmountControl">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.basePremium" [formControl]="basePremiumControl">
+    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.basePremium" [formControl]="basePremiumControl" (change)="updatePlannedPremium()">
   </mat-form-field>
 <app-custom-validator field="%TOTAL_AMOUNT%"></app-custom-validator>
   base plan premium range: ({{minBasePremium | number }} - {{maxBasePremium | number}})
@@ -24,14 +22,23 @@
 
 
   <mat-form-field>
-    <input matInput placeholder="Term Premium" required [(ngModel)]="productInput.termPremium">
+    <input matInput placeholder="Term Protection" required [(ngModel)]="productInput.termFaceAmount" (change)="updateTermPermium()">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Other Riders Premium" required [(ngModel)]="productInput.riderPremium">
+    <input matInput placeholder="Term Premium" required [(ngModel)]="productInput.termPremium" readonly>
+  </mat-form-field>
+</div><div>
+  <mat-form-field>
+    <input matInput placeholder="Other Riders Premium" required [(ngModel)]="productInput.riderPremium" readonly>
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Planned Premium" required [(ngModel)]="productInput.plannedPremium">
   </mat-form-field>
-
+Topup: {{
+  productInput.plannedPremium -
+  productInput.riderPremium -
+  productInput.termPremium -
+  productInput.basePremium
+}}
 </div>
 <button (click)="check()">Submit</button> {{errors}}

@@ -12,17 +12,20 @@ export class FormvalidationComponent implements OnInit {
 
   minBasePremium;
   maxBasePremium;
-  basePremiumControl = new FormControl('', []);
-  ageControl = new FormControl('', []);
-  faceAmountControl = new FormControl('', []);
+  basePremiumControl = new FormControl(0, []);
+  ageControl = new FormControl(25, []);
+  faceAmountControl = new FormControl(0, []);
   schema;
 
 
   productInput = {
     faceAmount: 0,
-    age: 0,
+    age: 25,
     basePremium: 0,
-    plannedPremium: 0
+    termFaceAmount: 0,
+    termPremium: 0,
+    plannedPremium: 0,
+    riderPremium: 35000
   }
 
   constructor(
@@ -35,6 +38,17 @@ export class FormvalidationComponent implements OnInit {
     this.loadValidations();
   }
 
+  updateTermPermium() {
+    console.log('d')
+    this.productInput.termPremium = this.productInput.termFaceAmount / 10;
+    this.updatePlannedPremium()
+  }
+
+  updatePlannedPremium() {
+    this.productInput.plannedPremium = this.productInput.termPremium +
+    this.productInput.riderPremium +
+    this.productInput.basePremium
+  }
   loadBasePremium() {
     let schema: any = this.schema;
     let mr = schema.ProductSchema.FaceAmountMultiplier.MultiplierRecord.filter(
@@ -45,16 +59,19 @@ export class FormvalidationComponent implements OnInit {
           +m.MinIssueAge.text <= +this.productInput.age
         )
       }
-    )[0]
+    )[0];
 
-    this.productInput.basePremium = +this.productInput.faceAmount / +mr.DefaultFAMultiplier.text;
-    this.minBasePremium = +this.productInput.faceAmount / +mr.MaxFAMultiplier.text;
-    this.maxBasePremium = +this.productInput.faceAmount / +mr.MinFAMultiplier.text;
-    this.basePremiumControl = new FormControl('', [
-      Validators.required,
-      Validators.min(this.minBasePremium),
-      Validators.max(this.maxBasePremium)
-    ]);
+    if(mr) {
+
+      this.productInput.basePremium = +this.productInput.faceAmount / +mr.DefaultFAMultiplier.text;
+      this.minBasePremium = +this.productInput.faceAmount / +mr.MaxFAMultiplier.text;
+      this.maxBasePremium = +this.productInput.faceAmount / +mr.MinFAMultiplier.text;
+      this.basePremiumControl = new FormControl('', [
+        Validators.required,
+        Validators.min(this.minBasePremium),
+        Validators.max(this.maxBasePremium)
+      ]);
+    }
   }
 
   loadValidations() {
@@ -91,8 +108,6 @@ export class FormvalidationComponent implements OnInit {
       }
     );
     this.ps.validate();
-
-
   }
 
 }
