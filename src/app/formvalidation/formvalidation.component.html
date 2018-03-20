@@ -4,16 +4,18 @@
 <app-custom-validator field="GENERAL"></app-custom-validator>
 <hr>
 <h2> form </h2>
+
 <div>
   <mat-form-field>
-    <input matInput placeholder="Face Amount" required [(ngModel)]="productInput.fm">
+    <input matInput placeholder="Age" required [(ngModel)]="productInput.age" [formControl]="ageControl">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Age" required [(ngModel)]="productInput.age">
+    <input matInput placeholder="Face Amount" required [(ngModel)]="productInput.faceAmount" (change)="loadBasePremium()" [formControl]="faceAmountControl">
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Planned Premium" required [(ngModel)]="productInput.plannedPremium">
+    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.plannedPremium" [formControl]="basePremiumControl">
   </mat-form-field>
+  base plan premium range: ({{minBasePremium | number }} - {{maxBasePremium | number}})
   <app-custom-validator field="%TOTAL_AMOUNT%"></app-custom-validator>
 </div>
 <button (click)="check()">Submit</button> {{errors}}

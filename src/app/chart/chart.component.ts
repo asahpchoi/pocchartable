@@ -302,7 +302,7 @@ export class ChartComponent implements OnInit {
       data: chartData,
       options: {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         legend: {
           display: true,
           labels: {
@@ -313,7 +313,6 @@ export class ChartComponent implements OnInit {
             padding: 30,
           }
         },
- 
         tooltips: {
           enabled: false,
         },

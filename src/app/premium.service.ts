@@ -198,6 +198,7 @@ export class PremiumService {
 
   url = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/project';
   validateUrl = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/validate';
+  schemaUrl = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/readSchema/${productId}/01';
 
   constructor(private http: HttpClient) {
   }
@@ -214,7 +215,7 @@ export class PremiumService {
     let riders = input.riders.map(
       r => {
         let rider = { ...this.riderSchema };
-        rider.faceAmount = r.fm;
+        rider.faceAmount = r.faceAmount;
         rider.parties.party.insuredAge = r.age;
         rider.product.productKey.primaryProduct.productPK.productId = r.productId;
         rider.occupation = "" + r.occupation;
@@ -224,6 +225,11 @@ export class PremiumService {
     )
 
     this.jsonData.riders.coverageInfo = riders;
+  }
+
+  getproductSchema(productId) {
+    let url = this.schemaUrl.replace('${productId}', productId);
+    return this.http.get(url);
   }
 
   validate() {
@@ -251,10 +257,12 @@ export class PremiumService {
         }
       }
       );
+      console.log(transformedError)
       this._validationSubject.next(transformedError)
     });
   }
   getValidations() {
+
     return this._validationSubject;
   }
 
