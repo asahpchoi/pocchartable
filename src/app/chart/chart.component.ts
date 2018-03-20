@@ -313,9 +313,7 @@ export class ChartComponent implements OnInit {
             padding: 30,
           }
         },
-        onResize: ()=> {
-          this.mockSliderData.chart = this.chart;
-        },
+ 
         tooltips: {
           enabled: false,
         },
