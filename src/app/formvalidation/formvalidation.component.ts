@@ -48,8 +48,7 @@ export class FormvalidationComponent implements OnInit {
   }
 
   updateTermPermium() {
-    this.ps.submitValidation();
-    this.ps.getValidationResult().subscribe(err => {
+    this.ps.submitValidation().subscribe(err => {
       console.log(err)
       if(err == 0) {
         console.log('DONE', err)
@@ -72,10 +71,9 @@ export class FormvalidationComponent implements OnInit {
   }
 
   updatePlannedPremium() {
-
     this.productInput.plannedPremium = this.productInput.termPremium +
       this.productInput.riderPremium +
-      this.productInput.basePremium
+      this.productInput.basePremium;
   }
 
   getTopup() {

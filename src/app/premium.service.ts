@@ -216,6 +216,7 @@ export class PremiumService {
       console.log('premium', t)
       this._premiumSubject.next(t)
     });
+    return this._premiumSubject;
   }
 
   updateFundActivities(fundacts) {
@@ -295,6 +296,7 @@ export class PremiumService {
       console.log(transformedError)
       this._validationSubject.next(transformedError)
     });
+    return this._validationSubject;
   }
 
   getValidationResult() {
@@ -311,6 +313,7 @@ export class PremiumService {
       console.log('return', t)
       this._subject.next(t)
     });
+    return this._subject;
   }
   getData() {
     return this._subject;
