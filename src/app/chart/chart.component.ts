@@ -91,28 +91,30 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Premium Paid',
-            backgroundColor: 'rgba(0,0,0,0)',
-            borderColor: '#EA7F75',
-            borderDash: [5, 5],
-            borderWidth: 2,
+            borderColor: '#3A539B',
+            borderWidth: 1,
             pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
           },
           {
-            type: 'bar',
+            type: 'line',
             label: 'Account Value (Guaranteed)',
             backgroundColor: '#84B3E0',
             borderColor: 'rgba(0,0,0,0)',
             borderWidth: 1,
+            pointRadius: 0,
+            fill: true,
             data: this.proposalData["Account Value (LOW)"]
           },
           {
-            type: 'bar',
+            type: 'line',
             label: 'Account Value (Non guaranteed)',
             backgroundColor: '#3A539B',
             borderColor: 'rgba(0,0,0,0)',
             borderWidth: 1,
+            pointRadius: 0,
+            fill: true,
             data: this.proposalData["Account Value (" + this.rtn + ")"]//fake formula, it should come from product engine later
           }
         ];
@@ -132,15 +134,19 @@ export class ChartComponent implements OnInit {
             data: this.proposalData["Total Premium"]
           },
           {
-            type: 'bar',
+            type: 'line',
             label: 'Surrender Value (Guaranteed)',
             backgroundColor: 'rgba(100, 100, 255, 1)',
+            pointRadius: 0,
+            fill: true,
             data: this.proposalData["Surrender Value (LOW)"]
           },
           {
-            type: 'bar',
+            type: 'line',
             label: 'Surrender Value (Non guaranteed)',
             backgroundColor: 'rgba(200, 200, 255, 1)',
+            pointRadius: 0,
+            fill: true,
             data: this.proposalData["Surrender Value (" + this.rtn + ")"]//fake formula, it should come from product engine later
           }
         ];
@@ -160,30 +166,64 @@ export class ChartComponent implements OnInit {
             data: this.proposalData["Total Premium"]
           },
           {
-            type: 'bar',
+            type: 'line',
             label: 'Total Death Benefit (Guaranteed)',
             backgroundColor: 'rgba(100, 100, 255, 1)',
+            pointRadius: 0,
+            fill: true,
             data: this.proposalData["Death Benefit (LOW)"]
           },
           {
-            type: 'bar',
+            type: 'line',
             label: 'Total Death Benefit (Non guaranteed)',
             backgroundColor: 'rgba(200, 200, 255, 1)',
+            pointRadius: 0,
+            fill: true,
             data: this.proposalData["Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
           }
         ];
     }
   }
-  showSlider() {
+  showSlider(animation) {
+    console.log('ani' , animation, animation.animationObject.currentStep)
     if (!this.chart) return;
 
-    let xAxis = this.chart.scales['x-axis-0'];
+    let ctx = this.ctx;
 
     var el = document.getElementById("slider");
     el.style.display = 'block';
-    el.style.top = xAxis.top + 'px';
-    el.style.left = xAxis.left + 20 + 'px';
-    el.style.width = xAxis.width + 'px';
+
+
+    var controller = this.chart.controller;
+    var chart = controller.chart;
+    var xAxis = controller.scales['x-axis-0'];
+    var yAxis = controller.scales['y-axis-0'];
+
+
+    yAxis.left = 0;
+
+    var numTicks = yAxis.ticks.length;
+    var yDiff = yAxis.height / (numTicks - 1);
+    var yOffsetStart = yAxis.top;
+
+
+    ctx.beginPath();
+    ctx.strokeStyle = "#CCCCCC";
+    ctx.moveTo(yAxis.right + 200, yAxis.top);
+    ctx.lineTo(yAxis.right + 200, yAxis.bottom);
+    ctx.stroke();
+
+
+
+    yAxis.ticks.forEach(function(value, index) {
+      if (value == 0) return
+      var xOffset = 140;
+      var yOffset = yOffsetStart + index * yDiff;//(50 * index) + 60;
+      ctx.font = "12px Arial";
+
+      ctx.fillStyle = "#CCCCCC";
+      ctx.fillText(value, xOffset, yOffset);
+    });
   }
   loadData() {
     this.ui.isLoading = true;
@@ -253,6 +293,12 @@ export class ChartComponent implements OnInit {
     });
   }
 
+  toogleChart() {
+    this.chart.config.data.datasets.forEach(function(dataset) {
+      dataset.data = dataset.data.map(d=>100);
+    });
+    this.chart.update();
+  }
   createChart(delay) {
     //('create chart');
     let fields = this.ds.map(x => x.Name)
@@ -292,29 +338,19 @@ export class ChartComponent implements OnInit {
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if (!canvas) return;
     if (this.chart) {
-      this.chart.destroy();
+      //this.chart.destroy();
     }
 
     this.ctx = canvas.getContext("2d");
+
 
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: chartData,
       options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        legend: {
-          display: true,
-          labels: {
-            fontFamily: 'ClassicGrotesquePro-Book',
-            fontSize: 12,
-            fontColor: '#21212b',
-            boxWidth: 12,
-            padding: 30,
-          }
-        },
-        tooltips: {
-          enabled: false,
+        animation: {
+          duration: 1,
+          onProgress: this.showSlider,
         },
         scales: {
           xAxes: [{
@@ -323,33 +359,26 @@ export class ChartComponent implements OnInit {
               display: false,
             },
             ticks: {
-              fontFamily: 'ClassicGrotesquePro-Book',
-              fontSize: 10,
-              fontColor: '#737487',
-              autoSkip: false,
-              maxRotation: 0,
-              minRotation: 0,
+              autoSkip: true,
+              maxTicksLimit: 10
             }
           }],
           yAxes: [{
-            stacked: false,
+            display: true,
             gridLines: {
+              display: true,
               color: 'rgba(212,212,222,1)',
-              drawTicks: false,
+              //drawTicks: false,
             },
             ticks: {
-              fontFamily: 'ClassicGrotesquePro-Book',
-              fontSize: 10,
-              fontColor: '#737487',
-              beginAtZero: true,
-              padding: 10,
+              display: false
             }
           }]
         }
       }
     });
 
-    this.chart.update(0);
+    //this.chart.update();
   }
 
   getInput() {

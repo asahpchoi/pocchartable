@@ -8,6 +8,7 @@ import 'rxjs/add/operator/map';
 export class PremiumService {
   private _subject = new BehaviorSubject(null);
   private _validationSubject = new BehaviorSubject(null);
+  private _premiumSubject = new BehaviorSubject(null);
 
   jsonData = {
     "channel": "Agency",
@@ -126,7 +127,7 @@ export class PremiumService {
           "productKey": {
             "primaryProduct": {
               "productPK": {
-                "productId": "ADD03"
+                "productId": "ADD03" //TRI01, ECI
               }
             },
             "associateProduct": {
@@ -199,8 +200,22 @@ export class PremiumService {
   url = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/project';
   validateUrl = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/validate';
   schemaUrl = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/readSchema/${productId}/01';
+  premiumUrl = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/calculatePremiums';
 
   constructor(private http: HttpClient) {
+  }
+
+  getPremiumResult() {
+    return this._premiumSubject;
+  }
+
+  submitPremiumCalculation() {
+    this.http.post(
+      this.premiumUrl, this.jsonData
+    ).subscribe(t => {
+      console.log('premium', t)
+      this._premiumSubject.next(t)
+    });
   }
 
   updateFundActivities(fundacts) {
@@ -211,18 +226,32 @@ export class PremiumService {
     this.jsonData.coverageInfo.faceAmount = input.faceAmt;
     this.jsonData.coverageInfo.plannedPremium = input.plannedPremium;
     this.jsonData.coverageInfo.parties.party.insuredAge = input.age;
+    this.jsonData.language = input.language ? input.language : 'en';
 
     let riders = input.riders.map(
       r => {
-        let rider = { ...this.riderSchema };
-        rider.faceAmount = r.faceAmount;
-        rider.parties.party.insuredAge = r.age;
-        rider.product.productKey.primaryProduct.productPK.productId = r.productId;
-        rider.occupation = "" + r.occupation;
+        let riderCopy = Object.assign({}, this.riderSchema);
 
-        return rider;
+        riderCopy.faceAmount = +r.faceAmount;
+        riderCopy.parties.party.insuredAge = +r.age;
+        riderCopy.occupation = "" + r.occupation;
+        if(!r.occupation) {
+          riderCopy.occupation = null;
+        }
+
+        riderCopy.product.productKey.primaryProduct.productPK.productId = r.productId;
+        riderCopy = JSON.parse(JSON.stringify(riderCopy));
+        console.log("ID",
+
+          r.productId,
+          riderCopy,
+          riderCopy.product.productKey.primaryProduct.productPK,
+
+        );
+        return riderCopy;
       }
     )
+
 
     this.jsonData.riders.coverageInfo = riders;
   }
@@ -232,7 +261,7 @@ export class PremiumService {
     return this.http.get(url);
   }
 
-  validate() {
+  submitValidation() {
     this.http.post(
       this.validateUrl, this.jsonData
     ).subscribe(d => {
@@ -256,18 +285,24 @@ export class PremiumService {
           )
         }
       }
+
       );
+
+      if(transformedError.GENERAL.length==0) {
+        transformedError = 0;
+      }
+
       console.log(transformedError)
       this._validationSubject.next(transformedError)
     });
   }
-  getValidations() {
+
+  getValidationResult() {
 
     return this._validationSubject;
   }
 
   submit() {
-
     console.log(this.jsonData);
     //this.jsonData = this.sampleJSON;
     this.http.post(

@@ -12,7 +12,7 @@ export class CustomerindicatorComponent implements OnInit {
   constructor(
     private ps: PremiumService
   ) {
-    this.ps.getValidations().subscribe(d => {
+    this.ps.getValidationResult().subscribe(d => {
       if(d) {
         this.errors = d;
         this.updated = false;

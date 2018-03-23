@@ -14,7 +14,7 @@ export class CustomValidatorComponent implements OnInit {
   constructor(
     private ps: PremiumService
   ) {
-    this.ps.getValidations().subscribe(d => {
+    this.ps.getValidationResult().subscribe(d => {
       if(d)
         this.errors = d;
     })

@@ -4,41 +4,47 @@
   <input matInput placeholder="Insured Age" required [(ngModel)]="productInput.age" [formControl]="ageControl">
 </mat-form-field>
 
+
+<input [(ngModel)]="productInput.language">
+<br>
+Default Rider from recommendation
+<pre>
+{{defaultRiders|json}}
+</pre>
 <h2>Summary Page</h2>
 <app-custom-validator field="GENERAL"></app-custom-validator>
+
 <hr>
+
 
 <div>
   <mat-form-field>
     <input matInput placeholder="Base Protection" required [(ngModel)]="productInput.faceAmount" (change)="loadBasePremium()" [formControl]="faceAmountControl">
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.basePremium" [formControl]="basePremiumControl" (change)="updatePlannedPremium()">
-  </mat-form-field>
-<app-custom-validator field="%TOTAL_AMOUNT%"></app-custom-validator>
-  base plan premium range: ({{minBasePremium | number }} - {{maxBasePremium | number}})
-</div>
-<div>
-
 
   <mat-form-field>
     <input matInput placeholder="Term Protection" required [(ngModel)]="productInput.termFaceAmount" (change)="updateTermPermium()">
   </mat-form-field>
+
+  <app-custom-validator field="%TOTAL_AMOUNT%"></app-custom-validator>
+  base plan premium range: ({{minBasePremium | number }} - {{maxBasePremium | number}})
+</div>
+<div>
+  <mat-form-field>
+    <input matInput placeholder="Base Premium" required [(ngModel)]="productInput.basePremium" [formControl]="basePremiumControl" (change)="updatePlannedPremium()">
+  </mat-form-field>
+
   <mat-form-field>
     <input matInput placeholder="Term Premium" required [(ngModel)]="productInput.termPremium" readonly>
   </mat-form-field>
-</div><div>
+</div>
+<div>
   <mat-form-field>
     <input matInput placeholder="Other Riders Premium" required [(ngModel)]="productInput.riderPremium" readonly>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Planned Premium" required [(ngModel)]="productInput.plannedPremium">
+    <input matInput placeholder="Planned Premium" required [(ngModel)]="productInput.plannedPremium" [formControl]="plannedPremiumControl">
   </mat-form-field>
-Topup: {{
-  productInput.plannedPremium -
-  productInput.riderPremium -
-  productInput.termPremium -
-  productInput.basePremium
-}}
+  Topup: {{getTopup()}}
 </div>
 <button (click)="check()">Submit</button> {{errors}}
