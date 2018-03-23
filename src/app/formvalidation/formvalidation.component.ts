@@ -71,9 +71,10 @@ export class FormvalidationComponent implements OnInit {
   }
 
   updatePlannedPremium() {
-    this.productInput.plannedPremium = this.productInput.termPremium +
-      this.productInput.riderPremium +
-      this.productInput.basePremium;
+    this.productInput.plannedPremium =
+      +this.productInput.termPremium +
+      +this.productInput.riderPremium +
+      +this.productInput.basePremium;
   }
 
   getTopup() {
