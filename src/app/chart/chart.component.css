@@ -2,6 +2,32 @@ table, canvas {
   background: #FAFAFA;
 }
 
+canvas {
+
+}
+
+
+
+
+.noUi-target{
+	height: 2745px;
+	width: 600px;
+	border-radius: 0px;
+	background-color: none;
+	border: none;
+	box-shadow:none;
+}
+
+.noUi-handle{
+	border-radius: 0px;
+	cursor: pointer;
+	box-shadow: none;
+	background-image: url(..\images\point.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+
 #slider {
   display: none;
   position: relative;

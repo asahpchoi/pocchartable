@@ -375,6 +375,10 @@ export class ChartComponent implements OnInit {
     }
 
     this.ctx = canvas.getContext("2d");
+    //console.log('age', this.proposalData["Age"])
+    let yGrid = this.proposalData["Age"].map(
+       a => a % 10 ? '#FAFAFA': 'rgba(212,212,222,1)'
+    )
 
 
     this.chart = new Chart(this.ctx, {
@@ -395,7 +399,8 @@ export class ChartComponent implements OnInit {
         scales: {
           xAxes: [{
             gridLines: {
-              display: false
+              drawBorder: false,
+							color:  yGrid
             },
             stacked: true,
             ticks: {
