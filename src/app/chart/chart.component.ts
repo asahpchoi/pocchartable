@@ -91,8 +91,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Premium Paid',
-            borderColor: '#3A539B',
-            borderWidth: 1,
+            borderColor: '#2081F2',
+            borderWidth: 2,
             pointRadius: 0,
             fill: false,
             data: this.proposalData["Total Premium"]
@@ -100,9 +100,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Account Value (Guaranteed)',
-            backgroundColor: '#84B3E0',
-            borderColor: 'rgba(0,0,0,0)',
-            borderWidth: 1,
+            backgroundColor: '#4ADB9D',
+            borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
             data: this.proposalData["Account Value (LOW)"]
@@ -110,8 +109,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Account Value (Non guaranteed)',
-            backgroundColor: '#3A539B',
-            borderColor: 'rgba(0,0,0,0)',
+            backgroundColor: '#4ADB9D',
+            borderColor: '#00BF66',
             borderWidth: 1,
             pointRadius: 0,
             fill: true,
@@ -136,7 +135,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Surrender Value (Guaranteed)',
-            backgroundColor: 'rgba(100, 100, 255, 1)',
+            backgroundColor: '#4ADB9D',
+            borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
             data: this.proposalData["Surrender Value (LOW)"]
@@ -144,7 +144,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Surrender Value (Non guaranteed)',
-            backgroundColor: 'rgba(200, 200, 255, 1)',
+            backgroundColor: '#4ADB9D',
+            borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
             data: this.proposalData["Surrender Value (" + this.rtn + ")"]//fake formula, it should come from product engine later
@@ -168,7 +169,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Total Death Benefit (Guaranteed)',
-            backgroundColor: 'rgba(100, 100, 255, 1)',
+            backgroundColor: '#4ADB9D',
+            borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
             data: this.proposalData["Death Benefit (LOW)"]
@@ -176,7 +178,8 @@ export class ChartComponent implements OnInit {
           {
             type: 'line',
             label: 'Total Death Benefit (Non guaranteed)',
-            backgroundColor: 'rgba(200, 200, 255, 1)',
+            backgroundColor: '#4ADB9D',
+            borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
             data: this.proposalData["Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
@@ -184,47 +187,53 @@ export class ChartComponent implements OnInit {
         ];
     }
   }
+
+
+
   showSlider(animation) {
-    console.log('ani' , animation, animation.animationObject.currentStep)
     if (!this.chart) return;
-
     let ctx = this.ctx;
-
-    var el = document.getElementById("slider");
-    el.style.display = 'block';
-
 
     var controller = this.chart.controller;
     var chart = controller.chart;
     var xAxis = controller.scales['x-axis-0'];
     var yAxis = controller.scales['y-axis-0'];
 
-
-    yAxis.left = 0;
+    var el = document.getElementById("slider");
+    el.style.display = 'block';
+    el.style.top = yAxis.bottom + 15 +  'px';
+    el.style.left = xAxis.left + 'px';
+    el.style.width = (xAxis.right - xAxis.left) + 'px';
 
     var numTicks = yAxis.ticks.length;
     var yDiff = yAxis.height / (numTicks - 1);
-    var yOffsetStart = yAxis.top;
+    var yOffsetStart = yAxis.top + 8;
 
+    let currformatter = new Intl.NumberFormat('vi-VN', {
+      style: 'currency',
+      currency: 'VND',
+      minimumFractionDigits: 0,
+    });
 
-    ctx.beginPath();
-    ctx.strokeStyle = "#CCCCCC";
-    ctx.moveTo(yAxis.right + 200, yAxis.top);
-    ctx.lineTo(yAxis.right + 200, yAxis.bottom);
-    ctx.stroke();
+    let formatter = new Intl.NumberFormat('vi-VN', {
+      minimumFractionDigits: 0,
+    });
 
+    var xOffset = 30;
+    ctx.font="10px";
+    ctx.fillStyle = "#888888"
+    ctx.fillText(currformatter.format(1000), xOffset, yOffsetStart + 10);
 
-
+    ctx.font="15px";
     yAxis.ticks.forEach(function(value, index) {
-      if (value == 0) return
-      var xOffset = 140;
-      var yOffset = yOffsetStart + index * yDiff;//(50 * index) + 60;
-      ctx.font = "12px Arial";
+      if (value < 200000) return;
+      if (index == 0) return;
+      var yOffset = yOffsetStart + index * yDiff;
 
-      ctx.fillStyle = "#CCCCCC";
-      ctx.fillText(value, xOffset, yOffset);
+      ctx.fillText(formatter.format(value), xOffset, yOffset);
     });
   }
+
   loadData() {
     this.ui.isLoading = true;
     this.premiumSvc.getData().throttleTime(500).subscribe(data => {
@@ -295,7 +304,7 @@ export class ChartComponent implements OnInit {
 
   toogleChart() {
     this.chart.config.data.datasets.forEach(function(dataset) {
-      dataset.data = dataset.data.map(d=>100);
+      dataset.data = dataset.data.map(d => 100);
     });
     this.chart.update();
   }
@@ -347,20 +356,31 @@ export class ChartComponent implements OnInit {
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: chartData,
+      maintainAspectRatio: true,
       options: {
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
+        },
         animation: {
           duration: 1,
           onProgress: this.showSlider,
         },
         scales: {
           xAxes: [{
-            stacked: true,
             gridLines: {
-              display: false,
+              display: false
             },
+            stacked: true,
             ticks: {
-              autoSkip: true,
-              maxTicksLimit: 10
+              fontSize: 20,
+              autoSkip: false,
+              callback: function(tick, index, ticks) {
+                return (tick % 10 == 0 || index == 0 || index == ticks.length - 1) ? tick : "";
+              },
+              maxRotation: 0 // angle in degrees
             }
           }],
           yAxes: [{
@@ -368,7 +388,7 @@ export class ChartComponent implements OnInit {
             gridLines: {
               display: true,
               color: 'rgba(212,212,222,1)',
-              //drawTicks: false,
+              zeroLineColor: '#000000'
             },
             ticks: {
               display: false

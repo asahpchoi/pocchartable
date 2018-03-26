@@ -1,0 +1,11 @@
+table, canvas {
+  background: #FAFAFA;
+}
+
+#slider {
+  display: none;
+  position: relative;
+}
+tr {
+  background: #FFF;
+}

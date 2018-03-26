@@ -1,10 +1,9 @@
 <a routerLink="/" routerLinkActive="active">
   << </a>
-<button (click)="toogleChart()">Toogle </button>
+    <button (click)="toogleChart()">Toogle </button>
     <mat-accordion>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-
           <mat-panel-title>
             Change
           </mat-panel-title>
@@ -35,46 +34,46 @@
         <mat-slider [(ngModel)]="ui.step" min=1 max=5 (change)="createChart()"></mat-slider>
       </mat-expansion-panel>
     </mat-accordion>
+
+    <div *ngIf="ui.isLoading">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+    <div style="width:100%;margin:0;padding:0" [ngStyle]="{'display':showTable?'none':'block'}">
+
+
+      <nouislider id="slider" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="ui.sliderValues"></nouislider>
+      <canvas id="canvas">
+      </canvas>
+
+      <br>
+      <table *ngIf="proposalData['Year']">
+        <tr>
+          <th class="sticky">
+            Year/Age
+          </th>
+          <th>
+            Total Premium
+          </th>
+
+          <th> Topup </th>
+          <th> Withdrawal </th>
+          <th *ngIf="selectedView=='AV' || selectedView=='SV'"> Account Value</th>
+          <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
+          <th *ngIf="selectedView=='DB'"> Death Benefit</th>
+        </tr>
+        <tr *ngFor="let i of [0, ui.sliderValues[0], ui.sliderValues[1]]">
+          <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
+          <td>{{proposalData["Total Premium"][i]| currency}}</td>
+
+          <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
+          <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>
+          <td *ngIf="selectedView=='AV' || selectedView=='SV'"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
+          <td *ngIf="selectedView=='SV'"> {{proposalData["Surrender Value (" + rtn + ")"][i]| currency}}</td>
+          <td *ngIf="selectedView=='DB'"> {{proposalData["Death Benefit (" + rtn + ")"][i]| currency}}</td>
+        </tr>
+      </table>
+    </div>
     <mat-card>
-      <div *ngIf="ui.isLoading">
-        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-      </div>
-      <div style="width:100%;" [ngStyle]="{'display':showTable?'none':'block'}">
-
-
-        <nouislider id="slider" style="" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="ui.sliderValues"></nouislider>
-        {{value}}
-        <canvas id="canvas">
-    </canvas>
-
-        <br>
-        <table *ngIf="proposalData['Year']">
-          <tr>
-            <th class="sticky">
-              Year/Age
-            </th>
-            <th>
-              Total Premium
-            </th>
-
-            <th> Topup </th>
-            <th> Withdrawal </th>
-            <th *ngIf="selectedView=='AV' || selectedView=='SV'"> Account Value</th>
-            <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
-            <th *ngIf="selectedView=='DB'"> Death Benefit</th>
-          </tr>
-          <tr *ngFor="let i of [0, ui.sliderValues[0], ui.sliderValues[1]]">
-            <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
-            <td>{{proposalData["Total Premium"][i]| currency}}</td>
-
-            <td><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
-            <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i)"></td>
-            <td *ngIf="selectedView=='AV' || selectedView=='SV'"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
-            <td *ngIf="selectedView=='SV'"> {{proposalData["Surrender Value (" + rtn + ")"][i]| currency}}</td>
-            <td *ngIf="selectedView=='DB'"> {{proposalData["Death Benefit (" + rtn + ")"][i]| currency}}</td>
-          </tr>
-        </table>
-      </div>
       <div style="width:100%;" [ngStyle]="{'display':!showTable?'none':'block'}">
         <table>
           <tr>
