@@ -205,24 +205,9 @@ export class PremiumService {
   constructor(private http: HttpClient) {
   }
 
-  getPremiumResult() {
-    return this._premiumSubject;
-  }
-
-  submitPremiumCalculation() {
-    this.http.post(
-      this.premiumUrl, this.jsonData
-    ).subscribe(t => {
-      console.log('premium', t)
-      this._premiumSubject.next(t)
-    });
-    return this._premiumSubject;
-  }
-
   updateFundActivities(fundacts) {
     this.jsonData.fundActivities.fundActivity = fundacts;
   }
-
   updateBasic(input) {
     this.jsonData.coverageInfo.faceAmount = input.faceAmt;
     this.jsonData.coverageInfo.plannedPremium = input.plannedPremium;
@@ -236,7 +221,7 @@ export class PremiumService {
         riderCopy.faceAmount = +r.faceAmount;
         riderCopy.parties.party.insuredAge = +r.age;
         riderCopy.occupation = "" + r.occupation;
-        if(!r.occupation) {
+        if (!r.occupation) {
           riderCopy.occupation = null;
         }
 
@@ -252,8 +237,6 @@ export class PremiumService {
         return riderCopy;
       }
     )
-
-
     this.jsonData.riders.coverageInfo = riders;
   }
 
@@ -262,45 +245,29 @@ export class PremiumService {
     return this.http.get(url);
   }
 
+  submitPremiumCalculation() {
+    this.http.post(
+      this.premiumUrl, this.jsonData
+    ).subscribe(t => {
+      this._premiumSubject.next(t)
+    });
+    return this._premiumSubject;
+  }
+
+  getPremiumResult() {
+    return this._premiumSubject;
+  }
+
   submitValidation() {
     this.http.post(
       this.validateUrl, this.jsonData
-    ).subscribe(d => {
-      if (!d) return;
-      let transformedError;
-      transformedError = { GENERAL: [] };
-      (d as Array<any>).forEach(err => {
-        let keys = Object.keys(err["parameters"])
-        if (keys.length == 0) {
-          transformedError.GENERAL.push(err.message)
-        }
-        else {
-          keys.forEach(
-            k => {
-              //k = k.replace('%', '', true)
-              if (!transformedError[k]) {
-                transformedError[k] = [];
-              }
-              transformedError[k].push(err.message);
-            }
-          )
-        }
-      }
-
-      );
-
-      if(transformedError.GENERAL.length==0) {
-        transformedError = 0;
-      }
-
-      console.log(transformedError)
-      this._validationSubject.next(transformedError)
+    ).subscribe(t => {
+      this._validationSubject.next(t)
     });
     return this._validationSubject;
   }
 
   getValidationResult() {
-
     return this._validationSubject;
   }
 
