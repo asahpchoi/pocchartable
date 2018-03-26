@@ -191,22 +191,36 @@ export class ChartComponent implements OnInit {
 
 
   showSlider(animation) {
+
     if (!this.chart) return;
     let ctx = this.ctx;
 
     var controller = this.chart.controller;
+    var ds = this.chart.data.datasets.filter(x => x.label == "Account Value (Guaranteed)")[0].data;
+    var lapsed;
+
+    ds.forEach((d, i) => {
+      if (d == 0 && !lapsed) {
+        lapsed = i;
+      }
+    });
+    console.log(lapsed);
+
+
     var chart = controller.chart;
     var xAxis = controller.scales['x-axis-0'];
     var yAxis = controller.scales['y-axis-0'];
 
     var el = document.getElementById("slider");
     el.style.display = 'block';
-    el.style.top = yAxis.bottom + 15 +  'px';
+    el.style.top = yAxis.bottom + 15 + 'px';
     el.style.left = xAxis.left + 'px';
-    el.style.width = (xAxis.right - xAxis.left) + 'px';
+    el.style.width = xAxis.width + 'px';
 
     var numTicks = yAxis.ticks.length;
     var yDiff = yAxis.height / (numTicks - 1);
+    var xDiff = xAxis.width / (xAxis.ticks.length - 1);
+
     var yOffsetStart = yAxis.top + 8;
 
     let currformatter = new Intl.NumberFormat('vi-VN', {
@@ -220,11 +234,11 @@ export class ChartComponent implements OnInit {
     });
 
     var xOffset = 30;
-    ctx.font="10px";
+    ctx.font = "10px";
     ctx.fillStyle = "#888888"
     ctx.fillText(currformatter.format(1000), xOffset, yOffsetStart + 10);
 
-    ctx.font="15px";
+    ctx.font = "15px";
     yAxis.ticks.forEach(function(value, index) {
       if (value < 200000) return;
       if (index == 0) return;
@@ -232,6 +246,18 @@ export class ChartComponent implements OnInit {
 
       ctx.fillText(formatter.format(value), xOffset, yOffset);
     });
+
+
+    if(lapsed) {
+      let x = (lapsed + 1) * xDiff;
+
+      ctx.beginPath();
+      ctx.strokeStyle="#FF0000";
+      ctx.setLineDash([5, 5]);
+      ctx.moveTo(x,yAxis.top);
+      ctx.lineTo(x,yAxis.bottom);
+      ctx.stroke();
+    }
   }
 
   loadData() {
@@ -329,7 +355,7 @@ export class ChartComponent implements OnInit {
     )
     this.maxIndex = this.proposalData["Age"].length - 1;
     this.ui.sliderValues = [0, this.maxIndex];
-    console.log("propose data", this.proposalData);
+    //console.log("propose data", this.proposalData);
     this.updateView();
     let chartData = {
       labels: this.proposalData["Age"].filter((d, i) => i % this.ui.step == 0),
@@ -341,8 +367,6 @@ export class ChartComponent implements OnInit {
         x.data = x.data.filter((d, i) => i % this.ui.step == 0)
       }
     )
-
-
 
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if (!canvas) return;
@@ -398,7 +422,6 @@ export class ChartComponent implements OnInit {
       }
     });
 
-    //this.chart.update();
   }
 
   getInput() {
