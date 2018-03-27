@@ -64,12 +64,13 @@ export class ProductInputComponent implements OnInit {
         riders: this.productInput.riders
       }
     );
+    console.log('loaddata')
 
-    this.premiumSvc.submit();
+    this.premiumSvc.submitProjection();
 
   }
   ngOnInit() {
-      this.loadData();
+      //this.loadData();
   }
 
 }

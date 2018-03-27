@@ -18,6 +18,7 @@ export class ChartComponent implements OnInit {
     figure1:0,
     figure2:0
   };
+  originalDataSet = [];
 
   input = {
     topup: [],
@@ -93,7 +94,7 @@ export class ChartComponent implements OnInit {
       ];
     this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
     this.premiumSvc.submit();
-    this.createChart(0);
+    this.createChart();
   }
   updateView() {
     if (this.selectedView == 'AV') {
@@ -289,13 +290,13 @@ export class ChartComponent implements OnInit {
   }
 
   loadData() {
+    console.log('loadData')
     this.ui.isLoading = true;
-    this.premiumSvc.getData().throttleTime(200).subscribe(data => {
-
+    this.premiumSvc.getProjectionResult().subscribe(data => {
       if (data) {
         this.ui.isLoading = false;
         this.ds = data.projections[0].columns;
-        this.createChart(0);
+        this.createChart();
       }
     });
 
@@ -353,7 +354,7 @@ export class ChartComponent implements OnInit {
         object[index + i] = result.value;
       }
       this.submitfundActivity();
-      this.createChart(0)
+      this.createChart()
     });
   }
 
@@ -363,7 +364,8 @@ export class ChartComponent implements OnInit {
     });
     this.chart.update();
   }
-  createChart(delay) {
+
+  createChart() {
     //('create chart');
     let fields = this.ds.map(x => x.Name)
     fields.forEach(
@@ -420,7 +422,6 @@ export class ChartComponent implements OnInit {
           enabled: false
         },
         animation: {
-          duration: 1,
           onProgress: this.modifyChart,
         },
         scales: {

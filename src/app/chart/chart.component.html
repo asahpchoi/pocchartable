@@ -74,7 +74,7 @@
           <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
           <th *ngIf="selectedView=='DB'"> Death Benefit</th>
         </tr>
-        {{lapsed}}
+
         <tr *ngFor="let i of [ui.sliderValues[0], ui.sliderValues[1]]">
 
           <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>

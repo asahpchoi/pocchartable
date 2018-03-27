@@ -194,7 +194,7 @@ export class PremiumService {
     "occupation": "1",
     "rcc": "N"
   };
-
+  resultCache;
   t;
 
   url = 'https://product-engine-nodejs.apps.ext.eas.pcf.manulife.com/api/v1/product/project';
@@ -267,24 +267,27 @@ export class PremiumService {
     return this._validationSubject;
   }
 
+
+
   getValidationResult() {
     return this._validationSubject;
   }
 
-  submit() {
-    console.log(this.jsonData);
-    //this.jsonData = this.sampleJSON;
+  submitProjection() {
     this.http.post(
       this.url, this.jsonData
-    ).subscribe(t => {
+    ).throttleTime(5000).subscribe(t => {
+      //if(JSON.stringify(this.resultCache) == JSON.stringify(t)) {
+        //return;
+      //}
+      this.resultCache = t;
       console.log('return', t)
       this._subject.next(t)
     });
     return this._subject;
   }
-  getData() {
+  getProjectionResult() {
     return this._subject;
   }
-
 
 }
