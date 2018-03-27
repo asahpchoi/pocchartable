@@ -61,7 +61,7 @@ export class ChartComponent implements OnInit {
     let rtns = ["LOW", "MEDIUM", "HIGH"];
     rtns.forEach(r => {
       this.proposalData["Account Value (" + r + ")"].forEach((d, i) => {
-        console.log(r, this.chart.lapsed[r], d, i)
+
         if (d == 0 && this.chart.lapsed[r] == 0) {
           this.chart.lapsed[r] = i;
         }
@@ -69,7 +69,7 @@ export class ChartComponent implements OnInit {
     });
   }
   submitfundActivity() {
-    //console.log(this.input)
+
     this.ui.isLoading = true;
     let fundActs =
       [
@@ -245,7 +245,7 @@ export class ChartComponent implements OnInit {
 
       ctx.fillText(formatter.format(value), xOffset, yOffset);
     });
-console.log('rtn', this.chart.rtn, this.chart.lapsed, this.chart.lapsed[this.chart.rtn]);
+
     if (this.chart.lapsed[this.rtn] > 0) {
       let x = (this.chart.lapsed[this.rtn] + 1) * xDiff;
       ctx.beginPath();
@@ -259,7 +259,7 @@ console.log('rtn', this.chart.rtn, this.chart.lapsed, this.chart.lapsed[this.cha
   loadData() {
     this.ui.isLoading = true;
     this.premiumSvc.getData().throttleTime(200).subscribe(data => {
-      //console.log('data', data)
+      
       if (data) {
         this.ui.isLoading = false;
         this.ds = data.projections[0].columns;

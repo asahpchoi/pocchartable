@@ -62,9 +62,9 @@
           <th *ngIf="selectedView=='DB'"> Death Benefit</th>
         </tr>
         {{lapsed}}
-        <tr *ngFor="let i of [0, ui.sliderValues[0], ui.sliderValues[1]]">
+        <tr *ngFor="let i of [ui.sliderValues[0], ui.sliderValues[1]]">
 
-          <td  class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
+          <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
           <td *ngIf="isLapsed(i)" colspan=4> Policy Lapsed</td>
           <td *ngIf="!isLapsed(i)">{{proposalData["Total Premium"][i]| currency}}</td>
           <td *ngIf="!isLapsed(i)"><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input.topup, i)"> </td>
@@ -75,42 +75,41 @@
         </tr>
       </table>
     </div>
-    <mat-card>
-      <div style="width:100%;" [ngStyle]="{'display':!showTable?'none':'block'}">
-        <table>
-          <tr>
-            <th class="sticky">
-              Year/Age
-            </th>
-            <th>
-              Total Premium
-            </th>
 
-            <th> Topup </th>
-            <th> Withdrawal </th>
-            <th *ngFor="let f of fullTableFields">
-              {{f.replace('($rtn)', '')}}
-            </th>
-            <th *ngFor="let f of OptionalFields">
-              {{f.replace('($rtn)', '')}}
-            </th>
-          </tr>
+    <div [ngStyle]="{'display':!showTable?'none':'block'}">
+      <table>
+        <tr>
+          <th class="sticky">
+            Year/Age
+          </th>
+          <th>
+            Total Premium
+          </th>
 
-          <tr *ngFor="let i of getShowTable()">
+          <th> Topup </th>
+          <th> Withdrawal </th>
+          <th *ngFor="let f of fullTableFields">
+            {{f.replace('($rtn)', '')}}
+          </th>
+          <th *ngFor="let f of OptionalFields">
+            {{f.replace('($rtn)', '')}}
+          </th>
+        </tr>
 
-            <td class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
-            <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
+        <tr *ngFor="let i of getShowTable()">
 
-            <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
-            <td><input matInput [(ngModel)]="input.withdrawal[i - 1]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i-1)"></td>
-            <td *ngFor="let f of fullTableFields">
-              {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
-            </td>
-            <td *ngFor="let f of OptionalFields">
-              {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
-            </td>
-          </tr>
-        </table>
+          <td class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
+          <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
 
-      </div>
-    </mat-card>
+          <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
+          <td><input matInput [(ngModel)]="input.withdrawal[i - 1]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i-1)"></td>
+          <td *ngFor="let f of fullTableFields">
+            {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
+          </td>
+          <td *ngFor="let f of OptionalFields">
+            {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
+          </td>
+        </tr>
+      </table>
+
+    </div>

@@ -1,11 +1,26 @@
 table, canvas {
   background: #FAFAFA;
+  width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+  background: #FAFAFA;
+}
+td {
+  background: #FFF;
+    border-bottom: 4px solid #FAFAFA;
+}
+
+th, td {
+  padding: 10px;
 }
 
 #slider {
   display: none;
   position: relative;
-}
-tr {
-  background: #FFF;
 }
