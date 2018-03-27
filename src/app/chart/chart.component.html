@@ -31,17 +31,30 @@
         <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
         <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
 
-        <mat-slider [(ngModel)]="ui.step" min=1 max=5 (change)="createChart()"></mat-slider>
       </mat-expansion-panel>
     </mat-accordion>
 
+    <div class="legend" id="legend">
+      <div class="title">
+        Cumulative Premium
+      </div>
+      <div class="figure1">
+        {{legend.figure1 | currency}}
+      </div>
+      <div class="title">
+        Account Value
+      </div>
+
+      <div class="figure2">
+        {{legend.figure2| currency}}
+      </div>
+    </div>
     <div *ngIf="ui.isLoading">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
     <div style="width:100%;margin:0;padding:0" [ngStyle]="{'display':showTable?'none':'block'}">
-
-
-      <nouislider id="slider" [connect]="true" [min]="0" [max]="maxIndex" [step]="1" [(ngModel)]="ui.sliderValues"></nouislider>
+      <mat-slider id="slider1" (input)="onInputChange($event)" [thumb-label]="true" [(ngModel)]="ui.sliderValues[0]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
+      <mat-slider id="slider2" (input)="onInputChange($event)" [thumb-label]="true" [(ngModel)]="ui.sliderValues[1]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
       <canvas id="canvas">
       </canvas>
 

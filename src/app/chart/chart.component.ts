@@ -14,7 +14,7 @@ import { InputChartSliderComponent } from '../input-chart-slider/input-chart-sli
 export class ChartComponent implements OnInit {
   avaliableFields = [`Total Death Benefit ($rtn)`, 'Premium Load', `COI ($rtn)`, `Loyalty Bonus ($rtn)`, 'Total Premium'];
   fullTableFields = ['Account Value ($rtn)', 'Surrender Value ($rtn)', 'Death Benefit ($rtn)']
-
+  legend = {};
 
   input = {
     topup: [],
@@ -52,6 +52,7 @@ export class ChartComponent implements OnInit {
     this.premiumSvc = premiumSvc;
     this.loadData();
   }
+
   getLapsed() {
     this.chart.lapsed = {
       LOW: 0,
@@ -69,7 +70,6 @@ export class ChartComponent implements OnInit {
     });
   }
   submitfundActivity() {
-
     this.ui.isLoading = true;
     let fundActs =
       [
@@ -88,12 +88,9 @@ export class ChartComponent implements OnInit {
         }
         )
       ];
-
-
     this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
     this.premiumSvc.submit();
     this.createChart(0);
-
   }
   updateView() {
     if (this.selectedView == 'AV') {
@@ -210,11 +207,17 @@ export class ChartComponent implements OnInit {
     var xAxis = controller.scales['x-axis-0'];
     var yAxis = controller.scales['y-axis-0'];
 
-    var el = document.getElementById("slider");
+    var el = document.getElementById("slider1");
+    var el2 = document.getElementById("slider2");
     el.style.display = 'block';
-    el.style.top = yAxis.bottom + 15 + 'px';
+    el.style.top = yAxis.bottom + 55 + 'px';
     el.style.left = xAxis.left + 'px';
     el.style.width = xAxis.width + 'px';
+    el2.style.display = 'block';
+    el2.style.top = yAxis.bottom + 55 + 'px';
+    el2.style.left = xAxis.left + 'px';
+    el2.style.width = xAxis.width + 'px';
+
 
     var numTicks = yAxis.ticks.length;
     var yDiff = yAxis.height / (numTicks - 1);
@@ -256,10 +259,36 @@ export class ChartComponent implements OnInit {
       ctx.stroke();
     }
   }
+
+  showLegend(index) {
+    if (index == -1) {
+      document.getElementById("legend").style.display = 'none';
+    } else {
+      document.getElementById("legend").style.display = 'block';
+      this.updateLegend(index - 1);
+    }
+  }
+
+  onInputChange(event: any) {
+    this.updateLegend(event.value);
+  }
+
+  updateLegend(i) {
+    this.legend.figure1 = this.proposalData["Total Premium"][i]
+    this.legend.figure2 = this.proposalData["Account Value (" + this.rtn + ")"][i]
+
+
+    var controller = this.chart.controller;
+    var chart = controller.chart;
+    var xAxis = controller.scales['x-axis-0'];
+    document.getElementById("legend").style.top = xAxis.top - 80 + 'px'
+    document.getElementById("legend").style.left = xAxis.left + xAxis.width / xAxis.ticks.length * i * 0.8 + 'px';
+  }
+
   loadData() {
     this.ui.isLoading = true;
     this.premiumSvc.getData().throttleTime(200).subscribe(data => {
-      
+
       if (data) {
         this.ui.isLoading = false;
         this.ds = data.projections[0].columns;
@@ -312,6 +341,7 @@ export class ChartComponent implements OnInit {
       width: '300px',
       data: {
         value: object[index]
+
       }
     });
 
@@ -425,7 +455,7 @@ export class ChartComponent implements OnInit {
   }
 
   isLapsed(i) {
-    if(!this.chart) return false;
+    if (!this.chart) return false;
     let lapsedYear = this.chart.lapsed[this.rtn];
     return lapsedYear > 0 && lapsedYear <= i;
   }

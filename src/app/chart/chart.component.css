@@ -2,12 +2,35 @@ table, canvas {
   background: #FAFAFA;
   width: 100%;
 }
-
+.title {
+  color: white;
+}
+.figure1 {
+  color: blue;
+  font-size: x-large;
+}
+.figure2 {
+  color: green;
+  font-size: x-large;
+}
+.legend {
+  width: 200px;
+  height: 100px;
+  top: 500px;
+  left: 0px;
+  background-color: black;
+  position: absolute;
+  display: none;
+  padding: 10px;
+}
 table {
     border-collapse: collapse;
     width: 100%;
 }
-
+mat-slider {
+   position:absolute;
+   display: none;
+}
 th {
   background: #FAFAFA;
 }
