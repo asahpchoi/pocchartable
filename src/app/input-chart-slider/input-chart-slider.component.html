@@ -1,0 +1,24 @@
+<div class="app-input-chart-slider">
+    <div class="input-chart-slider-track"
+    [ngStyle]="trackStyle"></div>
+    <mat-slider #sliderValue
+        class="input-chart-slider slider-value"
+        [ngStyle]="matSliderStyle" 
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [(ngModel)]="ngModel.value" 
+        (touchmove)="sliderValue_touchmove($event)"
+        (touchend)="sliderValue_touchmove($event)" >
+    </mat-slider>
+    <mat-slider #slideMaxValue
+        class="input-chart-slider slider-maxvalue"
+        [ngStyle]="matSliderStyle" 
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        [(ngModel)]="ngModel.maxValue" 
+        (touchmove)="slideMaxValue_touchmove($event)"
+        (touchend)="slideMaxValue_touchmove($event)" >
+    </mat-slider>
+</div>

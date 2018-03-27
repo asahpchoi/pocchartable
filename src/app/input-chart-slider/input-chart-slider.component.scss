@@ -1,0 +1,20 @@
+.app-input-chart-slider {
+    position: relative;
+    .input-chart-slider-track {
+        height: 100;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translateY(-50%);
+        background-color: red;
+        display: block;
+        content: "";
+    }
+    .input-chart-slider {
+        height: 100;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translateY(50);
+    }
+}

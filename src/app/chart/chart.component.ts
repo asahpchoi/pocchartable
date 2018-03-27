@@ -3,6 +3,8 @@ import { Chart } from 'chart.js';
 import { PremiumService } from '../premium.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TopupInputComponent } from '../topup-input/topup-input.component';
+import { InputChartSliderComponent } from '../input-chart-slider/input-chart-slider.component';
+
 
 @Component({
   selector: 'app-chart',
@@ -50,7 +52,22 @@ export class ChartComponent implements OnInit {
     this.premiumSvc = premiumSvc;
     this.loadData();
   }
-
+  getLapsed() {
+    this.chart.lapsed = {
+      LOW: 0,
+      MEDIUM: 0,
+      HIGH: 0
+    }
+    let rtns = ["LOW", "MEDIUM", "HIGH"];
+    rtns.forEach(r => {
+      this.proposalData["Account Value (" + r + ")"].forEach((d, i) => {
+        console.log(r, this.chart.lapsed[r], d, i)
+        if (d == 0 && this.chart.lapsed[r] == 0) {
+          this.chart.lapsed[r] = i;
+        }
+      })
+    });
+  }
   submitfundActivity() {
     //console.log(this.input)
     this.ui.isLoading = true;
@@ -76,13 +93,7 @@ export class ChartComponent implements OnInit {
     this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
     this.premiumSvc.submit();
     this.createChart(0);
-    /*
-    "attainAge": 42,
-    "withdrawal": 300000.00
-  }, {
-    "attainAge": 48,
-    "topupPremium": 1000000.00
-    */
+
   }
   updateView() {
     if (this.selectedView == 'AV') {
@@ -187,24 +198,12 @@ export class ChartComponent implements OnInit {
         ];
     }
   }
-
-
-
-  showSlider(animation) {
-
+  modifyChart(animation) {
     if (!this.chart) return;
     let ctx = this.ctx;
 
     var controller = this.chart.controller;
-    var ds = this.chart.data.datasets.filter(x => x.label == "Account Value (Guaranteed)")[0].data;
-    var lapsed;
 
-    ds.forEach((d, i) => {
-      if (d == 0 && !lapsed) {
-        lapsed = i;
-      }
-    });
-    console.log(lapsed);
 
 
     var chart = controller.chart;
@@ -246,23 +245,20 @@ export class ChartComponent implements OnInit {
 
       ctx.fillText(formatter.format(value), xOffset, yOffset);
     });
-
-
-    if(lapsed) {
-      let x = (lapsed + 1) * xDiff;
-
+console.log('rtn', this.chart.rtn, this.chart.lapsed, this.chart.lapsed[this.chart.rtn]);
+    if (this.chart.lapsed[this.rtn] > 0) {
+      let x = (this.chart.lapsed[this.rtn] + 1) * xDiff;
       ctx.beginPath();
-      ctx.strokeStyle="#FF0000";
+      ctx.strokeStyle = "#FF0000";
       ctx.setLineDash([5, 5]);
-      ctx.moveTo(x,yAxis.top);
-      ctx.lineTo(x,yAxis.bottom);
+      ctx.moveTo(x, yAxis.top);
+      ctx.lineTo(x, yAxis.bottom);
       ctx.stroke();
     }
   }
-
   loadData() {
     this.ui.isLoading = true;
-    this.premiumSvc.getData().throttleTime(500).subscribe(data => {
+    this.premiumSvc.getData().throttleTime(200).subscribe(data => {
       //console.log('data', data)
       if (data) {
         this.ui.isLoading = false;
@@ -342,6 +338,7 @@ export class ChartComponent implements OnInit {
         this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
       }
     )
+
     this.proposalData["Age"].forEach(
       (x, i) => {
         let row = {}
@@ -355,8 +352,9 @@ export class ChartComponent implements OnInit {
     )
     this.maxIndex = this.proposalData["Age"].length - 1;
     this.ui.sliderValues = [0, this.maxIndex];
-    //console.log("propose data", this.proposalData);
+
     this.updateView();
+
     let chartData = {
       labels: this.proposalData["Age"].filter((d, i) => i % this.ui.step == 0),
       datasets: this.viewDataSet
@@ -370,12 +368,12 @@ export class ChartComponent implements OnInit {
 
     let canvas = <HTMLCanvasElement>document.getElementById("canvas");
     if (!canvas) return;
-    if (this.chart) {
-      //this.chart.destroy();
-    }
 
     this.ctx = canvas.getContext("2d");
 
+    let yGrid = this.proposalData["Age"].map(
+      a => a % 10 ? '#FAFAFA' : 'rgba(212,212,222,1)'
+    )
 
     this.chart = new Chart(this.ctx, {
       type: 'bar',
@@ -390,12 +388,13 @@ export class ChartComponent implements OnInit {
         },
         animation: {
           duration: 1,
-          onProgress: this.showSlider,
+          onProgress: this.modifyChart,
         },
         scales: {
           xAxes: [{
             gridLines: {
-              display: false
+              drawBorder: false,
+              color: yGrid
             },
             stacked: true,
             ticks: {
@@ -421,7 +420,14 @@ export class ChartComponent implements OnInit {
         }
       }
     });
+    this.getLapsed();
+    this.chart.rtn = this.rtn;
+  }
 
+  isLapsed(i) {
+    if(!this.chart) return false;
+    let lapsedYear = this.chart.lapsed[this.rtn];
+    return lapsedYear > 0 && lapsedYear <= i;
   }
 
   getInput() {

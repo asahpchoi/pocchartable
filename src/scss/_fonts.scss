@@ -6,13 +6,13 @@
 $font-path: "./assets/fonts";
 @font-face {
     font-family: 'ClassicGrotesquePro-Book';
-    src: url($font-path + "/ClassicGrotesquePro-Book.ttf") format("truetype");
+    src: url($font-path + "/ClassicGrotesquePro-Book.otf") format("otf");
     src: url($font-path + "/ClassicGrotesquePro-Book.woff") format("woff");
 }
 @font-face {
     font-family: 'ClassicGrotesquePro-SmBd';
-    src: url($font-path + "/ClassicGrotesquePro-SmBd.ttf") format("truetype");
-    src: url($font-path + "/ClassicGrotesquePro-SmBd.woff") format("woff");
+    src: url($font-path + "/ClassicGrotesquePro-SemiBold.otf") format("otf");
+    src: url($font-path + "/ClassicGrotesquePro-SemiBold.woff") format("woff");
 }
 @font-face {
     font-family: 'PlayfairDisplay-Italic';

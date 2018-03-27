@@ -34,7 +34,7 @@ import { CustomerViewComponent } from './customer-view/customer-view.component';
 import { FormvalidationComponent } from './formvalidation/formvalidation.component';
 import { CustomValidatorComponent } from './custom-validator/custom-validator.component';
 import { CustomerindicatorComponent } from './customerindicator/customerindicator.component';
-
+import { InputChartSliderComponent} from './input-chart-slider/input-chart-slider.component';
 
 
 const appRoutes: Routes = [
@@ -57,7 +57,8 @@ const appRoutes: Routes = [
     CustomerViewComponent,
     FormvalidationComponent,
     CustomValidatorComponent,
-    CustomerindicatorComponent
+    CustomerindicatorComponent,
+    InputChartSliderComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -78,7 +79,8 @@ const appRoutes: Routes = [
   providers: [PremiumService, ProductService, CustomerService],
   bootstrap: [AppComponent],
   entryComponents: [
-    TopupInputComponent
+    TopupInputComponent,
+    InputChartSliderComponent
   ]
 })
 export class AppModule { }
