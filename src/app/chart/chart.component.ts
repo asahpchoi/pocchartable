@@ -19,6 +19,7 @@ export class ChartComponent implements OnInit {
     figure2:0
   };
   originalDataSet = [];
+  switched = true;
 
   input = {
     topup: [],
@@ -29,7 +30,7 @@ export class ChartComponent implements OnInit {
     isLoading: true,
     step: 1
   }
-
+  originalProposalData;
   chart;
   ctx: CanvasRenderingContext2D;
 
@@ -93,7 +94,7 @@ export class ChartComponent implements OnInit {
         )
       ];
     this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
-    this.premiumSvc.submit();
+    this.premiumSvc.submitProjection();
     this.createChart();
   }
   updateView() {
@@ -102,7 +103,7 @@ export class ChartComponent implements OnInit {
         [
           {
             type: 'line',
-            label: 'Premium Paid',
+            label: "Total Premium",
             borderColor: '#2081F2',
             borderWidth: 2,
             pointRadius: 0,
@@ -111,7 +112,7 @@ export class ChartComponent implements OnInit {
           },
           {
             type: 'line',
-            label: 'Account Value (Guaranteed)',
+            label: 'Account Value (LOW)',
             backgroundColor: '#4ADB9D',
             borderColor: '#00BF66',
             pointRadius: 0,
@@ -120,7 +121,7 @@ export class ChartComponent implements OnInit {
           },
           {
             type: 'line',
-            label: 'Account Value (Non guaranteed)',
+            label: "Account Value (" + this.rtn + ")",
             backgroundColor: '#4ADB9D',
             borderColor: '#00BF66',
             borderWidth: 1,
@@ -213,6 +214,7 @@ export class ChartComponent implements OnInit {
 
     var el = document.getElementById("slider1");
     var el2 = document.getElementById("slider2");
+    var toogle = document.getElementById("toogle");
     el.style.display = 'block';
     el.style.top = yAxis.bottom + 55 + 'px';
     el.style.left = xAxis.left + 'px';
@@ -221,6 +223,10 @@ export class ChartComponent implements OnInit {
     el2.style.top = yAxis.bottom + 55 + 'px';
     el2.style.left = xAxis.left + 'px';
     el2.style.width = xAxis.width + 'px';
+
+    toogle.style.top = yAxis.top + 100 + 'px';
+    toogle.style.left = xAxis.right - 100 + 'px';
+    toogle.style.display = 'block';
 
 
     var numTicks = yAxis.ticks.length;
@@ -359,8 +365,11 @@ export class ChartComponent implements OnInit {
   }
 
   toogleChart() {
+    let selectDataSet = this.switched ? this.originalProposalData : this.proposalData;
+    this.switched = !this.switched;
+
     this.chart.config.data.datasets.forEach(function(dataset) {
-      dataset.data = dataset.data.map(d => 100);
+      dataset.data = selectDataSet[dataset.label]
     });
     this.chart.update();
   }
@@ -374,6 +383,8 @@ export class ChartComponent implements OnInit {
       }
     )
 
+
+
     this.proposalData["Age"].forEach(
       (x, i) => {
         let row = {}
@@ -385,6 +396,10 @@ export class ChartComponent implements OnInit {
         this.tableData.push(row)
       }
     )
+    if(!this.originalProposalData) {
+      this.originalProposalData = Object.assign({}, this.proposalData);
+    }
+
     this.maxIndex = this.proposalData["Age"].length - 1;
     this.ui.sliderValues = [0, this.maxIndex];
 

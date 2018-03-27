@@ -2,6 +2,10 @@ table, canvas {
   background: #FAFAFA;
   width: 100%;
 }
+#toogle {
+  position: absolute;
+  display: none;
+}
 .title {
   color: white;
 }

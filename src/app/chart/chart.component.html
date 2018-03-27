@@ -1,6 +1,8 @@
 <a routerLink="/" routerLinkActive="active">
   << </a>
-    <button (click)="toogleChart()">Toogle </button>
+
+    <mat-button-toggle  id="toogle" (change)="toogleChart()">Toogle</mat-button-toggle>
+
     <mat-accordion>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
