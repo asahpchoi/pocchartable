@@ -14,7 +14,10 @@ import { InputChartSliderComponent } from '../input-chart-slider/input-chart-sli
 export class ChartComponent implements OnInit {
   avaliableFields = [`Total Death Benefit ($rtn)`, 'Premium Load', `COI ($rtn)`, `Loyalty Bonus ($rtn)`, 'Total Premium'];
   fullTableFields = ['Account Value ($rtn)', 'Surrender Value ($rtn)', 'Death Benefit ($rtn)']
-  legend = {};
+  legend = {
+    figure1:0,
+    figure2:0
+  };
 
   input = {
     topup: [],
