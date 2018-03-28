@@ -22,8 +22,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
 import { MatIconModule } from '@angular/material/icon';
-import { NouisliderModule } from 'ng2-nouislider';
-
 import { MatTableModule } from '@angular/material/table';
 import { TopupInputComponent } from './topup-input/topup-input.component';
 import { ZoomChartComponent } from './zoom-chart/zoom-chart.component';
@@ -59,7 +57,7 @@ const appRoutes: Routes = [
     FormvalidationComponent,
     CustomValidatorComponent,
     CustomerindicatorComponent,
-    InputChartSliderComponent 
+    InputChartSliderComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -73,7 +71,6 @@ const appRoutes: Routes = [
     BrowserAnimationsModule, MatStepperModule,
     MatExpansionModule, MatProgressBarModule, MatGridListModule,
     MatIconModule,
-    NouisliderModule,
     MatTableModule,
     MatDialogModule
   ],

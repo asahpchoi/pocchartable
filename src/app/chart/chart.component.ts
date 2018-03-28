@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit {
   defaultColumns = ['Year', 'Age', "Account Value (" + this.rtn + ")"]
   selectedView = 'AV';
 
-  premiumSvc;
+ 
 
   OptionalFields = [];
   proposalData = {
@@ -51,10 +51,9 @@ export class ChartComponent implements OnInit {
   viewDataSet;
 
   constructor(
-    premiumSvc: PremiumService,
+    private premiumSvc: PremiumService,
     public dialog: MatDialog
   ) {
-    this.premiumSvc = premiumSvc;
     this.loadData();
   }
 
