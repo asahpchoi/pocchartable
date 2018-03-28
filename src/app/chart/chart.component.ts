@@ -65,12 +65,16 @@ export class ChartComponent implements OnInit {
     }
     let rtns = ["LOW", "MEDIUM", "HIGH"];
     rtns.forEach(r => {
-      this.proposalData["Account Value (" + r + ")"].forEach((d, i) => {
 
-        if (d == 0 && this.chart.lapsed[r] == 0) {
-          this.chart.lapsed[r] = i;
-        }
-      })
+      let ls = this.proposalData["Lapse (" + r + ")"].filter(
+        l => l == "N"
+      )
+      if(this.proposalData["Lapse (" + r + ")"].length == ls.length) return 0;      
+      this.chart.lapsed[r] = ls.length - 1;
+
+      //return ls.length;
+      //if(ls.length == 0) return 0;
+      //return ls[0].year;
     });
   }
   submitfundActivity() {
@@ -384,7 +388,7 @@ export class ChartComponent implements OnInit {
     let fields = this.ds.map(x => x.Name)
     fields.forEach(
       f => {
-        this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
+        this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value);// > 0 ? x.value : 0);
       }
     )
 
