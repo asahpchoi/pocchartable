@@ -47,4 +47,8 @@ Default Rider from recommendation
   </mat-form-field>
   Topup: {{getTopup()}}
 </div>
-<button (click)="check()">Submit</button> {{errors}}
+<pre>
+ {{
+   errors | json
+ }}
+</pre>

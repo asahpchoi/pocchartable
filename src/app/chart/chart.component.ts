@@ -41,8 +41,8 @@ export class ChartComponent implements OnInit {
   showTable = false;
   defaultColumns = ['Year', 'Age', "Account Value (" + this.rtn + ")"]
   selectedView = 'AV';
+  error;
 
- 
 
   OptionalFields = [];
   proposalData = {
@@ -302,6 +302,7 @@ export class ChartComponent implements OnInit {
       if (data) {
         this.ui.isLoading = false;
         this.ds = data.projections[0].columns;
+        this.error = data.projections["0"].validationResult;
         this.createChart();
       }
     });

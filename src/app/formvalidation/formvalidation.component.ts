@@ -17,6 +17,8 @@ export class FormvalidationComponent implements OnInit {
   faceAmountControl = new FormControl(0, []);
   plannedPremiumControl = new FormControl(0, []);
   schema;
+  errors;
+
   termRiderCode = 'TRI07';
   defaultRiders = [
     {
@@ -45,11 +47,9 @@ export class FormvalidationComponent implements OnInit {
 
   ngOnInit() {
     this.loadValidations();
-  }
-
-  updateTermPermium() {
-    this.ps.submitValidation().subscribe(err => {
+    this.ps.getValidationResult().subscribe(err => {
       console.log(err)
+      this.errors = (err)
       if(err == 0) {
         console.log('DONE', err)
         this.getPremium();
@@ -68,6 +68,35 @@ export class FormvalidationComponent implements OnInit {
         });
       }
     })
+  }
+
+  updateTermPermium() {
+    this.ps.updateBasic(
+      {
+        faceAmt: this.productInput.faceAmount,
+        age: this.productInput.age,
+        plannedPremium: this.productInput.plannedPremium,
+        language: this.productInput.language,
+        riders: [
+          {
+            faceAmount: this.productInput.termFaceAmount,
+            age: this.productInput.age,
+            productId: this.termRiderCode
+          },
+          ...this.defaultRiders.map(
+            r => {
+              return {
+                faceAmount: r.faceAmount,
+                age: 20,
+                productId: r.riderCode,
+                occupation: 1
+              }
+            }
+          )
+        ]
+      }
+    );
+    this.ps.submitValidation();
   }
 
   updatePlannedPremium() {
@@ -168,7 +197,5 @@ export class FormvalidationComponent implements OnInit {
     )
   }
 
-  check() {
-    this.ps.submitValidation();
-  }
+
 }

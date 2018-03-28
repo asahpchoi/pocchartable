@@ -68,10 +68,12 @@
             Year/Age
           </th>
           <th>
-            Total Premium
+            Accumative Premium
           </th>
-
-          <th> Topup </th>
+          <th>
+            Total Payment
+          </th>
+          <th> Additional Payment </th>
           <th> Withdrawal </th>
           <th *ngIf="selectedView=='AV' || selectedView=='SV'"> Account Value</th>
           <th *ngIf="selectedView=='SV'"> Cash Surrender Value</th>
@@ -83,7 +85,8 @@
           <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
           <td *ngIf="isLapsed(i)" colspan=4> Policy Lapsed</td>
           <td *ngIf="!isLapsed(i)">{{proposalData["Total Premium"][i]| currency}}</td>
-          <td *ngIf="!isLapsed(i)"><input matInput [(ngModel)]="input.topup[i]" placeholder="topup" (click)="openDialog(input, 'topup', i)"> </td>
+          <td *ngIf="!isLapsed(i)">{{proposalData["Premium"][i]| currency}}</td>
+          <td *ngIf="!isLapsed(i)"><input matInput [(ngModel)]="input.topup[i]" placeholder="additional payment" (click)="openDialog(input, 'topup', i)"> </td>
           <td *ngIf="!isLapsed(i)"><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input, 'withdrawal', i)"></td>
           <td *ngIf="!isLapsed(i) && (selectedView=='AV' || selectedView=='SV')"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
           <td *ngIf="selectedView=='SV'"> {{proposalData["Surrender Value (" + rtn + ")"][i]| currency}}</td>
@@ -129,3 +132,6 @@
       </table>
 
     </div>
+<pre>
+  {{error | json}}
+</pre>
