@@ -33,7 +33,9 @@ export class TopupInputComponent  implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     data.duration = 1;
   }
-
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
   check() {
     console.log('check')
 

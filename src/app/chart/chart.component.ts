@@ -360,6 +360,7 @@ export class ChartComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
       for (var i = 0; i < result.duration; i++) {
         object[key][index + i] = result.value;
       }
