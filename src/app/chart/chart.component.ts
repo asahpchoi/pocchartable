@@ -93,6 +93,7 @@ export class ChartComponent implements OnInit {
         }
         )
       ];
+    console.log('fundActs', fundActs);
     this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
     this.premiumSvc.submitProjection();
     this.createChart();
@@ -346,18 +347,21 @@ export class ChartComponent implements OnInit {
     return premiums;
   }
 
-  openDialog(object, index): void {
+  openDialog(object, key, index): void {
+    console.log('old object', object)
     let dialogRef = this.dialog.open(TopupInputComponent, {
       width: '300px',
       data: {
-        value: object[index]
-
+        startYear: index,
+        object: object,
+        key: key,
+        startAge: this.proposalData['Age'][index]
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      for (var i = 0; i < result.year; i++) {
-        object[index + i] = result.value;
+      for (var i = 0; i < result.duration; i++) {
+        object[key][index + i] = result.value;
       }
       this.submitfundActivity();
       this.createChart()
@@ -382,8 +386,6 @@ export class ChartComponent implements OnInit {
         this.proposalData[f] = this.ds.filter(x => x.Name == f)[0].Values.map(x => x.value > 0 ? x.value : 0);
       }
     )
-
-
 
     this.proposalData["Age"].forEach(
       (x, i) => {

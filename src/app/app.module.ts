@@ -35,7 +35,7 @@ import { FormvalidationComponent } from './formvalidation/formvalidation.compone
 import { CustomValidatorComponent } from './custom-validator/custom-validator.component';
 import { CustomerindicatorComponent } from './customerindicator/customerindicator.component';
 import { InputChartSliderComponent} from './input-chart-slider/input-chart-slider.component';
-import { CustomCompComponent } from './custom-comp/custom-comp.component';
+
 
 
 const appRoutes: Routes = [
@@ -59,8 +59,7 @@ const appRoutes: Routes = [
     FormvalidationComponent,
     CustomValidatorComponent,
     CustomerindicatorComponent,
-    InputChartSliderComponent,
-    CustomCompComponent
+    InputChartSliderComponent 
   ],
   imports: [
     RouterModule.forRoot(

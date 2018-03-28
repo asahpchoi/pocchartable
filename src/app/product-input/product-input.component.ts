@@ -29,7 +29,7 @@ export class ProductInputComponent implements OnInit {
     this.productInput = productSvc.productInput;
     if(!this.productInput) {
       this.productInput = {
-        fm: 200000,
+        fm: 450000,
         age: this.customerSvc.getInsuredAge(),
         plannedPremium: 10000,
         riders: []

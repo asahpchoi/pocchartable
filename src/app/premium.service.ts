@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/skip';
+
 
 @Injectable()
 export class PremiumService {
@@ -194,6 +196,7 @@ export class PremiumService {
     "occupation": "1",
     "rcc": "N"
   };
+  jsonDataClone;
   resultCache;
   t;
 
@@ -205,14 +208,12 @@ export class PremiumService {
   constructor(private http: HttpClient) {
   }
 
-  updateFundActivities(fundacts) {
-    this.jsonData.fundActivities.fundActivity = fundacts;
-  }
   updateBasic(input) {
-    this.jsonData.coverageInfo.faceAmount = input.faceAmt;
-    this.jsonData.coverageInfo.plannedPremium = input.plannedPremium;
-    this.jsonData.coverageInfo.parties.party.insuredAge = input.age;
-    this.jsonData.language = input.language ? input.language : 'en';
+    this.jsonDataClone = JSON.parse(JSON.stringify(this.jsonData)); //refresh the clone
+    this.jsonDataClone.coverageInfo.faceAmount = input.faceAmt;
+    this.jsonDataClone.coverageInfo.plannedPremium = input.plannedPremium;
+    this.jsonDataClone.coverageInfo.parties.party.insuredAge = input.age;
+    this.jsonDataClone.language = input.language ? input.language : 'en';
 
     let riders = input.riders.map(
       r => {
@@ -227,25 +228,21 @@ export class PremiumService {
 
         riderCopy.product.productKey.primaryProduct.productPK.productId = r.productId;
         riderCopy = JSON.parse(JSON.stringify(riderCopy));
-        console.log("ID",
-
-          r.productId,
-          riderCopy,
-          riderCopy.product.productKey.primaryProduct.productPK,
-
-        );
         return riderCopy;
       }
     )
-    this.jsonData.riders.coverageInfo = riders;
+    this.jsonDataClone.riders.coverageInfo = riders;
   }
-
+  updateFundActivities(fundacts) {
+    this.jsonDataClone = JSON.parse(JSON.stringify(this.jsonData)); //refresh the clone
+    this.jsonDataClone.fundActivities.fundActivity = fundacts;
+  }
   getproductSchema(productId) {
     let url = this.schemaUrl.replace('${productId}', productId);
     return this.http.get(url);
   }
-
   submitPremiumCalculation() {
+    this.jsonData = JSON.parse(JSON.stringify(this.jsonDataClone))
     this.http.post(
       this.premiumUrl, this.jsonData
     ).subscribe(t => {
@@ -253,30 +250,26 @@ export class PremiumService {
     });
     return this._premiumSubject;
   }
-
   getPremiumResult() {
     return this._premiumSubject;
   }
-
   submitValidation() {
     this.http.post(
-      this.validateUrl, this.jsonData
+      this.validateUrl, this.jsonDataClone
     ).subscribe(t => {
-      this._validationSubject.next(t)
+      this._validationSubject.next(t);
     });
     return this._validationSubject;
   }
 
-
-
   getValidationResult() {
     return this._validationSubject;
   }
-
   submitProjection() {
+    this.jsonData = JSON.parse(JSON.stringify(this.jsonDataClone))
     this.http.post(
       this.url, this.jsonData
-    ).throttleTime(5000).subscribe(t => {
+    ).subscribe(t => {
       //if(JSON.stringify(this.resultCache) == JSON.stringify(t)) {
         //return;
       //}
