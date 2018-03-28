@@ -1,10 +1,10 @@
-<pre>
-{{
-  errors | json
-}}
-</pre>
-<br>
-From year {{data.startYear}}
+<div class="error">
+<div *ngFor="let err of errors">
+  {{err.error}} : {{err.message}}
+</div>
+</div>
+
+From year {{data.startYear + 1}}
 <mat-form-field>
   <input matInput [(ngModel)]="data.value" type=number>
   <span matPrefix>$&nbsp;</span>
