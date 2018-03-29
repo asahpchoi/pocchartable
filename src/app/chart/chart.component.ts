@@ -283,8 +283,9 @@ export class ChartComponent implements OnInit {
     }
   }
 
-  onInputChange(event: any) {
+  onInputChange(event: any, index) {
     this.updateLegend(event.value);
+    console.log(index)
   }
 
   updateLegend(i) {
@@ -300,7 +301,7 @@ export class ChartComponent implements OnInit {
   }
 
   loadData() {
- 
+
     this.ui.isLoading = true;
     this.premiumSvc.getProjectionResult().subscribe(data => {
       if (data) {

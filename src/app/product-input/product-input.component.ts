@@ -20,7 +20,7 @@ export class ProductInputComponent implements OnInit {
   }
 
   getControls () {
-    return Object.keys(this.controls) 
+    return Object.keys(this.controls)
   }
 
   constructor(
@@ -46,17 +46,17 @@ export class ProductInputComponent implements OnInit {
       v => {
         console.log(v)
         if (!v) return
-        this.controls.insuredAgeControl = new FormControl(25, [
+        this.controls.insuredAgeControl = new FormControl(0, [
           Validators.required,
           Validators.min(+v.insuredAge.min),
           Validators.max(+v.insuredAge.max)
         ]);
-        this.controls.baseProtectionControl = new FormControl(25, [
+        this.controls.baseProtectionControl = new FormControl(0, [
           Validators.required,
           Validators.min(+v.faceAmount.min),
           Validators.max(+v.faceAmount.max)
         ]);
-        this.controls.basePremiumControl = new FormControl(25, [
+        this.controls.basePremiumControl = new FormControl(0, [
           Validators.required,
           Validators.min(+v.premium.min),
           Validators.max(+v.premium.max)

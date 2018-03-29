@@ -54,8 +54,9 @@
     </div>
     <div style="width:100%;margin:0;padding:0" [ngStyle]="{'display':showTable?'none':'block'}">
 
-      <mat-slider id="slider2" (input)="onInputChange($event)" [thumb-label]="true" [(ngModel)]="ui.sliderValues[1]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
-      <mat-slider id="slider1" (input)="onInputChange($event)" [thumb-label]="true" [(ngModel)]="ui.sliderValues[0]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
+      <mat-slider id="slider2" (input)="onInputChange($event,1)"  [(ngModel)]="ui.sliderValues[1]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
+      <mat-slider id="slider1" (input)="onInputChange($event,0)"  [(ngModel)]="ui.sliderValues[0]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
+
       <canvas id="canvas">
       </canvas>
 

@@ -1,3 +1,14 @@
+::ng-deep .mat-accent .mat-slider-thumb {
+    background-color: black;
+}
+::ng-deep .mat-accent .mat-slider-thumb-label {
+    background-color: black;
+}
+::ng-deep .mat-accent .mat-slider-track-fill {
+    background-color: black;
+    height: 10px;
+}
+
 table, canvas {
   background: #FAFAFA;
   width: 100%;
