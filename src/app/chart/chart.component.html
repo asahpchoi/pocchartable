@@ -1,7 +1,7 @@
 <a routerLink="/" routerLinkActive="active">
   << </a>
 
-    <mat-button-toggle  id="toogle" (change)="toogleChart()">Toogle</mat-button-toggle>
+    <mat-button-toggle id="toogle" (change)="toogleChart()">Toogle</mat-button-toggle>
 
     <mat-accordion>
       <mat-expansion-panel>
@@ -54,8 +54,8 @@
     </div>
     <div style="width:100%;margin:0;padding:0" [ngStyle]="{'display':showTable?'none':'block'}">
 
-      <mat-slider id="slider2" (input)="onInputChange($event,1)"  [(ngModel)]="ui.sliderValues[1]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
-      <mat-slider id="slider1" (input)="onInputChange($event,0)"  [(ngModel)]="ui.sliderValues[0]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
+      <mat-slider id="slider2" (input)="onInputChange($event)" (change)="sliderChange(1)" [(ngModel)]="ui.sliderValues[1]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
+      <mat-slider id="slider1" (input)="onInputChange($event)" (change)="sliderChange(0)" [(ngModel)]="ui.sliderValues[0]" [min]="0" [max]="maxIndex" (touchstart)="showLegend(1)" (touchend)="showLegend(-1)"></mat-slider>
 
       <canvas id="canvas">
       </canvas>
@@ -80,7 +80,6 @@
         </tr>
 
         <tr *ngFor="let i of [ui.sliderValues[0], ui.sliderValues[1]]">
-
           <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
           <td *ngIf="isLapsed(i)" colspan=4> Policy Lapsed</td>
           <td *ngIf="!isLapsed(i)">{{proposalData["Total Premium"][i]| currency}}</td>
@@ -131,6 +130,6 @@
       </table>
 
     </div>
-<pre>
+    <pre>
   {{error | json}}
 </pre>

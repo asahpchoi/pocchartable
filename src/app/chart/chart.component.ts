@@ -283,11 +283,20 @@ export class ChartComponent implements OnInit {
     }
   }
 
-  onInputChange(event: any, index) {
+  sliderChange(index) {
+    let ui = this.ui;
+    if(index == 0) {
+      if (ui.sliderValues[0] > ui.sliderValues[1])
+        ui.sliderValues[1] = ui.sliderValues[0];
+    }
+    if(index == 1) {
+      if (ui.sliderValues[1] < ui.sliderValues[0])
+        ui.sliderValues[0] = ui.sliderValues[1];
+    }
+  }
+  onInputChange(event: any) {
     this.updateLegend(event.value);
 
-    console.log(index
-    )
   }
 
   updateLegend(i) {
@@ -485,7 +494,7 @@ export class ChartComponent implements OnInit {
 
   isLapsed(i) {
     if (!this.chart) return false;
-    let lapsedYear = this.chart.lapsed[this.rtn];
+    let lapsedYear = this.chart.lapsed[this.rtn] + 1;
     return lapsedYear > 0 && lapsedYear <= i;
   }
 
