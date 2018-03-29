@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PremiumService } from '../premium.service';
+import { ValidationService } from '../validation.service';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 
 @Component({
@@ -40,7 +41,8 @@ export class FormvalidationComponent implements OnInit {
   }
 
   constructor(
-    private ps: PremiumService
+    private ps: PremiumService,
+    private vs: ValidationService
   ) {
 
   }
@@ -177,6 +179,7 @@ export class FormvalidationComponent implements OnInit {
   }
 
   loadValidations() {
+    /*
     this.ps.getproductSchema('UL007').subscribe(
 
       d => {
@@ -195,6 +198,7 @@ export class FormvalidationComponent implements OnInit {
         ]);
       }
     )
+    */
   }
 
 

@@ -69,7 +69,7 @@ export class ChartComponent implements OnInit {
       let ls = this.proposalData["Lapse (" + r + ")"].filter(
         l => l == "N"
       )
-      if(this.proposalData["Lapse (" + r + ")"].length == ls.length) return 0;      
+      if(this.proposalData["Lapse (" + r + ")"].length == ls.length) return 0;
       this.chart.lapsed[r] = ls.length - 1;
 
       //return ls.length;
@@ -190,7 +190,7 @@ export class ChartComponent implements OnInit {
             borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
-            data: this.proposalData["Death Benefit (LOW)"]
+            data: this.proposalData["Total Death Benefit (LOW)"]
           },
           {
             type: 'line',
@@ -199,7 +199,7 @@ export class ChartComponent implements OnInit {
             borderColor: '#00BF66',
             pointRadius: 0,
             fill: true,
-            data: this.proposalData["Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
+            data: this.proposalData["Total Death Benefit (" + this.rtn + ")"]//fake formula, it should come from product engine later
           }
         ];
     }
@@ -300,7 +300,7 @@ export class ChartComponent implements OnInit {
   }
 
   loadData() {
-    console.log('loadData')
+ 
     this.ui.isLoading = true;
     this.premiumSvc.getProjectionResult().subscribe(data => {
       if (data) {

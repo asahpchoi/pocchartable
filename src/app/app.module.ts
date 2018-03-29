@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ChartComponent } from './chart/chart.component';
 import { PremiumService } from './premium.service';
 import { ProductService } from './product.service';
+import { ValidationService } from './validation.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
@@ -74,7 +75,7 @@ const appRoutes: Routes = [
     MatTableModule,
     MatDialogModule
   ],
-  providers: [PremiumService, ProductService, CustomerService],
+  providers: [PremiumService, ProductService, CustomerService, ValidationService],
   bootstrap: [AppComponent],
   entryComponents: [
     TopupInputComponent,

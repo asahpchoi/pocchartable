@@ -174,7 +174,10 @@ export class PremiumService {
     this.jsonDataClone.coverageInfo.plannedPremium = input.plannedPremium;
     this.jsonDataClone.coverageInfo.parties.party.insuredAge = input.age;
     this.jsonDataClone.language = input.language ? input.language : 'en';
-
+    //dbLevel deathBenefitOption
+    console.log(this.jsonDataClone, this.jsonDataClone.coverageInfo.options.dbLevel,input.deathBenefitOption );
+    this.jsonDataClone.coverageInfo.options.dbLevel = input.deathBenefitOption;
+   
     let riders = input.riders.map(
       r => {
         let riderCopy = Object.assign({}, this.riderSchema);
@@ -197,10 +200,7 @@ export class PremiumService {
     this.jsonDataClone = JSON.parse(JSON.stringify(this.jsonData)); //refresh the clone
     this.jsonDataClone.fundActivities.fundActivity = fundacts;
   }
-  getproductSchema(productId) {
-    let url = this.schemaUrl.replace('${productId}', productId);
-    return this.http.get(url);
-  }
+
   submitPremiumCalculation() {
     this.jsonData = JSON.parse(JSON.stringify(this.jsonDataClone))
     this.http.post(

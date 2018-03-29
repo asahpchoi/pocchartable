@@ -1,3 +1,14 @@
+<h2>Validations</h2>
+<mat-error *ngFor="let k of getControls()">
+  {{k}}>>
+  <span *ngFor='let t of ["min", "max", "required"]'>
+    {{t}}:
+  {{
+    controls[k].hasError(t) | json
+  }}
+  </span>
+</mat-error>
+<br>
 <div style="display: flex">
   <app-customer-view></app-customer-view>
   <div style="display: flex;width:100%;">
@@ -5,19 +16,31 @@
       <mat-card>
         <mat-card-title>Base Plan</mat-card-title>
         <mat-form-field>
-          <input matInput placeholder="Face Amount" [(ngModel)]="productInput.fm" type=number>
+          <input matInput placeholder="Base Plan Protection" [(ngModel)]="productInput.fm" type=number [formControl]="controls.baseProtectionControl">
           <span matPrefix>$&nbsp;</span>
           <span matSuffix>.00</span>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Planned Premium" [(ngModel)]="productInput.plannedPremium" type=number>
+          <input matInput placeholder="Base Plan Premium" [(ngModel)]="productInput.plannedPremium" type=number [formControl]="controls.basePremiumControl">
           <span matPrefix>$&nbsp;</span>
           <span matSuffix>.00</span>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Insured Age" [(ngModel)]="productInput.age">
+          <input matInput placeholder="Insured Age" [(ngModel)]="productInput.age" [formControl]="controls.insuredAgeControl">
         </mat-form-field>
-        <button  mat-mini-fab (click)="addRider()">+</button>
+        <br>
+        Death Benefit Option
+        <mat-radio-group [(ngModel)]="productInput.deathBenefitOption">
+          <mat-radio-button [value]="'Increase'">
+            Increase
+          </mat-radio-button>
+          <mat-radio-button [value]="'Level'">
+            Level
+          </mat-radio-button>
+
+        </mat-radio-group>
+        <br>
+        <button mat-mini-fab (click)="addRider()">+</button>
       </mat-card>
       <mat-card *ngFor="let rider of productInput.riders;let i = index; ">
         <mat-card-title>Rider</mat-card-title>
@@ -32,12 +55,16 @@
         <mat-form-field>
           <input matInput placeholder="occupation" [(ngModel)]="rider.occupation">
         </mat-form-field>
+
         <mat-form-field>
           <input matInput placeholder="Insured Age" readonly [(ngModel)]="rider.age">
         </mat-form-field>
-        <button  mat-mini-fab (click)="deleteRider(i)">-</button>
+        <button mat-mini-fab (click)="deleteRider(i)">-</button>
       </mat-card>
     </div>
   </div>
 </div>
 <button color="primary" style="width:100%;margin: 10px;" mat-raised-button (click)="update()">View Illustration</button>
+<pre>
+  {{productInput | json}}
+</pre>

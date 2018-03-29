@@ -22,7 +22,6 @@
             <button mat-raised-button (click)="setView('AV');createChart(0);" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
             <button mat-raised-button (click)="setView('SV');createChart(0);" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
             <button mat-raised-button (click)="setView('DB');createChart(0);" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
-
           </mat-card>
           <mat-card>
             <mat-card-title>Opitonal Fields</mat-card-title>
@@ -46,7 +45,6 @@
       <div class="title">
         Account Value
       </div>
-
       <div class="figure2">
         {{legend.figure2| currency}}
       </div>
@@ -90,7 +88,7 @@
           <td *ngIf="!isLapsed(i)"><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input, 'withdrawal', i)"></td>
           <td *ngIf="!isLapsed(i) && (selectedView=='AV' || selectedView=='SV')"> {{proposalData["Account Value (" + rtn + ")"][i]| currency}}</td>
           <td *ngIf="selectedView=='SV'"> {{proposalData["Surrender Value (" + rtn + ")"][i]| currency}}</td>
-          <td *ngIf="selectedView=='DB'"> {{proposalData["Death Benefit (" + rtn + ")"][i]| currency}}</td>
+          <td *ngIf="selectedView=='DB'"> {{proposalData["Total Death Benefit (" + rtn + ")"][i]| currency}}</td>
         </tr>
       </table>
     </div>
