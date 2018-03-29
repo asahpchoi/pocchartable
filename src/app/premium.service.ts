@@ -29,20 +29,20 @@ export class PremiumService {
         "tempPercentageDuration": 0,
         "tempPercentage": 1
       },
-      "faceAmount": 0,
+      "faceAmount": null,
       "initialDumpIn": 0,
       "noOfInstallmentYear": 0,
       "options": {
         "billingMethod": "DirectBilling",
         "calculateSinglePremiumBand": "N",
-        "dbLevel": "Increase",
+        "dbLevel": null,
         "fundWithdrawalsByPercentage": "N",
         "paymentMode": "A"
       },
       "parties": {
         "party": {
           "birthDate": "19800101070000",
-          "insuredAge": 25,
+          "insuredAge": null,
           "insuredId": "-VALID, Total Premium Test",
           "insuredSex": "F",
           "smokingStatus": "NS",
@@ -70,13 +70,13 @@ export class PremiumService {
           "valueDate": "20180102070000"
         }
       },
-      "plannedPremium": 8334,
+      "plannedPremium": null,
       "prepayYear": 0,
       "startAnnuityAge": "0"
     },
     "displayEOYOnly": false,
-    "enableDebug": true,
-    "language": "vn",
+    "enableDebug": false,
+    "language": "en",
     "policyExcludeSOS": "N",
     "policyYearDate": "20180102070000",
     "reference": "PROP-000000065",
@@ -121,11 +121,11 @@ export class PremiumService {
       "percentageExtra": 1.00,
       "tempPercentage": 1.00
     },
-    "faceAmount": 800000.00,
+    "faceAmount": null,
     "parties": {
       "party": {
         "birthDate": "19800101070000",
-        "insuredAge": 25,
+        "insuredAge": null,
         "insuredId": "-VALID, Total Premium Test",
         "insuredSex": "F",
         "smokingStatus": "NS",
@@ -136,7 +136,7 @@ export class PremiumService {
       "productKey": {
         "primaryProduct": {
           "productPK": {
-            "productId": "ADD03"
+            "productId": null
           }
         },
         "associateProduct": {
@@ -153,7 +153,7 @@ export class PremiumService {
         "valueDate": "20180305070000"
       }
     },
-    "occupation": "1",
+    "occupation": null,
     "rcc": "N"
   };
   jsonDataClone;
@@ -177,7 +177,7 @@ export class PremiumService {
     //dbLevel deathBenefitOption
     console.log(this.jsonDataClone, this.jsonDataClone.coverageInfo.options.dbLevel,input.deathBenefitOption );
     this.jsonDataClone.coverageInfo.options.dbLevel = input.deathBenefitOption;
-   
+
     let riders = input.riders.map(
       r => {
         let riderCopy = Object.assign({}, this.riderSchema);
