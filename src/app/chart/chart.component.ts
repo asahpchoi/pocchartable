@@ -99,7 +99,7 @@ export class ChartComponent implements OnInit {
     console.log('fundActs', fundActs);
     this.premiumSvc.updateFundActivities(fundActs.filter(x => x));
     this.premiumSvc.submitProjection();
-    this.createChart();
+    //this.createChart();
   }
   updateView() {
     if (this.selectedView == 'AV') {
@@ -285,7 +285,9 @@ export class ChartComponent implements OnInit {
 
   onInputChange(event: any, index) {
     this.updateLegend(event.value);
-    console.log(index)
+
+    console.log(index
+    )
   }
 
   updateLegend(i) {
@@ -370,7 +372,7 @@ export class ChartComponent implements OnInit {
         object[key][index + i] = result.value;
       }
       this.submitfundActivity();
-      this.createChart()
+      //this.createChart()
     });
   }
 
