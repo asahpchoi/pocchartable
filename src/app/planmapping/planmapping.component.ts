@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 export class PlanmappingComponent implements OnInit {
   selectedProduct;
   selectedPlan;
+  selectedRider;
+
   input = {
     insuredAge: 15,
     gender: "M",
@@ -20,11 +22,6 @@ export class PlanmappingComponent implements OnInit {
 
     let avaliablePlans = this.selectedProduct.plans.filter(
       p => {
-        console.log(p.mappings,
-          (!p.mappings.insuredAge || (p.mappings.insuredAge.min < userinfo.insuredAge && p.mappings.insuredAge.max > userinfo.insuredAge)),
-          (!p.mappings.gender || (p.mappings.gender == userinfo.gender))
-        )
-
         return (
           (!p.mappings.insuredAge || (p.mappings.insuredAge.min < userinfo.insuredAge && p.mappings.insuredAge.max > userinfo.insuredAge))
           &&
@@ -37,9 +34,59 @@ export class PlanmappingComponent implements OnInit {
 
   updatedSelectedPlan() {
     this.input.term = this.selectedPlan.mappings.duration;
-
-
   }
+  getRiders( ) {
+
+    let riders = this.riderMapping.filter(
+      r => r.ridergroup == this.selectedRider
+    )
+    if(riders.length > 0) {
+      return riders[0].ridercode;
+    }
+    else {
+      return null;
+    }
+  }
+  riderMapping = [
+    {
+      ridergroup: 'AD3',
+      ridercode: ['ADD03']
+    },
+    {
+      ridergroup: 'ECI',
+      ridercode: ['ECI01']
+    },
+
+    {
+      ridergroup: 'HCU',
+      ridercode: ['RHC2I','RHC2D','RHC2O']
+    },
+    {
+      ridergroup: 'MC5',
+      ridercode: ['MC005']
+    },
+    {
+      ridergroup: 'TR7',
+      ridercode: ['TRI07']
+    },
+    {
+      ridergroup: 'AD4',
+      ridercode: ['ADD10','ADD11']
+    },
+    {
+      ridergroup: 'HCR',
+      ridercode: ['RHC1I','RHC1D','RHC1O']
+    },
+    {
+      ridergroup: 'MC6',
+      ridercode: ['MC012','MC013']
+    },
+    {
+      ridergroup: 'TRI',
+      ridercode: ['TRI08','TRI09']
+    },
+  ]
+
 
   productMapping =
   [
@@ -55,7 +102,7 @@ export class PlanmappingComponent implements OnInit {
             insuredAge: null,
             duration: null
           },
-          riders: ["TR", "HC", "CI", "MC", "AD&D"]
+          riders: ["AD3", "ECI", "HCU","MC5","TR7"]
         }
       ]
     },
@@ -65,7 +112,7 @@ export class PlanmappingComponent implements OnInit {
       [
         {
           plancode: "ENC12",
-          riders: ["TR", "HC", "MC", "AD&D"],
+          riders: ["AD4", "HCR","MC6","TRI"]
           mappings: {
             insurerTypes: null,
             gender: null,
@@ -87,7 +134,7 @@ export class PlanmappingComponent implements OnInit {
             },
             duration: 15
           },
-          riders: ["TR", "HC", "MC", "AD&D"]
+          riders: ["AD4", "HCR","MC6","TRI"]
         },
         {
           plancode: "ENC20",
@@ -100,7 +147,7 @@ export class PlanmappingComponent implements OnInit {
             },
             duration: 20
           },
-          riders: ["TR", "HC", "MC", "AD&D"]
+          riders: ["AD4", "HCR","MC6","TRI"]
         },
         {
           plancode: "ENM12",
@@ -113,7 +160,7 @@ export class PlanmappingComponent implements OnInit {
             },
             duration: 12
           },
-          riders: ["TR", "HC", "MC", "AD&D"]
+          riders: ["AD4", "HCR","MC6","TRI"]
         },
         {
           plancode: "ENF12",
@@ -126,7 +173,7 @@ export class PlanmappingComponent implements OnInit {
             },
             duration: 12
           },
-          riders: ["TR", "HC", "MC", "AD&D"]
+          riders: ["AD4", "HCR","MC6","TRI"]
         }
       ]
     }

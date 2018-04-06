@@ -28,9 +28,17 @@
   </mat-select>
 </mat-form-field>
 <mat-form-field *ngIf="selectedPlan">
-  <mat-select placeholder="rider code" [(ngModel)]="selectedRiders">
+  <mat-select placeholder="rider group" [(ngModel)]="selectedRider"  >
     <mat-option name="product" *ngFor="let rider of selectedPlan.riders" [value]="rider">
       {{ rider }}
     </mat-option>
   </mat-select>
 </mat-form-field>
+<br>
+
+<div *ngIf="getRiders()">
+  avaliable rider plans
+{{
+  getRiders() | json
+}}
+</div>
