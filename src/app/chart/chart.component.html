@@ -81,7 +81,7 @@
 
         <tr *ngFor="let i of [ui.sliderValues[0], ui.sliderValues[1]]">
           <td class="sticky">{{proposalData["Year"][i]}} / {{proposalData["Age"][i]}}</td>
-          <td *ngIf="isLapsed(i)" colspan=4> Policy Lapsed</td>
+          <td *ngIf="isLapsed(i)" colspan=5 class="lapsed"> Policy Lapsed</td>
           <td *ngIf="!isLapsed(i)">{{proposalData["Total Premium"][i]| currency}}</td>
           <td *ngIf="!isLapsed(i)">{{proposalData["Premium"][i]| currency}}</td>
           <td *ngIf="!isLapsed(i)"><input matInput [(ngModel)]="input.topup[i]" placeholder="additional payment" (click)="openDialog(input, 'topup', i)"> </td>
@@ -131,5 +131,6 @@
 
     </div>
     <pre>
+      <button mat-raised-button #actionButton (click)="action()"> Testing </button>
   {{error | json}}
 </pre>

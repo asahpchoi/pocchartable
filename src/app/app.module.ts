@@ -33,16 +33,22 @@ import { CustomerViewComponent } from './customer-view/customer-view.component';
 import { FormvalidationComponent } from './formvalidation/formvalidation.component';
 import { CustomValidatorComponent } from './custom-validator/custom-validator.component';
 import { CustomerindicatorComponent } from './customerindicator/customerindicator.component';
-import { InputChartSliderComponent} from './input-chart-slider/input-chart-slider.component';
-
-
+import { InputChartSliderComponent } from './input-chart-slider/input-chart-slider.component';
+import {MatSelectModule} from '@angular/material/select';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { BarcodeComponent } from './barcode/barcode.component';
+import { Poc2Component } from './poc2/poc2.component';
+import { DynamiccallComponent } from './dynamiccall/dynamiccall.component';
+import { PlanmappingComponent } from './planmapping/planmapping.component';
+import { NgxBarcodeModule } from 'ngx-barcode';
 
 const appRoutes: Routes = [
   { path: 'chart', component: ChartComponent },
   { path: 'validate', component: FormvalidationComponent },
   { path: 'customerForm', component: CustomerInputComponent },
   { path: 'zoomChart', component: ZoomChartComponent },
-  { path: '', component: ProductInputComponent }
+  { path: '', component: ProductInputComponent },
+  { path: 'poc2', component: Poc2Component}
 ];
 
 @NgModule({
@@ -58,7 +64,11 @@ const appRoutes: Routes = [
     FormvalidationComponent,
     CustomValidatorComponent,
     CustomerindicatorComponent,
-    InputChartSliderComponent
+    InputChartSliderComponent,
+    BarcodeComponent,
+    Poc2Component,
+    DynamiccallComponent,
+    PlanmappingComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -70,10 +80,15 @@ const appRoutes: Routes = [
     FormsModule, ReactiveFormsModule,
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSliderModule, MatRadioModule, MatButtonToggleModule, MatCardModule,
     BrowserAnimationsModule, MatStepperModule,
-    MatExpansionModule, MatProgressBarModule, MatGridListModule,
+    MatExpansionModule, MatProgressBarModule, MatGridListModule,MatSelectModule,
     MatIconModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+        NgxBarcodeModule
+  ],
+  exports: [
+    OverlayModule,
+    MatButtonModule
   ],
   providers: [PremiumService, ProductService, CustomerService, ValidationService],
   bootstrap: [AppComponent],

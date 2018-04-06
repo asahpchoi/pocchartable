@@ -1,9 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,   ElementRef, } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { Chart } from 'chart.js';
 import { PremiumService } from '../premium.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MatButton, MAT_DIALOG_DATA } from '@angular/material';
 import { TopupInputComponent } from '../topup-input/topup-input.component';
 import { InputChartSliderComponent } from '../input-chart-slider/input-chart-slider.component';
+import {
+  ConnectedPositionStrategy,
+  HorizontalConnectionPos,
+  Overlay,
+  OverlayRef,
+  OverlayConfig,
+  RepositionScrollStrategy,
+  ScrollStrategy,
+  VerticalConnectionPos,
+} from '@angular/cdk/overlay';
 
 
 @Component({
@@ -12,6 +23,8 @@ import { InputChartSliderComponent } from '../input-chart-slider/input-chart-sli
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
+  overlayRef: OverlayRef;
+  @ViewChild('actionButton') button:  MatButton;
   avaliableFields = [`Total Death Benefit ($rtn)`, 'Premium Load', `COI ($rtn)`, `Loyalty Bonus ($rtn)`, 'Total Premium'];
   fullTableFields = ['Account Value ($rtn)', 'Surrender Value ($rtn)', 'Death Benefit ($rtn)']
   legend = {
@@ -52,7 +65,9 @@ export class ChartComponent implements OnInit {
 
   constructor(
     private premiumSvc: PremiumService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private overlay: Overlay,
+    private element: ElementRef,
   ) {
     this.loadData();
   }
@@ -324,6 +339,11 @@ export class ChartComponent implements OnInit {
     });
 
   }
+  action() {
+    console.log(this.button);
+    console.log(this.overlayRef);
+    //this.overlayRef.attach(new MatButton(1,2,3));
+  }
   setReturn(rtn) {
     this.rtn = rtn;
   }
@@ -374,6 +394,8 @@ export class ChartComponent implements OnInit {
         startAge: this.proposalData['Age'][index]
       }
     });
+
+
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
@@ -522,6 +544,11 @@ export class ChartComponent implements OnInit {
     }
   }
   ngOnInit() {
-
+    const strategy = this.overlay
+      .position()
+      .connectedTo(this.button._elementRef, { originX: 'end', originY: 'top' }, { overlayX: 'end', overlayY: 'bottom' });
+    this.overlayRef = this.overlay.create({
+      positionStrategy: strategy
+    });
   }
 }

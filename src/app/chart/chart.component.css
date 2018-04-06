@@ -9,6 +9,10 @@
     height: 10px;
 }
 
+.lapsed {
+    text-align: center;
+    color: red;
+}
 table, canvas {
   background: #FAFAFA;
   width: 100%;

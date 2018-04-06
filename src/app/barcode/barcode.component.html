@@ -1,0 +1,6 @@
+<mat-form-field>
+<input matInput [(ngModel)]="value" placeholder="barcode">
+</mat-form-field>
+<ngx-barcode
+[bc-format]="'CODE39'"
+[bc-value]="value" [bc-display-value]="true"></ngx-barcode>

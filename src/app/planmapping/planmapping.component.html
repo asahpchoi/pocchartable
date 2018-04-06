@@ -1,0 +1,36 @@
+<div>
+  <mat-form-field>
+    <input matInput [(ngModel)]="input.insuredAge" placeholder="insured age">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput [(ngModel)]="input.gender" placeholder="gender">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Term" [(ngModel)]="input.term">
+      <mat-option name="term" *ngFor="let t of [12, 15, 20]" [value]="t">
+        {{ t }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<mat-form-field>
+  <mat-select placeholder="Product Code" [(ngModel)]="selectedProduct">
+    <mat-option name="product" *ngFor="let product of productMapping" [value]="product">
+      {{ product.productCode }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field *ngIf="selectedProduct">
+  <mat-select placeholder="Plan Code" [(ngModel)]="selectedPlan" (change)="updatedSelectedPlan()">
+    <mat-option name="product" *ngFor="let plan of getSelectedPlan()" [value]="plan">
+      {{ plan.plancode }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field *ngIf="selectedPlan">
+  <mat-select placeholder="rider code" [(ngModel)]="selectedRiders">
+    <mat-option name="product" *ngFor="let rider of selectedPlan.riders" [value]="rider">
+      {{ rider }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
