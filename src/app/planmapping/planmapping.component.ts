@@ -112,7 +112,7 @@ export class PlanmappingComponent implements OnInit {
       [
         {
           plancode: "ENC12",
-          riders: ["AD4", "HCR","MC6","TRI"]
+          riders: ["AD4", "HCR","MC6","TRI"],
           mappings: {
             insurerTypes: null,
             gender: null,
