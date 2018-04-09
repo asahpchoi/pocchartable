@@ -1,13 +1,37 @@
-<h1>POC</h1>
-<h2>Bar Code</h2>
-<app-barcode></app-barcode>
-<h2>Product to Plan Mapping</h2>
-<app-planmapping></app-planmapping>
-<h2>Dynamic Function</h2>
-<app-dynamiccall></app-dynamiccall>
-<h2>Fund Allocation</h2>
-<app-fundallocation
-  [(functionAllocations)]="fa"
-></app-fundallocation>
-
-{{fa | json}}
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Bar Code
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-barcode></app-barcode>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Product to Plan Mapping
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-planmapping></app-planmapping>
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Fund Allocation
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-fundallocation
+      [(functionAllocations)]="fa"
+    ></app-fundallocation>
+    {{fa | json}}
+  </mat-expansion-panel>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Dynamic Function
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-dynamiccall></app-dynamiccall>
+  </mat-expansion-panel>
+</mat-accordion>
