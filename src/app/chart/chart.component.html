@@ -28,8 +28,7 @@
             <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f.replace('($rtn)', '')}} </button>
           </mat-card>
         </div>
-        <br>
-        <mat-button-toggle (click)="showSlider()">Show Slider</mat-button-toggle>
+        <br>        
         <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
 
       </mat-expansion-panel>

@@ -11,12 +11,12 @@ export class InputChartSliderComponent implements OnInit {
   @ViewChild('slideMaxValue') private slideMaxValue;
   @Input() ngModel;
 
-  private matSliderStyle = {};
-  private trackStyle = {};
-  private matSliderThumbWidth = 16;
-  private min = 0;
-  private max = 0;
-  private step = 1;
+   matSliderStyle = {};
+   trackStyle = {};
+   matSliderThumbWidth = 16;
+   min = 0;
+   max = 0;
+   step = 1;
 
   constructor(
     private element: ElementRef,
@@ -35,7 +35,7 @@ export class InputChartSliderComponent implements OnInit {
     // + this.ngModel.chart.ctx.lineWidth/2
     this.element.nativeElement.style.left = `${xAxisBox.left + this.ngModel.chart.canvas.offsetLeft}px`;
     this.element.nativeElement.style.top = `${this.ngModel.chart.chartArea.bottom + this.ngModel.chart.canvas.offsetTop}px`;
-    
+
     this.min = xAxisBox.min;
     this.max = xAxisBox.max;
     this.step = ((this.max-1)-(this.min-1))/xAxisBox.maxIndex;
