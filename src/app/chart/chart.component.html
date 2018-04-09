@@ -13,9 +13,9 @@
         <div style="display: flex;width:100%;">
           <mat-card>
             <mat-card-title>Illustrated Scenario</mat-card-title>
-            <button mat-raised-button (click)="setReturn('LOW');createChart(0);" [ngClass]="rtn=='LOW'?'hl':''"> Guaranteed </button>
-            <button mat-raised-button (click)="setReturn('MEDIUM');createChart(0);" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
-            <button mat-raised-button (click)="setReturn('HIGH');createChart(0);" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
+            <button mat-raised-button (click)="setReturn('LOW');createChart();" [ngClass]="rtn=='LOW'?'hl':''"> Guaranteed </button>
+            <button mat-raised-button (click)="setReturn('MEDIUM');createChart();" [ngClass]="rtn=='MEDIUM'?'hl':''"> Medium </button>
+            <button mat-raised-button (click)="setReturn('HIGH');createChart();" [ngClass]="rtn=='HIGH'?'hl':''"> High </button>
           </mat-card>
           <mat-card>
             <mat-card-title>View</mat-card-title>
