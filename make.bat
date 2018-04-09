@@ -1,5 +1,5 @@
 git add .
 git commit -m "update"
 git push
-ng build
+ng build -aot --prod
 firebase deploy
