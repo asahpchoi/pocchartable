@@ -7,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Poc2Component implements OnInit {
   fa = {
-    'A' : 0,
-    'B' : 0,
-    'C' : 0,
-    'D' : 0
+    'AF' : 0,
+    'GF' : 0,
+    'BF' : 0,
+    'DF' : 0,
+    'FIF' : 0,
+    'MMF' : 0,
   }
   constructor() { }
 
