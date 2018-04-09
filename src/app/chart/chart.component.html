@@ -19,9 +19,9 @@
           </mat-card>
           <mat-card>
             <mat-card-title>View</mat-card-title>
-            <button mat-raised-button (click)="setView('AV');createChart(0);" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
-            <button mat-raised-button (click)="setView('SV');createChart(0);" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
-            <button mat-raised-button (click)="setView('DB');createChart(0);" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
+            <button mat-raised-button (click)="setView('AV');createChart();" [ngClass]="selectedView=='AV'?'hl':''"> Account Value </button>
+            <button mat-raised-button (click)="setView('SV');createChart();" [ngClass]="selectedView=='SV'?'hl':''"> Surrender Value </button>
+            <button mat-raised-button (click)="setView('DB');createChart();" [ngClass]="selectedView=='DB'?'hl':''"> Death Benefit </button>
           </mat-card>
           <mat-card>
             <mat-card-title>Opitonal Fields</mat-card-title>
