@@ -5,3 +5,9 @@
 <app-planmapping></app-planmapping>
 <h2>Dynamic Function</h2>
 <app-dynamiccall></app-dynamiccall>
+<h2>Fund Allocation</h2>
+<app-fundallocation
+  [(functionAllocations)]="fa"
+></app-fundallocation>
+
+{{fa | json}}

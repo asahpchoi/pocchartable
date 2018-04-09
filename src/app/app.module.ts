@@ -41,6 +41,7 @@ import { Poc2Component } from './poc2/poc2.component';
 import { DynamiccallComponent } from './dynamiccall/dynamiccall.component';
 import { PlanmappingComponent } from './planmapping/planmapping.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
+import { FundallocationComponent } from './fundallocation/fundallocation.component';
 
 const appRoutes: Routes = [
   { path: 'chart', component: ChartComponent },
@@ -48,7 +49,9 @@ const appRoutes: Routes = [
   { path: 'customerForm', component: CustomerInputComponent },
   { path: 'zoomChart', component: ZoomChartComponent },
   { path: '', component: ProductInputComponent },
-  { path: 'poc2', component: Poc2Component}
+  { path: 'poc2', component: Poc2Component},
+
+  
 ];
 
 @NgModule({
@@ -68,7 +71,8 @@ const appRoutes: Routes = [
     BarcodeComponent,
     Poc2Component,
     DynamiccallComponent,
-    PlanmappingComponent
+    PlanmappingComponent,
+    FundallocationComponent
   ],
   imports: [
     RouterModule.forRoot(

@@ -1,0 +1,8 @@
+<div *ngFor="let f of fundKeys()">
+ {{f}}:
+ <mat-slider step="5"
+ id="{{f}}"
+ [(ngModel)]="functionAllocations[f]"
+ (change)="onInputChange($event)"></mat-slider>
+</div>
+{{alloc | json}}
