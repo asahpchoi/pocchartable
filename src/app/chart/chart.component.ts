@@ -478,8 +478,7 @@ export class ChartComponent implements OnInit {
       //console.log(alldata);
     this.suggestedMax = (Math.ceil(Math.max(...alldata) / 100000, 0) * 100000);
 
-
-    );
+    
 
     this.chart = new Chart(this.ctx, {
       type: 'bar',
