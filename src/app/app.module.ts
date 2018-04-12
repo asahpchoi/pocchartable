@@ -51,7 +51,7 @@ const appRoutes: Routes = [
   { path: '', component: ProductInputComponent },
   { path: 'poc2', component: Poc2Component},
 
-  
+
 ];
 
 @NgModule({
@@ -72,7 +72,7 @@ const appRoutes: Routes = [
     Poc2Component,
     DynamiccallComponent,
     PlanmappingComponent,
-    FundallocationComponent
+    FundallocationComponent 
   ],
   imports: [
     RouterModule.forRoot(

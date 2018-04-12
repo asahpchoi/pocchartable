@@ -28,7 +28,7 @@
             <button *ngFor="let f of avaliableFields" mat-raised-button (click)="updateOptionalFields(f)" [ngClass]="OptionalFields.includes(f)?'hl':''"> {{f.replace('($rtn)', '')}} </button>
           </mat-card>
         </div>
-        <br>        
+        <br>
         <mat-button-toggle (click)="showTable=!showTable">Table/Chart</mat-button-toggle>
 
       </mat-expansion-panel>
@@ -93,6 +93,7 @@
     </div>
 
     <div [ngStyle]="{'display':!showTable?'none':'block'}">
+      Step: <input mat-input [(ngModel)]="tableStep"> 
       <table>
         <tr>
           <th class="sticky">
@@ -116,9 +117,8 @@
 
           <td class="sticky">{{proposalData["Year"][i - 1]}} / {{proposalData["Age"][i-1]}}</td>
           <td>{{proposalData["Total Premium"][i -1 ]| currency}}</td>
-
-          <td><input matInput [(ngModel)]="input.topup[i - 1]" placeholder="topup" (click)="openDialog(input.topup, i-1)"> </td>
-          <td><input matInput [(ngModel)]="input.withdrawal[i - 1]" placeholder="withdrawal" (click)="openDialog(input.withdrawal, i-1)"></td>
+          <td><input matInput [(ngModel)]="input.topup[i]" placeholder="additional payment" (click)="openDialog(input, 'topup', i)"> </td>
+          <td><input matInput [(ngModel)]="input.withdrawal[i]" placeholder="withdrawal" (click)="openDialog(input, 'withdrawal', i)"></td>
           <td *ngFor="let f of fullTableFields">
             {{proposalData[f.replace('$rtn', rtn)][i - 1] | currency}}
           </td>
@@ -130,6 +130,6 @@
 
     </div>
     <pre>
-      <button mat-raised-button #actionButton (click)="action()"> Testing </button>
-  {{error | json}}
+
+
 </pre>

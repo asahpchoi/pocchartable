@@ -42,7 +42,13 @@ export class ProductInputComponent implements OnInit {
         productCode: 'UL007'
       }
     }
-    this.validationSvc.getValidationResults().subscribe(
+    this.validationSvc.getValidationResults(
+      {
+        productId: this.productInput.productCode,
+        insuredAge: this.productInput.age,
+        plannedPremium: this.productInput.plannedPremium
+      }
+    ).subscribe(
       v => {
         console.log(v)
         if (!v) return

@@ -23,6 +23,7 @@ import {
   styleUrls: ['./chart.component.css']
 })
 export class ChartComponent implements OnInit {
+  tableStep = 5;
   overlayRef: OverlayRef;
   @ViewChild('actionButton') button:  MatButton;
   avaliableFields = [`Total Death Benefit ($rtn)`, 'Premium Load', `COI ($rtn)`, `Loyalty Bonus ($rtn)`, 'Total Premium'];
@@ -365,7 +366,8 @@ export class ChartComponent implements OnInit {
 
   getShowTable() {
     if (this.proposalData['Year'])
-      return this.proposalData['Year'].filter(i => i <= this.ui.sliderValues[1] + 1);
+      return this.proposalData['Year'].filter(i => i <= this.ui.sliderValues[1] + 1)
+      .filter(i => i % this.tableStep == 0);
   }
 
   getPremiums() {
@@ -385,6 +387,8 @@ export class ChartComponent implements OnInit {
 
   openDialog(object, key, index): void {
     console.log('old object', object)
+    console.log('old object', key)
+    console.log('old object', index)
     let dialogRef = this.dialog.open(TopupInputComponent, {
       width: '300px',
       data: {
@@ -394,8 +398,6 @@ export class ChartComponent implements OnInit {
         startAge: this.proposalData['Age'][index]
       }
     });
-
-
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
@@ -466,13 +468,25 @@ export class ChartComponent implements OnInit {
       a => a % 10 ? '#FAFAFA' : 'rgba(212,212,222,1)'
     )
 
+    let alldata = [
+        ...this.proposalData["Total Death Benefit (" + this.rtn + ")"],
+        ...this.proposalData["Account Value (" + this.rtn + ")"],
+        ...this.proposalData["Surrender Value (" + this.rtn + ")"],
+      ];
+
+      //console.log(alldata);
+    this.suggestedMax = (Math.ceil(Math.max(...alldata) / 100000, 0) * 100000);
+
+
+    );
+
     this.chart = new Chart(this.ctx, {
       type: 'bar',
       data: chartData,
-      maintainAspectRatio: true,
+      maintainAspectRatio: false,
       options: {
         legend: {
-          display: false
+          display: true
         },
         tooltips: {
           enabled: false
@@ -498,13 +512,15 @@ export class ChartComponent implements OnInit {
           }],
           yAxes: [{
             display: true,
+
             gridLines: {
               display: true,
               color: 'rgba(212,212,222,1)',
               zeroLineColor: '#000000'
             },
             ticks: {
-              display: false
+              display: false,
+              suggestedMax: this.suggestedMax
             }
           }]
         }
