@@ -37,11 +37,12 @@ export class ValidationService {
     ).subscribe(t => {
       let min = 0;
       let max = 1000000;
-      
-      if(t.value) {
-        min = t.value.minLimit,
-        max = t.value.maxLimit
+
+      if(t['value']) {
+        min = t['value'].minLimit,
+        max = t['value'].maxLimit
       }
+
       this._validationSubject.next(
         {
           insuredAge: {
