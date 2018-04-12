@@ -25,6 +25,7 @@ import {
 export class ChartComponent implements OnInit {
   tableStep = 5;
   overlayRef: OverlayRef;
+  suggestedMax = 100000;
   @ViewChild('actionButton') button:  MatButton;
   avaliableFields = [`Total Death Benefit ($rtn)`, 'Premium Load', `COI ($rtn)`, `Loyalty Bonus ($rtn)`, 'Total Premium'];
   fullTableFields = ['Account Value ($rtn)', 'Surrender Value ($rtn)', 'Death Benefit ($rtn)']
